@@ -1,11 +1,23 @@
-import Main from "./src/pages/main/index";
+import Main from "./src/pages/main/main";
 
 document.addEventListener("DOMContentLoaded", () => {
   const root = document.querySelector("#app");
 
-  console.log(Main());
+  const url = window.location.pathname
+
+  if (url === '/') {
+     window.location.pathname = '/main'
+  }
 
   if (root) {
-    root.innerHTML = Main();
+    root.innerHTML = (
+     function () {
+      if (url === '/main') {
+        return Main()
+      } else {
+        return 'eee'
+      }
+      }
+    )();
   }
 });

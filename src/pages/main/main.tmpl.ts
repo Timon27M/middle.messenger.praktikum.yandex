@@ -1,4 +1,8 @@
 export default `<div>
-    <p>{{text}}</p>
-    <button>{{buttonText}}</button>
+    <div class="{{styles.chats}}">
+        {{{allChats}}}
+    </div>
+     <div>
+        {{activeChat}}
+    </div>
 </div>`
