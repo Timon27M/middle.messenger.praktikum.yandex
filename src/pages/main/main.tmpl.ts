@@ -1,8 +1,8 @@
-export default `<div>
+export default `<div class={{styles.main}}>
     <div class="{{styles.chats}}">
         {{{allChats}}}
     </div>
-     <div>
-        {{activeChat}}
+     <div class={{styles.activeChat}}>
+        {{{activeChat}}}
     </div>
 </div>`

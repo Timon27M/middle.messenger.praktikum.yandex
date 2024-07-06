@@ -1,9 +1,9 @@
 import { IChatCard, CSSModuleClasses } from "./types";
 
 export function createChatList(arr: IChatCard[], styles: CSSModuleClasses) {
-  const chatCardLayout = arr.map((item) => {
+  const chatCardLayout = arr.map((item, index) => {
     return `
-    <div class="${styles.chat}">
+    <div class="${styles.chat}" key=${index} id=${index}>
         <img class="${styles.image}" src="${item.image}" alt="">
         <div>
             <p class="${styles.firstName}">${item.firstName}</p>
