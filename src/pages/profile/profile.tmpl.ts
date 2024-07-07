@@ -4,8 +4,10 @@ export default `
   <button class="{{styles.backButton}}"><</button>
 </div>
   <div class="{{styles.container}}">
+  <a href="">
     <img class="{{styles.avatar}}" src="../../../utils/images/avatar.png" alt="avatar" />
-    <p class="{{styles.name}}">Ваня</p>
+    </a>
+    <h2 class="{{styles.name}}">Ваня</h2>
   </div>
   <div class="{{styles.inputsBlock}}">
     <div class="{{styles.inputBlock}}">
@@ -36,7 +38,7 @@ export default `
   <div class="{{styles.buttons}}">
     <button class="{{styles.button}} {{styles.buttonBlue}}">Изменить данные</button>
     <button class="{{styles.button}} {{styles.buttonBlue}}">Изменить пароль</button>
-    <button class="{{styles.button}} {{styles.buttonRed}}">Выйти</button>
+    <a type="button" href="/login" class="{{styles.button}} {{styles.buttonRed}}">Выйти</a>
   </div>
 </div>
 `

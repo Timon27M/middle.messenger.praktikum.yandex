@@ -72,6 +72,7 @@
   font-weight: 500;
   font-size: 13px;
   width: fit-content;
+  padding: 0;
 
   &:not(:first-child) {
     margin-top: 10px;
@@ -88,6 +89,7 @@
 
 .buttonRed {
   color: #f00;
+  text-decoration: none;
 }
 
 .backBlock {
