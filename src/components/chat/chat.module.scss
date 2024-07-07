@@ -42,11 +42,28 @@
 
 .messageOwner {
   max-width: 410px;
-  border: 1px solid #eaeaea;
-  border-radius: 12px;
-  background-color: #E4EDFD;
+  
   padding: 15px;
   margin-left: auto;
+  margin-bottom: 10px;
+  border: 1px solid #eaeaea;
+  background-color: #E4EDFD;
+  border-radius: 12px;
+  position: relative;
+}
+
+.messageText {
+  margin: 0;
+}
+
+.time {
+  position: absolute;
+  bottom: 0;
+  right: 11px;
+  width: 23px;
+  height: 9px;
+  font-size: 9px;
+  color: #999;
 }
 
 .inputBlock {
