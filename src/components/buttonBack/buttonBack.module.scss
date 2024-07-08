@@ -1,0 +1,23 @@
+.backBlock {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 65px;
+    height: 100vh;
+    background-color: #fbfbfb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:hover {
+        opacity: 0.6;
+    }
+}
+
+.backButton {
+    background-color: #3369f3;
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+}

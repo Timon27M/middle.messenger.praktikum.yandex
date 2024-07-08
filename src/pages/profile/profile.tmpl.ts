@@ -1,8 +1,6 @@
 export default `
-<div class="{{styles.profile}}">
-<div class="{{styles.backBlock}}">
-  <button class="{{styles.backButton}}"><</button>
-</div>
+<main class="{{styles.profile}}">
+{{{ButtonBack}}}
   <div class="{{styles.container}}">
   <a href="">
     <img class="{{styles.avatar}}" src="../../../utils/images/avatar.png" alt="avatar" />
@@ -40,5 +38,5 @@ export default `
     <button class="{{styles.button}} {{styles.buttonBlue}}">Изменить пароль</button>
     <a type="button" href="/login" class="{{styles.button}} {{styles.buttonRed}}">Выйти</a>
   </div>
-</div>
+</main>
 `

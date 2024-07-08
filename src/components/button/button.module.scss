@@ -1,0 +1,12 @@
+@import "../../../styles/constans.scss";
+
+.button {
+  border: none;
+  border-radius: 8px;
+  width: 280px;
+  height: 37px;
+  background-color: $color-blue;
+  color: $color-white;
+  font-weight: 500;
+  font-size: 14px;
+}

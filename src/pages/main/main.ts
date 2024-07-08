@@ -5,21 +5,12 @@ import Chats from "../../components/chats/chats.ts";
 import DefaultChat from "../../components/defaultChat/defaultChat.ts";
 import Chat from "../../components/chat/chat.ts";
 
-const Main = () => {
-  const url = window.location.pathname;
-
-  let chatComponent;
-
-  if (url === "/main2") {
-    chatComponent = DefaultChat();
-  } else {
-   chatComponent = Chat()
-  }
+const Main = (chatComponent: () => string) => {
 
   return Handlebars.compile(template)({
    styles: styles,
    allChats: Chats(),
-   activeChat: chatComponent,
+   activeChat: chatComponent(),
  });
 };
 

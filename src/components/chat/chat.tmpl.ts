@@ -1,5 +1,5 @@
 export default `
-<div class="{{styles.chat}}">
+<section class="{{styles.chat}}">
   <div class="{{styles.navbar}}">
     <img class="{{styles.image}}" src={{data.image}} alt="image" />
     <p class="{{styles.firstName}}">{{data.firstName}}</p>
@@ -55,5 +55,5 @@ export default `
       >
     </button>
   </div>
-</div>
+</section>
 `;

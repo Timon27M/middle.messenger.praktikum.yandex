@@ -1,3 +1,6 @@
+@import '../../../styles/mixins.scss';
+@import '../../../styles//constans.scss';
+
 .profile {
   display: flex;
   width: 100%;
@@ -50,13 +53,7 @@
 }
 
 .input {
-  border: none;
-  text-align: right;
-
-  font-weight: 500;
-  font-size: 13px;
-  color: #999;
-  background-color: rgba($color: #000000, $alpha: 0);
+ @include input-styles(right, $color-gray)
 }
 
 .buttons {
