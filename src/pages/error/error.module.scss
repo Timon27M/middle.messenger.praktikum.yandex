@@ -1,0 +1,29 @@
+@import "./../../../styles/constans.scss";
+
+.error {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.status {
+  font-weight: 500;
+  font-size: 40px;
+}
+
+.text {
+  font-weight: 500;
+  font-size: 20px;
+  margin-top: 15px;
+}
+
+.link {
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 13px;
+  color: $color-blue;
+  margin-top: 69px;
+}
