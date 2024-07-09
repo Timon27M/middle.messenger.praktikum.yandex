@@ -32,7 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
         return ForgotPassword()
       } else {
         return Error("404", "Не туда попали");
-      }
+      };
+      
     })();
   }
 });
