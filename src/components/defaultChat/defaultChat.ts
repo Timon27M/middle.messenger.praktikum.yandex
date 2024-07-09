@@ -8,4 +8,4 @@ const DefaultChat = () => {
     })
 }
 
-export default DefaultChat
+export default DefaultChat;
