@@ -1,10 +1,10 @@
 export default `
 <section class="{{styles.chat}}">
   <div class="{{styles.navbar}}">
-    <img class="{{styles.image}}" src={{data.image}} alt="image" />
+    <img class="{{styles.image}}" src={{avatar}} alt="image" />
     <p class="{{styles.firstName}}">{{data.firstName}}</p>
     <button class="{{styles.settingsButton}}">
-      <img src="../../../utils/images/buttonSettings.jpg" alt="image" />
+      <img src={{buttonSettingImage}} alt="image" />
     </button>
   </div>
   <div class="{{styles.container}}">
@@ -48,9 +48,9 @@ export default `
   </div>
   <div class="{{styles.inputBlock}}">
     <button class="{{styles.documentButton}}">
-      <img src="../../../utils/images/buttonDocument.jpg" alt="image" />
+      <img src={{buttonDocumentImage}} alt="image" />
     </button>
-    <input type="text" class="{{styles.input}}" placeholder="Сообщение" />
+    <input type="text" class="{{styles.input}}" name="message" placeholder="Сообщение" />
     <button class="{{styles.buttonSend}}">
       >
     </button>

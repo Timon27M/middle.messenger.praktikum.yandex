@@ -3,7 +3,7 @@ export default `
 {{{ButtonBack}}}
   <div class="{{styles.container}}">
   <a href="">
-    <img class="{{styles.avatar}}" src="../../../utils/images/avatar.png" alt="avatar" />
+    <img class="{{styles.avatar}}" src={{avatar}} alt="avatar" />
     </a>
     <h2 class="{{styles.name}}">Ваня</h2>
   </div>
@@ -35,8 +35,16 @@ export default `
   </div>
   <div class="{{styles.buttons}}">
     <button class="{{styles.button}} {{styles.buttonBlue}}">Изменить данные</button>
-    <button class="{{styles.button}} {{styles.buttonBlue}}">Изменить пароль</button>
+    <a type="button" href="/forgot-password" class="{{styles.button}} {{styles.buttonBlue}}">Изменить пароль</a>
     <a type="button" href="/login" class="{{styles.button}} {{styles.buttonRed}}">Выйти</a>
   </div>
+  <div class="{{styles.popupBlock}}">
+  <div class="{{styles.overlay}}"></div>
+  <div class="{{styles.popup}}">
+    <h2 class="{{styles.popupTitle}}">Загрузите файл</h2>
+    <a class="{{styles.popupLink}}" href="#">Выбрать файл на компьютере</a>
+   {{{ButtonPopup}}}
+  </div>
+</div>
 </main>
 `

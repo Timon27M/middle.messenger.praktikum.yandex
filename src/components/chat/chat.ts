@@ -1,6 +1,9 @@
 import styles from "./chat.module.scss";
 import Handlebars from "handlebars";
 import template from "./chat.tmpl";
+import avatar from "../../../utils/images/avatar.png";
+import buttonSettingImage from "../../../utils/images/buttonSettings.jpg";
+import buttonDocumentImage from "../../../utils/images/buttonDocument.jpg";
 
 const Chat = () => {
   const data = {
@@ -12,7 +15,10 @@ const Chat = () => {
 
   return Handlebars.compile(template)({
     styles: styles,
-    data: data
+    data: data,
+    avatar: avatar,
+    buttonSettingImage: buttonSettingImage,
+    buttonDocumentImage: buttonDocumentImage,
   });
 };
 
