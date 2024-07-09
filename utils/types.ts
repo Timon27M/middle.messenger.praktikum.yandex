@@ -6,5 +6,4 @@ export interface IChatCard {
     time: string;
   }
 
- export type CSSModuleClasses = { readonly [key: string]: string }
- 
+ export type CSSModuleClasses = { readonly [key: string]: string };

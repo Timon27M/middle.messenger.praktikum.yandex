@@ -10,11 +10,15 @@
     "start": "npm run build && npm run dev"
   },
   "devDependencies": {
+    "@eslint/js": "^9.6.0",
     "autoprefixer": "^10.4.19",
     "cssnano": "^7.0.4",
+    "eslint": "^9.6.0",
+    "globals": "^15.8.0",
     "postcss": "^8.4.39",
     "postcss-loader": "^8.1.1",
     "typescript": "^5.2.2",
+    "typescript-eslint": "^7.16.0",
     "vite": "^5.3.1"
   },
   "dependencies": {

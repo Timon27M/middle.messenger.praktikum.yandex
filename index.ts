@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         return Error("404", "Не туда попали");
       };
-      
+
     })();
   }
 });
