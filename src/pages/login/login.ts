@@ -6,7 +6,7 @@ import Button from "../../components/button/button";
 const Login = () => {
     return Handlebars.compile(template)({
         styles: styles,
-        Button: Button('Авторизоваться')
+        Button: Button('Авторизоваться', 'Вход')
     })
 }
 

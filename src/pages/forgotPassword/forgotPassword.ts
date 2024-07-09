@@ -7,7 +7,7 @@ import avatar from '../../../utils/images/avatar.png'
 const ForgotPassword = () => {
     return Handlebars.compile(template)({
         styles: styles,
-        Button: Button('Сохранить'),
+        Button: Button('Сохранить', 'Отправка'),
         avatar: avatar
     })
 }

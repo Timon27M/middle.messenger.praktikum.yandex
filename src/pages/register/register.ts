@@ -6,7 +6,7 @@ import Button from "../../components/button/button";
 const Register = () => {
     return Handlebars.compile(template)({
         styles: styles,
-        Button: Button('Зарегистрироваться')
+        Button: Button('Зарегистрироваться', 'Регистрация')
     })
 }
 

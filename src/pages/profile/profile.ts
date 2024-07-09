@@ -9,7 +9,7 @@ const Profile = () => {
     return Handlebars.compile(template)({
         styles: styles,
         ButtonBack: ButtonBack,
-        ButtonPopup: Button('Поменять'),
+        ButtonPopup: Button('Поменять', 'Изменить'),
         avatar: avatar
     })   
 }
