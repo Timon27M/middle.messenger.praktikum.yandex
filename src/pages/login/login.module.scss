@@ -1,5 +1,5 @@
 @import "../../../styles/mixins.scss";
-@import "../../../styles/constans.scss";
+@import "../../../styles/constants.scss";
 
 .login {
   width: 100%;
@@ -16,7 +16,7 @@
   align-items: center;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.14);
   border-radius: 12px;
-  background-color: #fff;
+  background-color: $color-white;
 }
 
 .title {
@@ -33,7 +33,7 @@
 
 .inputBlock {
   padding-bottom: 7px;
-  border-bottom: 1px solid #3369f3;
+  border-bottom: 1px solid $color-blue;
 
   &:not(:first-child) {
     margin-top: 16px;
@@ -61,5 +61,5 @@
 .textError {
     font-weight: 400;
     font-size: 8px;
-    color: #ff2f2f;
+    color: $color-light-red;
   }

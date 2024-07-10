@@ -1,6 +1,6 @@
 export default `
 <main class="{{styles.login}}">
-  <div class="{{styles.container}}">
+  <form class="{{styles.container}}">
     <h2 class="{{styles.title}}">Вход</h2>
     <div class="{{styles.inputs}}">
       <div class="{{styles.inputBlock}}">
@@ -15,6 +15,6 @@ export default `
     </div>
       {{{Button}}}
       <a class="{{styles.link}}" href="/register">Нет аккаунта?</a>
-  </div>
+  </form>
 </main>
 `;

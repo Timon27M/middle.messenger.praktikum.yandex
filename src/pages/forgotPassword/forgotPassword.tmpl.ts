@@ -2,11 +2,11 @@ export default `
     <main class="{{styles.forgotPassword}}">
 {{{ButtonBack}}}
   <div class="{{styles.container}}">
-  <a href="">
+  <a href="#">
     <img class="{{styles.avatar}}" src={{avatar}} alt="avatar" />
     </a>
   </div>
-  <div class="{{styles.inputsBlock}}">
+  <form class="{{styles.inputsBlock}}">
     <div class="{{styles.inputBlock}}">
       <p class="{{styles.inputName}}">Старый пароль</p>
       <input name="oldPassword" disabled  value="pochta@yandex.ru" class="{{styles.input}}" type="password" />
@@ -22,5 +22,6 @@ export default `
   <div class="{{styles.buttonBlock}}">
     {{{Button}}}
   </div>
+  </form>
 </main>
 `

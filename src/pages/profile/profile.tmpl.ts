@@ -1,7 +1,7 @@
 export default `
 <main class="{{styles.profile}}">
 {{{ButtonBack}}}
-  <div class="{{styles.container}}">
+  <form class="{{styles.container}}">
   <a href="">
     <img class="{{styles.avatar}}" src={{avatar}} alt="avatar" />
     </a>
@@ -45,6 +45,6 @@ export default `
     <a class="{{styles.popupLink}}" href="#">Выбрать файл на компьютере</a>
    {{{ButtonPopup}}}
   </div>
-</div>
+</form>
 </main>
 `

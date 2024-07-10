@@ -1,10 +1,12 @@
+@import '../../../styles/constants.scss';
+
 .backBlock {
     position: absolute;
     left: 0;
     top: 0;
     width: 65px;
     height: 100vh;
-    background-color: #fbfbfb;
+    background-color: $colot-white-gray;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,8 +16,8 @@
 }
 
 .backButton {
-    background-color: #3369f3;
-    color: #ffffff;
+    background-color: $color-blue;
+    color: $color-white;
     border: none;
     border-radius: 50%;
     width: 28px;
