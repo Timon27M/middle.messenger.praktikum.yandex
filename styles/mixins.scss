@@ -1,0 +1,18 @@
+@import './constants.scss'; 
+
+@mixin input-font-styles($color) {
+  font-weight: 500;
+  font-size: 13px;
+  color: $color;
+}
+
+@mixin input-styles($text-align, $color) {
+  @include input-font-styles($color);
+  border: none;
+  text-align: $text-align;
+  background-color: rgba($color: $color-black, $alpha: 0);
+
+  &:focus {
+    outline: none;
+  }
+}

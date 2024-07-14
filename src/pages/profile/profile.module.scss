@@ -1,0 +1,133 @@
+@import "../../../styles/mixins.scss";
+@import "../../../styles//constants.scss";
+
+.profile {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.container {
+  display: flex;
+  margin-top: 60px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatar {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+
+  &:hover {
+    opacity: 0.6;
+  }
+}
+
+.name {
+  margin-top: 21px;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.inputsBlock {
+  display: flex;
+  min-width: 510px;
+  flex-direction: column;
+  margin-top: 50px;
+}
+
+.inputBlock {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  border-bottom: 1px solid $colot-white-gray;
+  margin-top: 10px;
+}
+
+.inputName {
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.input {
+  @include input-styles(right, $color-gray);
+}
+
+.buttons {
+  width: 510px;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+.button {
+  background-color: rgba($color: $color-black, $alpha: 0);
+  border: none;
+  font-weight: 500;
+  font-size: 13px;
+  width: fit-content;
+  padding: 0;
+  text-decoration: none;
+
+  &:not(:first-child) {
+    margin-top: 10px;
+  }
+
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+.buttonBlue {
+  color: $color-blue;
+}
+
+.buttonRed {
+  color: $color-red;
+}
+
+.popupBlock {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+}
+
+.overlay {
+  background-color: $color-black;
+  opacity: 0.4;
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  z-index: 1;
+}
+
+.popup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 45px;
+  border-radius: 12px;
+  background-color: $color-white;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.14);
+  z-index: 2;
+  padding: 40px 30px;
+}
+
+.popupTitle {
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.popupLink {
+  text-align: center;
+  width: 122px;
+  color: $color-blue;
+  font-weight: 500;
+  font-size: 15px;
+}
