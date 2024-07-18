@@ -1,6 +1,6 @@
 import Handlebars from "handlebars";
 import styles from './register.module.scss'
-import template from './register.tmpl'
+import template from './register.tmpl.ts'
 import Button from "../../components/button/button";
 
 const Register = () => {

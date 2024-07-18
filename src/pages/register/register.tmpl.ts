@@ -1,5 +1,4 @@
-export default `
-<main class="{{styles.register}}">
+export default `<main class="{{styles.register}}">
   <form class="{{styles.container}}">
     <h2 class="{{styles.title}}">Регистрация</h2>
     <div class="{{styles.inputs}}">
@@ -37,4 +36,4 @@ export default `
       <a class="{{styles.link}}" href="/login">Войти</a>
   </form>
 </main>
-`;
+`

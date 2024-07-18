@@ -5,9 +5,16 @@ import Button from "../../components/button/button";
 import avatar from '../../../utils/images/avatar.png'
 
 const ForgotPassword = () => {
+    const data = {
+        text: 'Сохранить',
+        nameButton: 'Отправка'
+    }
+
+    console.log(`${Button(data).element}`)
+
     return Handlebars.compile(template)({
         styles: styles,
-        Button: Button('Сохранить', 'Отправка'),
+        Button: `${Button(data).element}`,
         avatar: avatar
     })
 }
