@@ -1,11 +1,23 @@
-import styles from './defaultChat.module.scss';
-import template from './defaultChat.tmpl'
-import Handlebars from 'handlebars';
+import { Block } from "../../../utils/Block/Block";
+import styles from "./defaultChat.module.scss";
+class DefaultChat extends Block {
+  constructor() {
+    super({
+      styles: styles,
+    });
+  }
 
-const DefaultChat = () => {
-    return Handlebars.compile(template)({
-        styles: styles
-    })
+  render() {
+    return `
+    <section class={{styles.emptyChat}}>
+        <p class={{styles.text}}>Выберите чат чтобы отправить сообщение</p>
+    </section>
+        `;
+  }
 }
 
-export default DefaultChat;
+function defaultChat() {
+  return new DefaultChat();
+}
+
+export default defaultChat;

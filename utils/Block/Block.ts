@@ -1,4 +1,5 @@
 import { EventBus } from "../EventBus/EventBus";
+import { nanoid } from "nanoid";
 import Handlebars from "handlebars";
 
 type TBlockProps = Record<string, any>;
@@ -12,18 +13,20 @@ export abstract class Block {
   };
 
   private _element: HTMLElement | null = null;
-  private _meta: TBlockProps;
+
   public props: TBlockProps;
+  public id = nanoid();
 
   protected eventBus: () => EventBus;
+  protected children: Record<string, any>;
   protected abstract render(): string;
 
-  constructor(props: Record<string, any> = {}) {
+  constructor(propsAndChildren: Record<string, any> = {}) {
     const eventBus = new EventBus();
 
-    this._meta = {
-      props,
-    };
+    const { children, props } = this._getChildren(propsAndChildren);
+
+    this.children = children;
 
     this.props = this._makePropsProxy(props);
 
@@ -32,6 +35,21 @@ export abstract class Block {
     this._registerEvents(eventBus);
 
     eventBus.emit(Block.EVENTS.INIT);
+  }
+
+  _getChildren(propsAndChildren: Record<string, any>) {
+    const children: Record<string, any> = {};
+    const props: Record<string, any> = {};
+
+    Object.entries(propsAndChildren).forEach(([key, value]) => {
+      if (value instanceof Block) {
+        children[key] = value;
+      } else {
+        props[key] = value;
+      }
+    });
+
+    return { children, props };
   }
 
   _registerEvents(eventBus: EventBus) {
@@ -56,24 +74,24 @@ export abstract class Block {
   }
 
   _componentDidMount() {
-    const { props } = this._meta;
-    this.componentDidMount(props);
+    this.componentDidMount();
+    Object.values(this.children).forEach((child) => {
+      child.dispatchComponentDidMount();
+    });
   }
 
-  componentDidMount(oldProps: object = {}) {
-    this.setProps(oldProps);
-  }
+  componentDidMount() {}
 
   dispatchComponentDidMount() {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
 
-  _componentDidUpdate(newProps: TBlockProps) {
-    this.componentDidUpdate(newProps);
+  _componentDidUpdate() {
+    this.componentDidUpdate();
   }
 
-  componentDidUpdate(newProps: TBlockProps) {
-    this.setProps(newProps);
+  componentDidUpdate() {
+    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }
 
   setProps(newProps: object = {}) {
@@ -89,7 +107,7 @@ export abstract class Block {
   }
 
   getContent(): HTMLElement {
-      return this.element as HTMLElement;
+    return this.element as HTMLElement;
   }
 
   _makePropsProxy(props: TBlockProps) {
@@ -137,32 +155,49 @@ export abstract class Block {
   _render() {
     const template = this.render();
 
-    const fragment = this.compile(template, this.props);
+    const propsAndStubs = this._getPropsAndStubs(this.props);
 
-    
+    const fragment = this.compile(template, propsAndStubs);
+
     this._removeEvents();
-    
+
     const newElement = fragment.firstElementChild as HTMLElement;
-    
-    
+
     if (this._element) {
-        this._element.replaceWith(newElement);
+      this._element.replaceWith(newElement);
     }
-    
+
     this._element = newElement;
 
     this._addEvents();
   }
 
-  compile(template: string, data: any): DocumentFragment {
-    const htmlElement = Handlebars.compile(template)(data);
+  _getPropsAndStubs(props: Record<string, any>) {
+    const propsAndStubs = { ...props };
 
-    
-    const temp = this._createDocumentElement();
-    
-    temp.innerHTML = htmlElement;
+    Object.entries(this.children).forEach(([key, child]) => {
+      propsAndStubs[key] = `<div data-id="${child.id}"></div>`;
+    });
 
-    return temp.content;
+    return propsAndStubs;
+  }
+
+  compile(template: string, props: any): DocumentFragment {
+    const htmlElement = Handlebars.compile(template)(props);
+
+    const fragment = this._createDocumentElement();
+
+    fragment.innerHTML = htmlElement;
+
+    Object.values(this.children).forEach((child) => {
+      const stub = fragment.content.querySelector(`[data-id="${child.id}"]`);
+
+      if (stub) {
+        stub.replaceWith(child.getContent());
+      }
+    });
+
+    return fragment.content;
   }
 
   show() {

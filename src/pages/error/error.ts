@@ -1,13 +1,33 @@
-import Handlebars from "handlebars";
-import styles from './error.module.scss'
-import template from './error.tmpl'
+import { Block } from "../../../utils/Block/Block";
+import styles from "./error.module.scss";
 
-const Error = (status: string, text: string) => {
-    return Handlebars.compile(template)({
-        styles: styles,
-        status: status,
-        text: text,
-    })
+type TErrorProps = {
+  status: string;
+  textError: string;
+};
+
+class Error extends Block {
+  constructor(props: TErrorProps) {
+    super({
+      styles: styles,
+      status: props.status,
+      text: props.textError,
+    });
+  }
+
+  render() {
+    return `
+<main class="{{styles.error}}">
+  <h2 class="{{styles.status}}">{{status}}</h2>
+  <p class="{{styles.text}}">{{text}}</p>
+  <a class="{{styles.link}}" href="#">Назад к чатам</a>
+</main>
+        `;
+  }
 }
 
-export default Error;
+function error(props: TErrorProps) {
+  return new Error(props);
+}
+
+export default error;

@@ -1,25 +1,89 @@
 import styles from "./chat.module.scss";
-import Handlebars from "handlebars";
-import template from "./chat.tmpl";
 import avatar from "../../../utils/images/avatar.png";
 import buttonSettingImage from "../../../utils/images/buttonSettings.jpg";
 import buttonDocumentImage from "../../../utils/images/buttonDocument.jpg";
+import { Block } from "../../../utils/Block/Block";
+class Chat extends Block {
+  constructor() {
+    super({
+      styles: styles,
+      data: {
+        image:
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlte8jVger7Istf0ctZT7Fxyn_GfHfWDg5-w&s",
+        firstName: "Андрей",
+        time: "12:48",
+      },
+      avatar: avatar,
+      buttonSettingImage: buttonSettingImage,
+      buttonDocumentImage: buttonDocumentImage,
+    });
+  }
 
-const Chat = () => {
-  const data = {
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlte8jVger7Istf0ctZT7Fxyn_GfHfWDg5-w&s",
-      firstName: "Андрей",
-      time: "12:48"
-  };
+  render() {
+    return `
+    <section class="{{styles.chat}}">
+  <div class="{{styles.navbar}}">
+    <img class="{{styles.image}}" src={{avatar}} alt="image" />
+    <p class="{{styles.firstName}}">{{data.firstName}}</p>
+    <button class="{{styles.settingsButton}}">
+      <img src={{buttonSettingImage}} alt="image" />
+    </button>
+  </div>
+  <div class="{{styles.container}}">
+    <div class={{styles.messageOwner}}>
+      <p class="{{styles.messageText}}">Привет! Смотри, тут всплыл интересный
+        кусок лунной космической истории — НАСА в какой-то момент попросила
+        Хассельблад адаптировать модель SWC для полетов на Луну. Сейчас мы все
+        знаем что астронавты летали с моделью 500 EL — и к слову говоря, все
+        тушки этих камер все еще находятся на поверхности Луны, так как
+        астронавты с собой забрали только кассеты с пленкой. Хассельблад в итоге
+        адаптировал SWC для космоса, но что-то пошло не так и на ракету они так
+        никогда и не попали. Всего их было произведено 25 штук, одну из них
+        недавно продали на аукционе за 45000 евро.</p>
+      <p class={{styles.time}}>{{data.time}}</p>
+    </div>
+    <div class={{styles.messageOwner}}>
+      <p class="{{styles.messageText}}">Привет! Смотри, тут всплыл интересный
+        кусок лунной космической истории — НАСА в какой-то момент попросила
+        Хассельблад адаптировать модель SWC для полетов на Луну. Сейчас мы все
+        знаем что астронавты летали с моделью 500 EL — и к слову говоря, все
+        тушки этих камер все еще находятся на поверхности Луны, так как
+        астронавты с собой забрали только кассеты с пленкой. Хассельблад в итоге
+        адаптировал SWC для космоса, но что-то пошло не так и на ракету они так
+        никогда и не попали. Всего их было произведено 25 штук, одну из них
+        недавно продали на аукционе за 45000 евро.</p>
+      <p class={{styles.time}}>{{data.time}}</p>
+    </div>
+    <div class={{styles.messageOwner}}>
+      <p class="{{styles.messageText}}">Привет! Смотри, тут всплыл интересный
+        кусок лунной космической истории — НАСА в какой-то момент попросила
+        Хассельблад адаптировать модель SWC для полетов на Луну. Сейчас мы все
+        знаем что астронавты летали с моделью 500 EL — и к слову говоря, все
+        тушки этих камер все еще находятся на поверхности Луны, так как
+        астронавты с собой забрали только кассеты с пленкой. Хассельблад в итоге
+        адаптировал SWC для космоса, но что-то пошло не так и на ракету они так
+        никогда и не попали. Всего их было произведено 25 штук, одну из них
+        недавно продали на аукционе за 45000 евро.
+      </p>
+      <p class={{styles.time}}>{{data.time}}</p>
+    </div>
+  </div>
+  <div class="{{styles.inputBlock}}">
+    <button class="{{styles.documentButton}}">
+      <img src={{buttonDocumentImage}} alt="image" />
+    </button>
+    <input type="text" class="{{styles.input}}" name="message" placeholder="Сообщение" />
+    <button class="{{styles.buttonSend}}">
+      >
+    </button>
+  </div>
+</section>
+    `;
+  }
+}
 
-  return Handlebars.compile(template)({
-    styles: styles,
-    data: data,
-    avatar: avatar,
-    buttonSettingImage: buttonSettingImage,
-    buttonDocumentImage: buttonDocumentImage,
-  });
-};
+function chat() {
+  return new Chat();
+}
 
-export default Chat;
+export default chat;

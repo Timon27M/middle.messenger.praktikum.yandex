@@ -1,43 +1,41 @@
-type TCallback = (...args: any) => void
+type TCallback = (...args: any) => void;
 
 type TListenersObject = {
-    [event: string]: Array<TCallback>
-}
+  [event: string]: Array<TCallback>;
+};
 
 export class EventBus {
-    private listeners: TListenersObject;
+  private listeners: TListenersObject;
 
-    constructor() {
-        this.listeners = {}
+  constructor() {
+    this.listeners = {};
+  }
+
+  on(event: string, callback: TCallback) {
+    if (!this.listeners[event]) {
+      this.listeners[event] = [];
     }
 
-    on(event: string, callback: TCallback) {
-        if (!this.listeners[event]) {
-            this.listeners[event] = []
-        } 
+    this.listeners[event].push(callback);
+  }
 
-        this.listeners[event].push(callback)
-
+  off(event: string, callback: TCallback) {
+    if (!this.listeners[event]) {
+      throw new Error(`Нет события: ${event}`);
     }
 
-    off(event: string, callback: TCallback) {
-        if (!this.listeners[event]) {
-            throw new Error(`Нет события: ${event}`)
-        }
+    this.listeners[event].filter((listener) => {
+      return listener !== callback;
+    });
+  }
 
-        this.listeners[event].filter((listener) => {
-            return listener !== callback
-        })
+  emit(event: string, ...args: unknown[]) {
+    if (!this.listeners[event]) {
+      throw new Error(`Нет события: ${event}`);
     }
 
-    emit(event: string, ...args: unknown[]) {
-        if (!this.listeners[event]) {
-            throw new Error(`Нет события: ${event}`)
-        }
-
-        this.listeners[event].forEach((callback) => {
-            callback(...args);
-        })
-    }
-
+    this.listeners[event].forEach((callback) => {
+      callback(...args);
+    });
+  }
 }

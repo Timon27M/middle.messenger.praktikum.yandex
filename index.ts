@@ -17,23 +17,25 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (root) {
-    root.innerHTML = (function () {
+    (function () {
       if (url === "/main") {
-        return Main(DefaultChat);
+        root.append(Main(DefaultChat).getContent());
       } else if (url === "/main/chat") {
-        return Main(Chat);
+        root.append(Main(Chat).getContent());
       } else if (url === "/profile") {
-        return Profile();
+        root.append(Profile().getContent());
       } else if (url === "/login") {
-        return Login();
+        root.append(Login().getContent());
       } else if (url === "/register") {
-        return Register();
+        root.append(Register().getContent());
       } else if (url === "/forgot-password") {
-        return ForgotPassword()
+        root.append(ForgotPassword().getContent());
       } else {
-        return Error("404", "Не туда попали");
-      };
-
+        root.append(Error({
+          status: "404",
+          textError: "Не туда попали",
+        }).getContent());
+      }
     })();
   }
 });
