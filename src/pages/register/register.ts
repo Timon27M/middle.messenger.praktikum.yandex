@@ -1,6 +1,7 @@
 import styles from "./register.module.scss";
 import Button from "../../components/button/button";
 import { Block } from "../../../utils/Block/Block.ts";
+import Input from "../../components/input/input.ts";
 class Register extends Block {
   constructor() {
     super({
@@ -8,6 +9,48 @@ class Register extends Block {
       button: Button({
         text: "Регистрация",
         nameButton: "send_register",
+      }),
+      emailInput: Input({
+        class: styles.input,
+        type: 'email',
+        name: 'email',
+        value: 'pochta@yandex.ru',
+      }),
+      loginInput: Input({
+        class: styles.input,
+        type: 'text',
+        name: 'login',
+        value: 'ivaninvanov',
+      }),
+      nameInput: Input({
+        class: styles.input,
+        type: 'text',
+        name: 'first_name',
+        value: 'Иван',
+      }),
+      surnameInput: Input({
+        class: styles.input,
+        type: 'text',
+        name: 'second_name',
+        value: 'Иванов',
+      }),
+      telInput: Input({
+        class: styles.input,
+        type: 'tel',
+        name: 'phone',
+        value: '+7 (909) 967 30 30',
+      }),
+      passwordInput: Input({
+        class: styles.input,
+        type: 'password',
+        name: 'password',
+        value: 'ivaninvanov',
+      }),
+      passwordInputAgain: Input({
+        class: styles.input,
+        type: 'password',
+        name: 'password',
+        value: 'ivaninvanov',
       }),
     });
   }
@@ -20,31 +63,31 @@ class Register extends Block {
     <div class="{{styles.inputs}}">
       <div class="{{styles.inputBlock}}">
         <p class="{{styles.inputName}}">Почта</p>
-        <input type="email" class="{{styles.input}}" name="email" value="pochta@yandex.ru">
+        {{{emailInput}}}
       </div>
       <div class="{{styles.inputBlock}}">
         <p class="{{styles.inputName}}">Логин</p>
-        <input type="text" class="{{styles.input}}" name="login" value="ivaninvanov">
+        {{{loginInput}}}
       </div>
       <div class="{{styles.inputBlock}}">
         <p class="{{styles.inputName}}">Имя</p>
-        <input type="text" class="{{styles.input}}" name="first_name" value="Иван">
+        {{{nameInput}}}
       </div>
       <div class="{{styles.inputBlock}}">
         <p class="{{styles.inputName}}">Фамилия</p>
-        <input type="text" class="{{styles.input}}" name="second_name" value="Иванов">
+        {{{surnameInput}}}
       </div>
       <div class="{{styles.inputBlock}}">
         <p class="{{styles.inputName}}">Телефон</p>
-        <input type="tel" class="{{styles.input}}" name="phone" value="+7 (909) 967 30 30">
+        {{{telInput}}}
       </div>
       <div class="{{styles.inputBlock}}">
         <p class="{{styles.inputName}}">Пароль</p>
-        <input type="password" class="{{styles.input}}" name="password" value="ivaninvanov">
+        {{{passwordInput}}}
       </div>
       <div class="{{styles.inputBlock}}">
         <p class="{{styles.inputName}}">Пароль (ещё раз)</p>
-        <input type="password" class="{{styles.input}}" name="password" value="ivaninvanov">
+        {{{passwordInputAgain}}}
         </div>
         <span class="{{styles.textError}}">Пароли не совпадают</span>  
     </div>

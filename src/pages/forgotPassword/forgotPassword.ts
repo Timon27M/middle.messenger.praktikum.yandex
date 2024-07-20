@@ -4,6 +4,7 @@ import ButtonBack from "../../components/buttonBack/buttonBack";
 import avatar from "../../../utils/images/avatar.png";
 
 import { Block } from "../../../utils/Block/Block";
+import Input from "../../components/input/input";
 class ForgotPassword extends Block {
   constructor(props?: Record<string, any>) {
     super({
@@ -20,11 +21,30 @@ class ForgotPassword extends Block {
         },
       }),
       buttonBack: ButtonBack(),
+      oldPasswordInput: Input({
+        class: styles.input,
+        type: 'password',
+        name: 'oldPassword',
+        value: 'ivaninvanov',
+      }),
+      newPasswordInput: Input({
+        class: styles.input,
+        type: 'password',
+        name: 'newPassword',
+        value: 'ivaninvanov',
+      }),
+      newPasswordAgainInput: Input({
+        class: styles.input,
+        type: 'password',
+        name: 'newPasswordAgain',
+        value: 'ivaninvanov',
+      }),
     });
   }
   handleClickSendButton(evt: Event) {
     evt.preventDefault();
     this.children.button.setProps({ text: "test event" });
+    this.children.newPasswordInput.setProps({ disabled: undefined })
   }
 
   render() {
@@ -39,15 +59,15 @@ class ForgotPassword extends Block {
   <form class="{{styles.inputsBlock}}">
     <div class="{{styles.inputBlock}}">
       <p class="{{styles.inputName}}">Старый пароль</p>
-      <input name="oldPassword" disabled  value="pochta@yandex.ru" class="{{styles.input}}" type="password" />
+      {{{oldPasswordInput}}}
     </div>
     <div class="{{styles.inputBlock}}">
       <p class="{{styles.inputName}}">Новый пароль</p>
-      <input name="newPassword" disabled  value="pochta@yandex.ru" class="{{styles.input}}" type="password" />
+      {{{newPasswordInput}}}
     </div>
     <div class="{{styles.inputBlock}}">
       <p class="{{styles.inputName}}">Повторите новый пароль</p>
-      <input name="password" disabled  value="pochta@yandex.ru" class="{{styles.input}}" type="password" />
+      {{{newPasswordAgainInput}}}
     </div>
   <div class="{{styles.buttonBlock}}">
     {{{button}}}

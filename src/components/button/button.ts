@@ -1,7 +1,20 @@
 import { Block } from "../../../utils/Block/Block";
 import styles from "./button.module.scss";
+
+type TButton = {
+  text: string,
+  nameButton: string,
+  events?: {
+    click?: (evt: Event) => void
+  }
+}
+
+type TButtonWithClass = TButton & {
+  styles?: CSSModuleClasses,
+  
+}
 class Button extends Block {
-  constructor(props: Record<string, any>) {
+  constructor(props: TButtonWithClass) {
     super(props);
   }
 
@@ -12,9 +25,9 @@ class Button extends Block {
   }
 }
 
-function button(props: Record<string, any>) {
+function button(props: TButton) {
   return new Button(
-    (props = {
+    ({
       styles: styles,
       ...props,
     })

@@ -3,6 +3,7 @@ import ButtonBack from "../../components/buttonBack/buttonBack";
 import Button from "../../components/button/button";
 import avatar from "../../../utils/images/avatar.png";
 import { Block } from "../../../utils/Block/Block";
+import Input from "../../components/input/input";
 class Profile extends Block {
   constructor() {
     super({
@@ -13,12 +14,54 @@ class Profile extends Block {
         text: "Изменить",
         nameButton: "change_profile",
       }),
+      emailInput: Input({
+        class: styles.input,
+        type: 'email',
+        name: 'email',
+        value: 'pochta@yandex.ru',
+        disabled: true,
+      }),
+      loginInput: Input({
+        class: styles.input,
+        type: 'text',
+        name: 'login',
+        value: 'ivanivanov',
+        disabled: true,
+      }),
+      nameInput: Input({
+        class: styles.input,
+        type: 'text',
+        name: 'first_name',
+        value: 'Иван',
+        disabled: true,
+      }),
+      surnameInput: Input({
+        class: styles.input,
+        type: 'text',
+        name: 'second_name',
+        value: 'Иванов',
+        disabled: true,
+      }),
+      nameInChatInput: Input({
+        class: styles.input,
+        type: 'text',
+        name: 'display_name',
+        value: 'Иван',
+        disabled: true,
+      }),
+      telInput: Input({
+        class: styles.input,
+        type: 'tel',
+        name: 'phone',
+        value: '+7 (909) 967 30 30',
+        disabled: true,
+      }),
     });
   }
 
   render() {
     return `
-    <main class="{{styles.profile}}">
+<main class="{{styles.profile}}">
 {{{ButtonBack}}}
   <form class="{{styles.container}}">
   <a href="">
@@ -29,27 +72,27 @@ class Profile extends Block {
   <div class="{{styles.inputsBlock}}">
     <div class="{{styles.inputBlock}}">
       <p class="{{styles.inputName}}">Почта</p>
-      <input name="email" disabled  value="pochta@yandex.ru" class="{{styles.input}}" type="text" />
-    </div>
+      {{{emailInput}}}
+      </div>
     <div class="{{styles.inputBlock}}">
       <p class="{{styles.inputName}}">Логин</p>
-      <input name="login" disabled value="ivanivanov" class="{{styles.input}}" type="text" />
+      {{{loginInput}}}
     </div>
     <div class="{{styles.inputBlock}}">
       <p class="{{styles.inputName}}">Имя</p>
-      <input name="first_name" disabled value="Иван" class="{{styles.input}}" type="text" />
+      {{{nameInput}}}
     </div>
     <div class="{{styles.inputBlock}}">
       <p class="{{styles.inputName}}">Фамилия</p>
-      <input name="second_name" disabled value="Иванов" class="{{styles.input}}" type="text" />
+      {{{surnameInput}}}
     </div>
     <div class="{{styles.inputBlock}}">
       <p class="{{styles.inputName}}">Имя в чате</p>
-      <input name="display_name" disabled value="Иван" class="{{styles.input}}" type="text" />
+     {{{nameInChatInput}}}
     </div>
     <div class="{{styles.inputBlock}}">
       <p class="{{styles.inputName}}">Телефон</p>
-      <input name="phone" disabled value="+7 (909) 967 30 30" class="{{styles.input}}" type="text" />
+      {{{telInput}}}
     </div>
   </div>
   <div class="{{styles.buttons}}">
