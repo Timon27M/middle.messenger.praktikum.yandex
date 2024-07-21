@@ -5,6 +5,7 @@ type TProps = {
     type: string,
     name: string,
     value: string,
+    id: string,
     disabled?: boolean | undefined,
     events?: {
         blur?: () => void;
@@ -16,6 +17,13 @@ class Input extends Block {
         super(props)
     }
 
+    getValue() {
+        const element = document.getElementById(`${this.props.id}`) as HTMLInputElement;
+            const value = element.value
+            console.log(value)
+            return value
+    }
+
     render() {
         let disabledInput
 
@@ -25,7 +33,7 @@ class Input extends Block {
             disabledInput = ''
         }
         return `
-        <input type="{{type}}" ${disabledInput}disabled class="{{class}}" name="{{name}}" value="{{value}}" />
+        <input type="{{type}}" id="{{id}}" ${disabledInput}disabled class="{{class}}" name="{{name}}" value="{{value}}" />
         ` 
     }
 }

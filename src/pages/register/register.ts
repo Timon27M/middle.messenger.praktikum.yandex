@@ -15,42 +15,49 @@ class Register extends Block {
         type: 'email',
         name: 'email',
         value: 'pochta@yandex.ru',
+        id: 'email'
       }),
       loginInput: Input({
         class: styles.input,
         type: 'text',
         name: 'login',
         value: 'ivaninvanov',
+         id: 'login'
       }),
       nameInput: Input({
         class: styles.input,
         type: 'text',
         name: 'first_name',
         value: 'Иван',
+         id: 'first_name'
       }),
       surnameInput: Input({
         class: styles.input,
         type: 'text',
         name: 'second_name',
         value: 'Иванов',
+         id: 'second_name'
       }),
       telInput: Input({
         class: styles.input,
         type: 'tel',
         name: 'phone',
         value: '+7 (909) 967 30 30',
+         id: 'phone'
       }),
       passwordInput: Input({
         class: styles.input,
         type: 'password',
         name: 'password',
         value: 'ivaninvanov',
+         id: 'password'
       }),
       passwordInputAgain: Input({
         class: styles.input,
         type: 'password',
-        name: 'password',
+        name: 'passwordAgain',
         value: 'ivaninvanov',
+         id: 'passwordAgain'
       }),
     });
   }

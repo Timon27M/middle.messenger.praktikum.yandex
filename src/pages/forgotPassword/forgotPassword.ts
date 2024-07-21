@@ -26,18 +26,21 @@ class ForgotPassword extends Block {
         type: 'password',
         name: 'oldPassword',
         value: 'ivaninvanov',
+        id: 'oldPassword'
       }),
       newPasswordInput: Input({
         class: styles.input,
         type: 'password',
         name: 'newPassword',
         value: 'ivaninvanov',
+        id: 'newPassword'
       }),
       newPasswordAgainInput: Input({
         class: styles.input,
         type: 'password',
         name: 'newPasswordAgain',
         value: 'ivaninvanov',
+        id: 'newPasswordAgain'
       }),
     });
   }

@@ -9,14 +9,49 @@ class Login extends Block {
       button: Button({
         text: "Войти",
         nameButton: "send_login",
+        events: {
+          click: (e) => {this.submitForm(e)}
+        }
+      }),
+      loginInput: Input({
+        class: styles.input,
+        type: 'text',
+        name: 'login',
+        value: 'ivaninvanov',
+        id: 'loginInput'
       }),
       passwordInput: Input({
         class: styles.input,
         type: 'password',
         name: 'password',
-        value: 'ivaninvanov',
-      })
+        value: 'password228',
+        id: 'passwordInput'
+      }),
     });
+  }
+
+  submitForm(evt: Event, arr = [this.children.loginInput, this.children.passwordInput]) {
+    evt.preventDefault()
+    const formData: Record<string, string> = {}
+
+    arr.forEach((input) => {
+      const name = input.porps.name
+
+        formData.name = input.getValue()
+  
+    })
+    console.log(formData)
+    return formData
+
+    // const name: string = this.children.loginInput.props.name
+    // const value: string = this.children.loginInput.getValue() 
+
+    // console.log(name, value)
+    // const formData = {
+    //   [name]: this.children.loginInput.getValue()
+    // }
+
+    // console.log(formData)
   }
 //<input type="text" class="{{styles.input}}" name="login" value="ivaninvanov">
   render() {

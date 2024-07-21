@@ -20,6 +20,7 @@ class Profile extends Block {
         name: 'email',
         value: 'pochta@yandex.ru',
         disabled: true,
+        id: 'email'
       }),
       loginInput: Input({
         class: styles.input,
@@ -27,6 +28,7 @@ class Profile extends Block {
         name: 'login',
         value: 'ivanivanov',
         disabled: true,
+        id: 'email'
       }),
       nameInput: Input({
         class: styles.input,
@@ -34,6 +36,7 @@ class Profile extends Block {
         name: 'first_name',
         value: 'Иван',
         disabled: true,
+        id: 'first_name'
       }),
       surnameInput: Input({
         class: styles.input,
@@ -41,6 +44,7 @@ class Profile extends Block {
         name: 'second_name',
         value: 'Иванов',
         disabled: true,
+        id: 'second_name'
       }),
       nameInChatInput: Input({
         class: styles.input,
@@ -48,6 +52,7 @@ class Profile extends Block {
         name: 'display_name',
         value: 'Иван',
         disabled: true,
+        id: 'display_name'
       }),
       telInput: Input({
         class: styles.input,
@@ -55,6 +60,7 @@ class Profile extends Block {
         name: 'phone',
         value: '+7 (909) 967 30 30',
         disabled: true,
+        id: 'phone'
       }),
     });
   }
