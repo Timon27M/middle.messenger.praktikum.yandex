@@ -3,7 +3,8 @@ import ButtonBack from "../../components/buttonBack/buttonBack";
 import Button from "../../components/button/button";
 import avatar from "../../../utils/images/avatar.png";
 import { Block } from "../../../utils/Block/Block";
-import Input from "../../components/input/input";
+import Input from "../../components/inputBlock/inputBlock";
+import { submitForm } from "../../../utils/functions";
 class Profile extends Block {
   constructor() {
     super({
@@ -13,54 +14,57 @@ class Profile extends Block {
       ButtonPopup: Button({
         text: "Изменить",
         nameButton: "change_profile",
+        events: {
+          click: (e) => submitForm(e, this.children),
+        },
       }),
       emailInput: Input({
         class: styles.input,
-        type: 'email',
-        name: 'email',
-        value: 'pochta@yandex.ru',
+        type: "email",
+        name: "email",
+        value: "pochta@yandex.ru",
         disabled: true,
-        id: 'email'
+        id: "email",
       }),
       loginInput: Input({
         class: styles.input,
-        type: 'text',
-        name: 'login',
-        value: 'ivanivanov',
+        type: "text",
+        name: "login",
+        value: "ivanivanov",
         disabled: true,
-        id: 'email'
+        id: "email",
       }),
       nameInput: Input({
         class: styles.input,
-        type: 'text',
-        name: 'first_name',
-        value: 'Иван',
+        type: "text",
+        name: "first_name",
+        value: "Иван",
         disabled: true,
-        id: 'first_name'
+        id: "first_name",
       }),
       surnameInput: Input({
         class: styles.input,
-        type: 'text',
-        name: 'second_name',
-        value: 'Иванов',
+        type: "text",
+        name: "second_name",
+        value: "Иванов",
         disabled: true,
-        id: 'second_name'
+        id: "second_name",
       }),
       nameInChatInput: Input({
         class: styles.input,
-        type: 'text',
-        name: 'display_name',
-        value: 'Иван',
+        type: "text",
+        name: "display_name",
+        value: "Иван",
         disabled: true,
-        id: 'display_name'
+        id: "display_name",
       }),
       telInput: Input({
         class: styles.input,
-        type: 'tel',
-        name: 'phone',
-        value: '+7 (909) 967 30 30',
+        type: "tel",
+        name: "phone",
+        value: "+7 (909) 967 30 30",
         disabled: true,
-        id: 'phone'
+        id: "phone",
       }),
     });
   }

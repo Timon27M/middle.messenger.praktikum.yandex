@@ -1,7 +1,8 @@
 import styles from "./login.module.scss";
 import Button from "../../components/button/button";
 import { Block } from "../../../utils/Block/Block";
-import Input from "../../components/input/input";
+import Input from "../../components/inputBlock/inputBlock";
+import { handleBlur, submitForm } from "../../../utils/functions";
 class Login extends Block {
   constructor() {
     super({
@@ -10,50 +11,40 @@ class Login extends Block {
         text: "Войти",
         nameButton: "send_login",
         events: {
-          click: (e) => {this.submitForm(e)}
-        }
+          click: (e) => {
+            submitForm(e, this.children);
+          },
+        },
       }),
       loginInput: Input({
-        class: styles.input,
-        type: 'text',
-        name: 'login',
-        value: 'ivaninvanov',
-        id: 'loginInput'
+        classInput: styles.input,
+        classErrorBlock: styles.textError,
+        type: "text",
+        name: "login",
+        value: "ivaninvanov",
+        id: "login",
+        errorText: "",
+        events: {
+          blur: () => handleBlur(this.children.loginInput.children.errorBlock, "Неверный логин")
+        },
       }),
       passwordInput: Input({
-        class: styles.input,
-        type: 'password',
-        name: 'password',
-        value: 'password228',
-        id: 'passwordInput'
+        classInput: styles.input,
+        classErrorBlock: styles.textError,
+        type: "password",
+        name: "password",
+        value: "password228",
+        id: "password",
+        errorText: "",
+        events: {
+          blur: () => handleBlur(this.children.passwordInput.children.errorBlock, "Неверный пароль")
+        },
       }),
     });
   }
 
-  submitForm(evt: Event, arr = [this.children.loginInput, this.children.passwordInput]) {
-    evt.preventDefault()
-    const formData: Record<string, string> = {}
 
-    arr.forEach((input) => {
-      const name = input.porps.name
-
-        formData.name = input.getValue()
-  
-    })
-    console.log(formData)
-    return formData
-
-    // const name: string = this.children.loginInput.props.name
-    // const value: string = this.children.loginInput.getValue() 
-
-    // console.log(name, value)
-    // const formData = {
-    //   [name]: this.children.loginInput.getValue()
-    // }
-
-    // console.log(formData)
-  }
-//<input type="text" class="{{styles.input}}" name="login" value="ivaninvanov">
+  //<input type="text" class="{{styles.input}}" name="login" value="ivaninvanov">
   render() {
     return `
     <main class="{{styles.login}}">
@@ -63,8 +54,7 @@ class Login extends Block {
       <div class="{{styles.inputBlock}}">
         <p class="{{styles.inputName}}">Логин</p>
           {{{loginInput}}}
-      </div>
-      <span class="{{styles.textError}}">Неверный логин</span> 
+          </div>
       <div class="{{styles.inputBlock}}">
         <p class="{{styles.inputName}}">Пароль</p>
         <div class="{{styles.inputElement}}">

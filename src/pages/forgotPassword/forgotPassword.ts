@@ -4,7 +4,8 @@ import ButtonBack from "../../components/buttonBack/buttonBack";
 import avatar from "../../../utils/images/avatar.png";
 
 import { Block } from "../../../utils/Block/Block";
-import Input from "../../components/input/input";
+import Input from "../../components/inputBlock/inputBlock";
+import { submitForm } from "../../../utils/functions";
 class ForgotPassword extends Block {
   constructor(props?: Record<string, any>) {
     super({
@@ -15,39 +16,32 @@ class ForgotPassword extends Block {
         text: "Сохранить",
         nameButton: "send_forgot-password",
         events: {
-          click: (evt: Event) => {
-            this.handleClickSendButton(evt);
-          },
+          click: (evt: Event) => submitForm(evt, this.children),
         },
       }),
       buttonBack: ButtonBack(),
       oldPasswordInput: Input({
         class: styles.input,
-        type: 'password',
-        name: 'oldPassword',
-        value: 'ivaninvanov',
-        id: 'oldPassword'
+        type: "password",
+        name: "oldPassword",
+        value: "ivaninvanov",
+        id: "oldPassword",
       }),
       newPasswordInput: Input({
         class: styles.input,
-        type: 'password',
-        name: 'newPassword',
-        value: 'ivaninvanov',
-        id: 'newPassword'
+        type: "password",
+        name: "newPassword",
+        value: "ivaninvanov",
+        id: "newPassword",
       }),
       newPasswordAgainInput: Input({
         class: styles.input,
-        type: 'password',
-        name: 'newPasswordAgain',
-        value: 'ivaninvanov',
-        id: 'newPasswordAgain'
+        type: "password",
+        name: "newPasswordAgain",
+        value: "ivaninvanov",
+        id: "newPasswordAgain",
       }),
     });
-  }
-  handleClickSendButton(evt: Event) {
-    evt.preventDefault();
-    this.children.button.setProps({ text: "test event" });
-    this.children.newPasswordInput.setProps({ disabled: undefined })
   }
 
   render() {

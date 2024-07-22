@@ -1,7 +1,8 @@
 import styles from "./register.module.scss";
 import Button from "../../components/button/button";
 import { Block } from "../../../utils/Block/Block.ts";
-import Input from "../../components/input/input.ts";
+import Input from "../../components/inputBlock/inputBlock.ts";
+import { submitForm } from "../../../utils/functions.ts";
 class Register extends Block {
   constructor() {
     super({
@@ -9,55 +10,58 @@ class Register extends Block {
       button: Button({
         text: "Регистрация",
         nameButton: "send_register",
+        events: {
+          click: (e) => submitForm(e, this.children),
+        },
       }),
       emailInput: Input({
         class: styles.input,
-        type: 'email',
-        name: 'email',
-        value: 'pochta@yandex.ru',
-        id: 'email'
+        type: "email",
+        name: "email",
+        value: "pochta@yandex.ru",
+        id: "email",
       }),
       loginInput: Input({
         class: styles.input,
-        type: 'text',
-        name: 'login',
-        value: 'ivaninvanov',
-         id: 'login'
+        type: "text",
+        name: "login",
+        value: "ivaninvanov",
+        id: "login",
       }),
       nameInput: Input({
         class: styles.input,
-        type: 'text',
-        name: 'first_name',
-        value: 'Иван',
-         id: 'first_name'
+        type: "text",
+        name: "first_name",
+        value: "Иван",
+        id: "first_name",
       }),
       surnameInput: Input({
         class: styles.input,
-        type: 'text',
-        name: 'second_name',
-        value: 'Иванов',
-         id: 'second_name'
+        type: "text",
+        name: "second_name",
+        value: "Иванов",
+        id: "second_name",
       }),
       telInput: Input({
         class: styles.input,
-        type: 'tel',
-        name: 'phone',
-        value: '+7 (909) 967 30 30',
-         id: 'phone'
+        type: "tel",
+        name: "phone",
+        value: "+7 (909) 967 30 30",
+        id: "phone",
       }),
       passwordInput: Input({
         class: styles.input,
-        type: 'password',
-        name: 'password',
-        value: 'ivaninvanov',
-         id: 'password'
+        type: "password",
+        name: "password",
+        value: "ivaninvanov",
+        id: "password",
       }),
       passwordInputAgain: Input({
         class: styles.input,
-        type: 'password',
-        name: 'passwordAgain',
-        value: 'ivaninvanov',
-         id: 'passwordAgain'
+        type: "password",
+        name: "passwordAgain",
+        value: "ivaninvanov",
+        id: "passwordAgain",
       }),
     });
   }

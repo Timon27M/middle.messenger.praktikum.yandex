@@ -9,19 +9,13 @@ type TProps = {
     disabled?: boolean | undefined,
     events?: {
         blur?: () => void;
+        click?: () => void;
     }
 }
 
 class Input extends Block {
     constructor(props: TProps) {
         super(props)
-    }
-
-    getValue() {
-        const element = document.getElementById(`${this.props.id}`) as HTMLInputElement;
-            const value = element.value
-            console.log(value)
-            return value
     }
 
     render() {
@@ -32,16 +26,15 @@ class Input extends Block {
         } else {
             disabledInput = ''
         }
+
         return `
         <input type="{{type}}" id="{{id}}" ${disabledInput}disabled class="{{class}}" name="{{name}}" value="{{value}}" />
-        ` 
+        `
     }
-}
+ }
 
-function input(props: TProps) {
-    return new Input(props = {
-        ...props,
-    })
-}
+ function input(props: TProps) {
+ return new Input(props)
+ }
 
-export default input;
+ export default input;
