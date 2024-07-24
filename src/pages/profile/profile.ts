@@ -3,70 +3,176 @@ import ButtonBack from "../../components/buttonBack/buttonBack";
 import Button from "../../components/button/button";
 import avatar from "../../../utils/images/avatar.png";
 import { Block } from "../../../utils/Block/Block";
-import Input from "../../components/inputBlock/inputBlock";
-import { submitForm } from "../../../utils/functions";
+import InputBlock from "../../components/inputBlock/inputBlock";
+import { handleValidateInput, submitForm } from "../../../utils/functions";
+import ButtonsProfile from "../../components/buttonsProfile/buttonsProfile";
+import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
 class Profile extends Block {
   constructor() {
     super({
       styles: styles,
       avatar: avatar,
+      errorFormBlock: ErrorFormBlock({
+        text: ''
+      }),
+      events: {
+        submit: (e: Event) => {
+          this.handleSaveDataClick(e)
+        }
+      },
       ButtonBack: ButtonBack(),
       ButtonPopup: Button({
         text: "Изменить",
+        type: "button",
         nameButton: "change_profile",
-        events: {
-          click: (e) => submitForm(e, this.children),
-        },
       }),
-      emailInput: Input({
-        class: styles.input,
+      buttonsForm: ButtonsProfile({
+        clickChangeButton: (evt: Event) => this.handleChangeDataClick(evt),
+        clickSavebutton: (evt: Event) => this.handleSaveDataClick(evt),
+      }),
+      emailInputBlock: InputBlock({
+        classInput: styles.input,
+        classErrorBlock: styles.textError,
+        errorText: "",
         type: "email",
         name: "email",
         value: "pochta@yandex.ru",
         disabled: true,
         id: "email",
+        events: {
+          blur: () =>
+            handleValidateInput(
+              this.children.emailInputBlock.children.errorBlock,
+              this.children.emailInputBlock.children.input,
+              "Некорректный email"
+            ),
+        },
       }),
-      loginInput: Input({
-        class: styles.input,
+      loginInputBlock: InputBlock({
+        classInput: styles.input,
+        classErrorBlock: styles.textError,
+        errorText: "",
         type: "text",
         name: "login",
         value: "ivanivanov",
         disabled: true,
-        id: "email",
+        id: "login",
+        events: {
+          blur: () =>
+            handleValidateInput(
+              this.children.loginInputBlock.children.errorBlock,
+              this.children.loginInputBlock.children.input,
+              "Некорректный логин"
+            ),
+        },
       }),
-      nameInput: Input({
-        class: styles.input,
+      nameInputBlock: InputBlock({
+        classInput: styles.input,
+        classErrorBlock: styles.textError,
+        errorText: "",
         type: "text",
         name: "first_name",
         value: "Иван",
         disabled: true,
         id: "first_name",
+        events: {
+          blur: () =>
+            handleValidateInput(
+              this.children.nameInputBlock.children.errorBlock,
+              this.children.nameInputBlock.children.input,
+              "Некорректное имя"
+            ),
+        },
       }),
-      surnameInput: Input({
-        class: styles.input,
+      surnameInputBlock: InputBlock({
+        classInput: styles.input,
+        classErrorBlock: styles.textError,
+        errorText: "",
         type: "text",
         name: "second_name",
         value: "Иванов",
         disabled: true,
         id: "second_name",
+        events: {
+          blur: () =>
+            handleValidateInput(
+              this.children.surnameInputBlock.children.errorBlock,
+              this.children.surnameInputBlock.children.input,
+              "Некорректная фамилия"
+            ),
+        },
       }),
-      nameInChatInput: Input({
-        class: styles.input,
+      nameInChatInputBlock: InputBlock({
+        classInput: styles.input,
+        classErrorBlock: styles.textError,
+        errorText: "",
         type: "text",
         name: "display_name",
         value: "Иван",
         disabled: true,
         id: "display_name",
+        events: {
+          blur: () =>
+            handleValidateInput(
+              this.children.nameInChatInputBlock.children.errorBlock,
+              this.children.nameInChatInputBlock.children.input,
+              "Некорректное имя"
+            ),
+        },
       }),
-      telInput: Input({
-        class: styles.input,
+      telInputBlock: InputBlock({
+        classInput: styles.input,
+        classErrorBlock: styles.textError,
+        errorText: "",
         type: "tel",
         name: "phone",
-        value: "+7 (909) 967 30 30",
+        value: "+79099673030",
         disabled: true,
         id: "phone",
+        events: {
+          blur: () =>
+            handleValidateInput(
+              this.children.telInputBlock.children.errorBlock,
+              this.children.telInputBlock.children.input,
+              "Некорректный номер телефона"
+            ),
+        },
       }),
     });
+  }
+
+  handleChangeDataClick(evt: Event) {
+    evt.preventDefault();
+    this.children.emailInputBlock.children.input.setProps({ disabled: false, class: styles.inputActive });
+    this.children.nameInputBlock.children.input.setProps({ disabled: false, class: styles.inputActive });
+    this.children.surnameInputBlock.children.input.setProps({ disabled: false, class: styles.inputActive });
+    this.children.nameInChatInputBlock.children.input.setProps({ disabled: false, class: styles.inputActive });
+    this.children.loginInputBlock.children.input.setProps({ disabled: false, class: styles.inputActive });
+    this.children.telInputBlock.children.input.setProps({ disabled: false, class: styles.inputActive });
+
+    this.children.buttonsForm.setProps({ type: "saveButton" });
+  }
+
+  handleSaveDataClick(evt: Event) {
+    evt.preventDefault();
+
+    const { isValid } = submitForm(evt, this.children, this.children.errorFormBlock);
+
+    console.log(isValid)
+
+    if (isValid) {
+      this.children.emailInputBlock.children.input.setProps({ disabled: true, class: styles.input });
+      this.children.nameInputBlock.children.input.setProps({ disabled: true, class: styles.input });
+      this.children.surnameInputBlock.children.input.setProps({ disabled: true, class: styles.input });
+      this.children.nameInChatInputBlock.children.input.setProps({ disabled: true, class: styles.input });
+      this.children.loginInputBlock.children.input.setProps({ disabled: true, class: styles.input });
+      this.children.telInputBlock.children.input.setProps({ disabled: true, class: styles.input });
+  
+
+      console.log(this.children.buttonsForm)
+      this.children.buttonsForm.setProps({ type: "changeBlockButton" });
+    }
+
   }
 
   render() {
@@ -82,34 +188,31 @@ class Profile extends Block {
   <div class="{{styles.inputsBlock}}">
     <div class="{{styles.inputBlock}}">
       <p class="{{styles.inputName}}">Почта</p>
-      {{{emailInput}}}
+      {{{emailInputBlock}}}
       </div>
     <div class="{{styles.inputBlock}}">
       <p class="{{styles.inputName}}">Логин</p>
-      {{{loginInput}}}
+      {{{loginInputBlock}}}
     </div>
     <div class="{{styles.inputBlock}}">
       <p class="{{styles.inputName}}">Имя</p>
-      {{{nameInput}}}
+      {{{nameInputBlock}}}
     </div>
     <div class="{{styles.inputBlock}}">
       <p class="{{styles.inputName}}">Фамилия</p>
-      {{{surnameInput}}}
+      {{{surnameInputBlock}}}
     </div>
     <div class="{{styles.inputBlock}}">
       <p class="{{styles.inputName}}">Имя в чате</p>
-     {{{nameInChatInput}}}
+     {{{nameInChatInputBlock}}}
     </div>
     <div class="{{styles.inputBlock}}">
       <p class="{{styles.inputName}}">Телефон</p>
-      {{{telInput}}}
+      {{{telInputBlock}}}
     </div>
+    <span class="{{styles.errorForm}}">{{{errorFormBlock}}}</span>
   </div>
-  <div class="{{styles.buttons}}">
-    <button class="{{styles.button}} {{styles.buttonBlue}}">Изменить данные</button>
-    <a type="button" href="/forgot-password" class="{{styles.button}} {{styles.buttonBlue}}">Изменить пароль</a>
-    <a type="button" href="/login" class="{{styles.button}} {{styles.buttonRed}}">Выйти</a>
-  </div>
+ {{{buttonsForm}}}
   <div class="{{styles.popupBlock}}">
   <div class="{{styles.overlay}}"></div>
   <div class="{{styles.popup}}">

@@ -18,7 +18,7 @@ export abstract class Block {
   public id = nanoid();
 
   protected eventBus: () => EventBus;
-  protected children: Record<string, any>;
+  public  children: Record<string, any>;
   protected abstract render(): string;
 
   constructor(propsAndChildren: Record<string, any> = {}) {

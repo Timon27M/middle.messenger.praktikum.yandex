@@ -4,6 +4,8 @@ import styles from "./button.module.scss";
 type TButton = {
   text: string,
   nameButton: string,
+  styleType?: string,
+  type?: string,
   events?: {
     click?: (evt: Event) => void
   }
@@ -19,13 +21,18 @@ class Button extends Block {
   }
 
   render() {
+    const { type = 'button' } = this.props
+
+
     return `
-        <button name={{nameButton}} class="{{styles.button}}">{{text}}</button>
+        <button name={{nameButton}} class="${type === 'button' ? '{{styles.button}}' : '{{styles.buttonLink}}'}">{{text}}</button>
 `;
   }
 }
 
 function button(props: TButton) {
+
+
   return new Button(
     ({
       styles: styles,

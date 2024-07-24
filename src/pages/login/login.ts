@@ -1,50 +1,63 @@
 import styles from "./login.module.scss";
 import Button from "../../components/button/button";
 import { Block } from "../../../utils/Block/Block";
-import Input from "../../components/inputBlock/inputBlock";
-import { handleBlur, submitForm } from "../../../utils/functions";
+import InputBlock from "../../components/inputBlock/inputBlock";
+import { handleValidateInput, submitForm } from "../../../utils/functions";
+import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
 class Login extends Block {
   constructor() {
     super({
       styles: styles,
+      errorFormBlock: ErrorFormBlock({
+        text: ''
+      }),
       button: Button({
         text: "Войти",
         nameButton: "send_login",
         events: {
           click: (e) => {
-            submitForm(e, this.children);
+            this.setProps({textError: 'blalba'})
+            submitForm(e, this.children, this.children.errorFormBlock);
           },
         },
       }),
-      loginInput: Input({
+      loginInputBlock: InputBlock({
         classInput: styles.input,
         classErrorBlock: styles.textError,
+        errorText: "",
         type: "text",
         name: "login",
         value: "ivaninvanov",
         id: "login",
-        errorText: "",
         events: {
-          blur: () => handleBlur(this.children.loginInput.children.errorBlock, "Неверный логин")
+          blur: () =>
+            handleValidateInput(
+              this.children.loginInputBlock.children.errorBlock,
+              this.children.loginInputBlock.children.input,
+              "Некорректный логин"
+            ),
         },
       }),
-      passwordInput: Input({
+      passwordInputBlock: InputBlock({
         classInput: styles.input,
         classErrorBlock: styles.textError,
         type: "password",
         name: "password",
-        value: "password228",
+        value: "ivaninvanoV9",
         id: "password",
         errorText: "",
         events: {
-          blur: () => handleBlur(this.children.passwordInput.children.errorBlock, "Неверный пароль")
+          blur: () =>
+            handleValidateInput(
+              this.children.passwordInputBlock.children.errorBlock,
+              this.children.passwordInputBlock.children.input,
+              "Некорректный пароль"
+            ),
         },
       }),
     });
   }
 
-
-  //<input type="text" class="{{styles.input}}" name="login" value="ivaninvanov">
   render() {
     return `
     <main class="{{styles.login}}">
@@ -53,15 +66,16 @@ class Login extends Block {
     <div class="{{styles.inputs}}">
       <div class="{{styles.inputBlock}}">
         <p class="{{styles.inputName}}">Логин</p>
-          {{{loginInput}}}
+          {{{loginInputBlock}}}
           </div>
       <div class="{{styles.inputBlock}}">
         <p class="{{styles.inputName}}">Пароль</p>
         <div class="{{styles.inputElement}}">
-          {{{passwordInput}}}
+          {{{passwordInputBlock}}}
         </div>
       </div>
-    </div>
+      </div>
+      <span class="{{styles.errorForm}}">{{{errorFormBlock}}}</span>
       {{{button}}}
       <a class="{{styles.link}}" href="/register">Нет аккаунта?</a>
   </form>

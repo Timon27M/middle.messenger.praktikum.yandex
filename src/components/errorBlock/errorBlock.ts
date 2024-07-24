@@ -5,7 +5,7 @@ type TProps = {
     errorText: string
 }
 
-class ErrorBlock extends Block {
+export class ErrorBlock extends Block {
     constructor(props: TProps) {
         super(props)
     }

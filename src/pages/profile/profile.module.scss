@@ -37,6 +37,7 @@
   min-width: 510px;
   flex-direction: column;
   margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 .inputBlock {
@@ -54,6 +55,10 @@
 
 .input {
   @include input-styles(right, $color-gray);
+}
+
+.inputActive {
+  @include input-styles(right, $color-black);
 }
 
 .buttons {
@@ -124,10 +129,22 @@
   font-size: 18px;
 }
 
+.errorForm {
+  width: 100%;
+  margin-top: 10px;
+  min-height: 19px;
+}
+
 .popupLink {
   text-align: center;
   width: 122px;
   color: $color-blue;
   font-weight: 500;
   font-size: 15px;
+}
+
+.textError {
+  @include text-error-styles;
+  position: absolute;
+  right: -190px;
 }

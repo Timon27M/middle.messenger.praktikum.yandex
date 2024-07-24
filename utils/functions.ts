@@ -1,5 +1,9 @@
+import { Input } from "../src/components/input/input";
 import { InputBlock } from "../src/components/inputBlock/inputBlock";
 import { IChatCard, CSSModuleClasses } from "./types";
+import { regexps } from "./constants";
+import { ErrorBlock } from "../src/components/errorBlock/errorBlock";
+import { ErrorFormBlock } from "../src/components/errorFormBlock/errorFormBlock";
 
 export function createChatList(arr: IChatCard[], styles: CSSModuleClasses) {
   const chatCardLayout = arr.map((item, index) => {
@@ -28,32 +32,64 @@ export function createChatList(arr: IChatCard[], styles: CSSModuleClasses) {
   return chatCardsLayout;
 }
 
-export function submitForm(evt: Event, childrenObj: object) {
+export function submitForm(
+  evt: Event,
+  childrenObj: object,
+  errorFormBlock: ErrorFormBlock,
+) {
   evt.preventDefault();
   const formData: Record<string, string> = {};
 
   const array = Object.values(childrenObj).filter((child) => {
     return (
-      child.props.id === "password" ||
-      child.props.id === "login" ||
-      child.props.id === "email" ||
-      child.props.id === "first_name" ||
-      child.props.id === "second_name" ||
-      child.props.id === "oldPassword" ||
-      child.props.id === "newPassword" ||
-      child.props.id === "newPasswordAgain" ||
-      child.props.id === "passwordAgain"
+      child.id === "password" ||
+      child.id === "login" ||
+      child.id === "email" ||
+      child.id === "first_name" ||
+      child.id === "second_name" ||
+      child.id === "oldPassword" ||
+      child.id === "newPassword" ||
+      child.id === "newPasswordAgain" ||
+      child.id === "display_name" ||
+      child.id === "passwordAgain"
     );
   });
 
-  array.forEach((input: InputBlock) => {
-    formData[input.name] = input.getValue();
+  array.forEach((inputBlock: InputBlock) => {
+    formData[inputBlock.children.input.name] =
+      inputBlock.children.input.getValue();
   });
 
-  console.log(formData);
-  return formData;
+  const isValid = Object.entries(formData).every(([key, value]) => {
+    return validate(value, key);
+  });
+
+  if (isValid === false) {
+    errorFormBlock.setProps({ text: 'Данные заполнены неправильно' })
+  } else {
+    errorFormBlock.setProps({ text: '' })
+  }
+
+  console.log(formData)
+
+  return { formData, isValid }
 }
 
-export function handleBlur(errorBlock: InputBlock, text: string) {
-  errorBlock.setProps({ errorText: text })
+function validate(value: string, name: string) {
+  const valid = new RegExp(regexps[name]).test(value);
+
+  return valid;
+}
+
+export function handleValidateInput(
+  errorBlock: ErrorBlock,
+  input: Input,
+  text: string
+) {
+  const isValid = validate(input.getValue(), input.props.name);
+  if (!isValid) {
+    errorBlock.setProps({ errorText: text });
+  } else {
+    errorBlock.setProps({ errorText: "" });
+  }
 }

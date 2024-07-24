@@ -50,6 +50,12 @@
   @include input-styles(left, $color-black);
 }
 
+.errorForm {
+  width: 100%;
+  margin-bottom: 5px;
+  min-height: 19px;
+}
+
 .link {
   margin-top: 14px;
   color: $color-blue;
@@ -59,7 +65,5 @@
 }
 
 .textError {
-    font-weight: 400;
-    font-size: 8px;
-    color: $color-light-red;
+    @include text-error-styles
   }

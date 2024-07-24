@@ -1,67 +1,141 @@
 import styles from "./register.module.scss";
 import Button from "../../components/button/button";
 import { Block } from "../../../utils/Block/Block.ts";
-import Input from "../../components/inputBlock/inputBlock.ts";
-import { submitForm } from "../../../utils/functions.ts";
+import InputBlock from "../../components/inputBlock/inputBlock.ts";
+import { handleValidateInput, submitForm } from "../../../utils/functions.ts";
+import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock.ts";
 class Register extends Block {
   constructor() {
     super({
       styles: styles,
+      errorFormBlock: ErrorFormBlock({
+        text: ''
+      }),
       button: Button({
         text: "Регистрация",
         nameButton: "send_register",
         events: {
-          click: (e) => submitForm(e, this.children),
+          click: (e) => submitForm(e, this.children, this.children.errorFormBlock),
         },
       }),
-      emailInput: Input({
-        class: styles.input,
+      emailInputBlock: InputBlock({
+        classInput: styles.input,
+        classErrorBlock: styles.textError,
+        errorText: "",
         type: "email",
         name: "email",
         value: "pochta@yandex.ru",
         id: "email",
+        events: {
+          blur: () =>
+            handleValidateInput(
+              this.children.emailInputBlock.children.errorBlock,
+              this.children.emailInputBlock.children.input,
+              "Некорректный email"
+            ),
+        },
       }),
-      loginInput: Input({
-        class: styles.input,
+      loginInputBlock: InputBlock({
+        classInput: styles.input,
+        classErrorBlock: styles.textError,
+        errorText: "",
         type: "text",
         name: "login",
         value: "ivaninvanov",
         id: "login",
+        events: {
+          blur: () =>
+            handleValidateInput(
+              this.children.loginInputBlock.children.errorBlock,
+              this.children.loginInputBlock.children.input,
+              "Некорректный логин"
+            ),
+        },
       }),
-      nameInput: Input({
-        class: styles.input,
+      nameInputBlock: InputBlock({
+        classInput: styles.input,
+        classErrorBlock: styles.textError,
+        errorText: "",
         type: "text",
         name: "first_name",
         value: "Иван",
         id: "first_name",
+        events: {
+          blur: () =>
+            handleValidateInput(
+              this.children.nameInputBlock.children.errorBlock,
+              this.children.nameInputBlock.children.input,
+              "Некорректное имя"
+            ),
+        },
       }),
-      surnameInput: Input({
-        class: styles.input,
+      surnameInputBlock: InputBlock({
+        classInput: styles.input,
+        classErrorBlock: styles.textError,
+        errorText: "",
         type: "text",
         name: "second_name",
         value: "Иванов",
         id: "second_name",
+        events: {
+          blur: () =>
+            handleValidateInput(
+              this.children.surnameInputBlock.children.errorBlock,
+              this.children.surnameInputBlock.children.input,
+              "Некорректная фамилия"
+            ),
+        },
       }),
-      telInput: Input({
-        class: styles.input,
+      telInputBlock: InputBlock({
+        classInput: styles.input,
+        classErrorBlock: styles.textError,
+        errorText: "",
         type: "tel",
         name: "phone",
-        value: "+7 (909) 967 30 30",
+        value: "+79099673030",
         id: "phone",
+        events: {
+          blur: () =>
+            handleValidateInput(
+              this.children.telInputBlock.children.errorBlock,
+              this.children.telInputBlock.children.input,
+              "Некорректный номер телефона"
+            ),
+        },
       }),
-      passwordInput: Input({
-        class: styles.input,
+      passwordInputBlock: InputBlock({
+        classInput: styles.input,
+        classErrorBlock: styles.textError,
+        errorText: "",
         type: "password",
         name: "password",
-        value: "ivaninvanov",
+        value: "ivaninvanoV9",
         id: "password",
+        events: {
+          blur: () =>
+            handleValidateInput(
+              this.children.passwordInputBlock.children.errorBlock,
+              this.children.passwordInputBlock.children.input,
+              "Некорректный пароль"
+            ),
+        },
       }),
-      passwordInputAgain: Input({
-        class: styles.input,
+      passwordInputAgainBlock: InputBlock({
+        classInput: styles.input,
+        classErrorBlock: styles.textError,
+        errorText: "",
         type: "password",
         name: "passwordAgain",
-        value: "ivaninvanov",
+        value: "ivaninvanoV9",
         id: "passwordAgain",
+        events: {
+          blur: () =>
+            handleValidateInput(
+              this.children.passwordInputAgainBlock.children.errorBlock,
+              this.children.passwordInputAgainBlock.children.input,
+              "Пароли не совпадают"
+            ),
+        },
       }),
     });
   }
@@ -74,34 +148,34 @@ class Register extends Block {
     <div class="{{styles.inputs}}">
       <div class="{{styles.inputBlock}}">
         <p class="{{styles.inputName}}">Почта</p>
-        {{{emailInput}}}
+        {{{emailInputBlock}}}
       </div>
       <div class="{{styles.inputBlock}}">
         <p class="{{styles.inputName}}">Логин</p>
-        {{{loginInput}}}
+        {{{loginInputBlock}}}
       </div>
       <div class="{{styles.inputBlock}}">
         <p class="{{styles.inputName}}">Имя</p>
-        {{{nameInput}}}
+        {{{nameInputBlock}}}
       </div>
       <div class="{{styles.inputBlock}}">
         <p class="{{styles.inputName}}">Фамилия</p>
-        {{{surnameInput}}}
+        {{{surnameInputBlock}}}
       </div>
       <div class="{{styles.inputBlock}}">
         <p class="{{styles.inputName}}">Телефон</p>
-        {{{telInput}}}
+        {{{telInputBlock}}}
       </div>
       <div class="{{styles.inputBlock}}">
         <p class="{{styles.inputName}}">Пароль</p>
-        {{{passwordInput}}}
+        {{{passwordInputBlock}}}
       </div>
       <div class="{{styles.inputBlock}}">
         <p class="{{styles.inputName}}">Пароль (ещё раз)</p>
-        {{{passwordInputAgain}}}
-        </div>
-        <span class="{{styles.textError}}">Пароли не совпадают</span>  
+        {{{passwordInputAgainBlock}}}
+        </div> 
     </div>
+    <span class="{{styles.errorForm}}">{{{errorFormBlock}}}</span>
       {{{button}}}
       <a class="{{styles.link}}" href="/login">Войти</a>
   </form>
