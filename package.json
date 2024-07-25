@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "start": "npm run build && npm run dev",
-    "eslint": "node_modules/.bin/eslint src/**/* --fix"
+    "eslint": "node_modules/.bin/eslint.cmd . --fix"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^7.17.0",
@@ -26,6 +26,7 @@
     "vite": "^5.3.1"
   },
   "dependencies": {
+    "autoprefixer": "^10.4.19",
     "nvm": "^0.0.4",
     "sass": "^1.77.6",
     "scss": "^0.2.4",
