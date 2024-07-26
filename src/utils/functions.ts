@@ -1,9 +1,9 @@
-import { Input } from "../src/components/input/input";
-import { InputBlock } from "../src/components/inputBlock/inputBlock";
+import { Input } from "../components/input/input";
+import { InputBlock } from "../components/inputBlock/inputBlock";
 import { IChatCard, CSSModuleClasses } from "./types";
 import { regexps } from "./constants";
-import { ErrorBlock } from "../src/components/errorBlock/errorBlock";
-import { ErrorFormBlock } from "../src/components/errorFormBlock/errorFormBlock";
+import { ErrorBlock } from "../components/errorBlock/errorBlock";
+import { ErrorFormBlock } from "../components/errorFormBlock/errorFormBlock";
 
 export function createChatList(arr: IChatCard[], styles: CSSModuleClasses) {
   const chatCardLayout = arr.map((item, index) => {
@@ -35,7 +35,7 @@ export function createChatList(arr: IChatCard[], styles: CSSModuleClasses) {
 export function submitForm(
   evt: Event,
   childrenObj: object,
-  errorFormBlock: ErrorFormBlock,
+  errorFormBlock: ErrorFormBlock
 ) {
   evt.preventDefault();
   const formData: Record<string, string> = {};
@@ -65,14 +65,14 @@ export function submitForm(
   });
 
   if (isValid === false) {
-    errorFormBlock.setProps({ text: 'Данные заполнены неправильно' })
+    errorFormBlock.setProps({ text: "Данные заполнены неправильно" });
   } else {
-    errorFormBlock.setProps({ text: '' })
+    errorFormBlock.setProps({ text: "" });
   }
 
-  console.log(formData)
+  console.log(formData);
 
-  return { formData, isValid }
+  return { formData, isValid };
 }
 
 function validate(value: string, name: string) {
@@ -87,7 +87,9 @@ export function handleValidateInput(
   text: string
 ) {
   const isValid = validate(input.getValue(), input.props.name);
+  console.log(isValid)
   if (!isValid) {
+    console.log(errorBlock)
     errorBlock.setProps({ errorText: text });
   } else {
     errorBlock.setProps({ errorText: "" });

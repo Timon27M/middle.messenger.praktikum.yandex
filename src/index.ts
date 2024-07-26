@@ -1,11 +1,11 @@
-import Main from "./src/pages/main/main";
-import Profile from "./src/pages/profile/profile";
-import DefaultChat from "./src/components/defaultChat/defaultChat.ts";
-import Chat from "./src/components/chat/chat.ts";
-import Login from "./src/pages/login/login.ts";
-import Register from "./src/pages/register/register.ts";
-import Error from "./src/pages/error/error.ts";
-import ForgotPassword from "./src/pages/forgotPassword//forgotPassword.ts";
+import Main from "./pages/main/main.ts";
+import Profile from "./pages/profile/profile.ts";
+import DefaultChat from "./components/defaultChat/defaultChat.ts";
+import Chat from "./components/chat/chat.ts";
+import Login from "./pages/login/login.ts";
+import Register from "./pages/register/register.ts";
+import Error from "./pages/error/error.ts";
+import ForgotPassword from "./pages/forgotPassword/forgotPassword.ts";
 
 document.addEventListener("DOMContentLoaded", () => {
   const root = document.querySelector("#app");
@@ -31,11 +31,13 @@ document.addEventListener("DOMContentLoaded", () => {
       } else if (url === "/forgot-password") {
         root.append(ForgotPassword().getContent());
       } else {
-        root.append(Error({
-          status: "404",
-          textError: "Не туда попали",
-        }).getContent());
+        root.append(
+          Error({
+            status: "404",
+            textError: "Не туда попали",
+          }).getContent(),
+        );
       }
-    })();
+    }());
   }
 });

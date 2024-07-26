@@ -1,7 +1,7 @@
-import { Block } from "../../../utils/Block/Block";
+import { Block } from "../../utils/Block/Block";
 import ErrorBlock from "../errorBlock/errorBlock";
 import Input from "../input/input";
-import styles from './inputBlock.module.scss'
+import styles from "./inputBlock.module.scss";
 
 type TProps = {
   classInput: string;
@@ -9,7 +9,8 @@ type TProps = {
   errorText: string;
   type: string;
   name: string;
-  value: string;
+  placeholder?: string;
+  value?: string;
   id: string;
   disabled?: boolean | undefined;
   events?: {
@@ -30,6 +31,7 @@ export class InputBlock extends Block {
         type: props.type,
         name: props.name,
         value: props.value,
+        placeholder: props.placeholder,
         id: props.id,
         disabled: props.disabled || undefined,
         events: props.events,
@@ -37,7 +39,7 @@ export class InputBlock extends Block {
       errorBlock: ErrorBlock({
         class: props.classErrorBlock,
         errorText: props.errorText,
-      })
+      }),
     });
     this.name = props.name;
     this.id = props.id;
@@ -48,7 +50,7 @@ export class InputBlock extends Block {
       `${this.props.id}`
     ) as HTMLInputElement;
     const value = element.value;
-    console.log(value)
+    console.log(value);
     return value;
   }
 

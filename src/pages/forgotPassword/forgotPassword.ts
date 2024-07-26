@@ -1,11 +1,11 @@
 import styles from "./forgotPassword.module.scss";
 import Button from "../../components/button/button";
 import ButtonBack from "../../components/buttonBack/buttonBack";
-import avatar from "../../../utils/images/avatar.png";
+import avatar from "../../utils/images/avatar.png";
 
-import { Block } from "../../../utils/Block/Block";
+import { Block } from "../../utils/Block/Block";
 import InputBlock from "../../components/inputBlock/inputBlock";
-import { handleValidateInput, submitForm } from "../../../utils/functions";
+import { handleValidateInput, submitForm } from "../../utils/functions";
 import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
 class ForgotPassword extends Block {
   constructor(props?: Record<string, any>) {
@@ -14,13 +14,14 @@ class ForgotPassword extends Block {
       styles: styles,
       avatar: avatar,
       errorFormBlock: ErrorFormBlock({
-        text: ''
+        text: "",
       }),
       button: Button({
         text: "Сохранить",
         nameButton: "send_forgot-password",
         events: {
-          click: (evt: Event) => submitForm(evt, this.children, this.children.errorFormBlock),
+          click: (evt: Event) =>
+            submitForm(evt, this.children, this.children.errorFormBlock),
         },
       }),
       buttonBack: ButtonBack(),

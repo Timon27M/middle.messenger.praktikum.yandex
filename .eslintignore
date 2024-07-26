@@ -2,4 +2,6 @@
 /dist
 /build
 /vite.config.js
-./postcss.config.js
+/postcss.config.js
+/src/vite-env.d.ts
+*.config.js

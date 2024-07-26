@@ -1,7 +1,7 @@
 import styles from "./chats.module.scss";
-import { chatListData } from "../../../utils/constants.ts";
-import { createChatList } from "../../../utils/functions";
-import { Block } from "../../../utils/Block/Block.ts";
+import { chatListData } from "../../utils/constants.ts";
+import { createChatList } from "../../utils/functions";
+import { Block } from "../../utils/Block/Block.ts";
 class Chats extends Block {
   constructor() {
     super({

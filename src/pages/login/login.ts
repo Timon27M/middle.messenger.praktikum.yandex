@@ -1,22 +1,22 @@
 import styles from "./login.module.scss";
 import Button from "../../components/button/button";
-import { Block } from "../../../utils/Block/Block";
+import { Block } from "../../utils/Block/Block";
 import InputBlock from "../../components/inputBlock/inputBlock";
-import { handleValidateInput, submitForm } from "../../../utils/functions";
+import { handleValidateInput, submitForm } from "../../utils/functions";
 import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
 class Login extends Block {
   constructor() {
     super({
       styles: styles,
       errorFormBlock: ErrorFormBlock({
-        text: ''
+        text: "",
       }),
       button: Button({
         text: "Войти",
         nameButton: "send_login",
         events: {
           click: (e) => {
-            this.setProps({textError: 'blalba'})
+            this.setProps({ textError: "blalba" });
             submitForm(e, this.children, this.children.errorFormBlock);
           },
         },

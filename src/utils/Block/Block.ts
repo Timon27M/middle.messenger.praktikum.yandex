@@ -1,4 +1,4 @@
-import { EventBus } from "../EventBus/EventBus";
+import { EventBus } from "./../EventBus/EventBus";
 import { nanoid } from "nanoid";
 import Handlebars from "handlebars";
 
@@ -18,7 +18,7 @@ export abstract class Block {
   public id = nanoid();
 
   protected eventBus: () => EventBus;
-  public  children: Record<string, any>;
+  public children: Record<string, any>;
   protected abstract render(): string;
 
   constructor(propsAndChildren: Record<string, any> = {}) {

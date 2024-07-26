@@ -1,8 +1,11 @@
 import styles from "./chat.module.scss";
-import avatar from "../../../utils/images/avatar.png";
-import buttonSettingImage from "../../../utils/images/buttonSettings.jpg";
-import buttonDocumentImage from "../../../utils/images/buttonDocument.jpg";
-import { Block } from "../../../utils/Block/Block";
+import avatar from "../../utils/images/avatar.png";
+import buttonSettingImage from "../../utils/images/buttonSettings.jpg";
+import buttonDocumentImage from "../../utils/images/buttonDocument.jpg";
+import { Block } from "../../utils/Block/Block";
+import input from "../input/input";
+import ErrorBlock from "../errorBlock/errorBlock";
+import { handleValidateInput } from "../../utils/functions";
 class Chat extends Block {
   constructor() {
     super({
@@ -16,8 +19,29 @@ class Chat extends Block {
       avatar: avatar,
       buttonSettingImage: buttonSettingImage,
       buttonDocumentImage: buttonDocumentImage,
+      messageInput: input({
+        class: styles.input,
+        type: "text",
+        name: "message",
+        placeholder: "Сообщение",
+        id: "message",
+        events: {
+          blur: () =>
+            handleValidateInput(
+              this.children.errorBlock,
+              this.children.messageInput,
+              "Поле не может быть пустым"
+            ),
+        },
+      }),
+      errorBlock: ErrorBlock({
+        class: styles.textError,
+        errorText: "",
+      }),
     });
   }
+
+  // <input type="text" class="{{styles.input}}" name="message" placeholder="Сообщение" />
 
   render() {
     return `
@@ -72,8 +96,11 @@ class Chat extends Block {
     <button class="{{styles.documentButton}}">
       <img src={{buttonDocumentImage}} alt="image" />
     </button>
-    <input type="text" class="{{styles.input}}" name="message" placeholder="Сообщение" />
-    <button class="{{styles.buttonSend}}">
+    <div class="{{styles.inputContainer}}">
+      {{{messageInput}}}
+      {{{errorBlock}}}
+    </div>
+    <button class="{{styles.buttonSendActive}}">
       >
     </button>
   </div>

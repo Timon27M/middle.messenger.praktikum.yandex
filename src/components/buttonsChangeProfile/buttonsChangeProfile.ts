@@ -1,4 +1,4 @@
-import { Block } from "../../../utils/Block/Block";
+import { Block } from "../../utils/Block/Block";
 import Button from "../button/button";
 import styles from "./buttonsChangeProfile.module.scss";
 
@@ -17,7 +17,7 @@ class ButtonsBlockProfile extends Block {
         styleType: "link",
         nameButton: "changeData",
         text: "Изменить данные",
-        events: props.events
+        events: props.events,
       }),
     });
   }

@@ -1,6 +1,6 @@
 import styles from "./main.module.scss";
 import Chats from "../../components/chats/chats.ts";
-import { Block } from "../../../utils/Block/Block.ts";
+import { Block } from "../../utils/Block/Block.ts";
 import DefaultChat from "../../components/defaultChat/defaultChat.ts";
 import Chat from "../../components/chat/chat.ts";
 class Main extends Block {

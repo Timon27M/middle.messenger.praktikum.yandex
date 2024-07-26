@@ -1,10 +1,10 @@
 import styles from "./profile.module.scss";
 import ButtonBack from "../../components/buttonBack/buttonBack";
 import Button from "../../components/button/button";
-import avatar from "../../../utils/images/avatar.png";
-import { Block } from "../../../utils/Block/Block";
+import avatar from "../../utils/images/avatar.png";
+import { Block } from "../..//utils/Block/Block";
 import InputBlock from "../../components/inputBlock/inputBlock";
-import { handleValidateInput, submitForm } from "../../../utils/functions";
+import { handleValidateInput, submitForm } from "../../utils/functions";
 import ButtonsProfile from "../../components/buttonsProfile/buttonsProfile";
 import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
 class Profile extends Block {
@@ -13,12 +13,12 @@ class Profile extends Block {
       styles: styles,
       avatar: avatar,
       errorFormBlock: ErrorFormBlock({
-        text: ''
+        text: "",
       }),
       events: {
         submit: (e: Event) => {
-          this.handleSaveDataClick(e)
-        }
+          this.handleSaveDataClick(e);
+        },
       },
       ButtonBack: ButtonBack(),
       ButtonPopup: Button({
@@ -143,12 +143,30 @@ class Profile extends Block {
 
   handleChangeDataClick(evt: Event) {
     evt.preventDefault();
-    this.children.emailInputBlock.children.input.setProps({ disabled: false, class: styles.inputActive });
-    this.children.nameInputBlock.children.input.setProps({ disabled: false, class: styles.inputActive });
-    this.children.surnameInputBlock.children.input.setProps({ disabled: false, class: styles.inputActive });
-    this.children.nameInChatInputBlock.children.input.setProps({ disabled: false, class: styles.inputActive });
-    this.children.loginInputBlock.children.input.setProps({ disabled: false, class: styles.inputActive });
-    this.children.telInputBlock.children.input.setProps({ disabled: false, class: styles.inputActive });
+    this.children.emailInputBlock.children.input.setProps({
+      disabled: false,
+      class: styles.inputActive,
+    });
+    this.children.nameInputBlock.children.input.setProps({
+      disabled: false,
+      class: styles.inputActive,
+    });
+    this.children.surnameInputBlock.children.input.setProps({
+      disabled: false,
+      class: styles.inputActive,
+    });
+    this.children.nameInChatInputBlock.children.input.setProps({
+      disabled: false,
+      class: styles.inputActive,
+    });
+    this.children.loginInputBlock.children.input.setProps({
+      disabled: false,
+      class: styles.inputActive,
+    });
+    this.children.telInputBlock.children.input.setProps({
+      disabled: false,
+      class: styles.inputActive,
+    });
 
     this.children.buttonsForm.setProps({ type: "saveButton" });
   }
@@ -156,23 +174,43 @@ class Profile extends Block {
   handleSaveDataClick(evt: Event) {
     evt.preventDefault();
 
-    const { isValid } = submitForm(evt, this.children, this.children.errorFormBlock);
+    const { isValid } = submitForm(
+      evt,
+      this.children,
+      this.children.errorFormBlock
+    );
 
-    console.log(isValid)
+    console.log(isValid);
 
     if (isValid) {
-      this.children.emailInputBlock.children.input.setProps({ disabled: true, class: styles.input });
-      this.children.nameInputBlock.children.input.setProps({ disabled: true, class: styles.input });
-      this.children.surnameInputBlock.children.input.setProps({ disabled: true, class: styles.input });
-      this.children.nameInChatInputBlock.children.input.setProps({ disabled: true, class: styles.input });
-      this.children.loginInputBlock.children.input.setProps({ disabled: true, class: styles.input });
-      this.children.telInputBlock.children.input.setProps({ disabled: true, class: styles.input });
-  
+      this.children.emailInputBlock.children.input.setProps({
+        disabled: true,
+        class: styles.input,
+      });
+      this.children.nameInputBlock.children.input.setProps({
+        disabled: true,
+        class: styles.input,
+      });
+      this.children.surnameInputBlock.children.input.setProps({
+        disabled: true,
+        class: styles.input,
+      });
+      this.children.nameInChatInputBlock.children.input.setProps({
+        disabled: true,
+        class: styles.input,
+      });
+      this.children.loginInputBlock.children.input.setProps({
+        disabled: true,
+        class: styles.input,
+      });
+      this.children.telInputBlock.children.input.setProps({
+        disabled: true,
+        class: styles.input,
+      });
 
-      console.log(this.children.buttonsForm)
+      console.log(this.children.buttonsForm);
       this.children.buttonsForm.setProps({ type: "changeBlockButton" });
     }
-
   }
 
   render() {

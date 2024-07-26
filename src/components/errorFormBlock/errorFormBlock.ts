@@ -1,27 +1,27 @@
-import { Block } from "../../../utils/Block/Block";
-import styles from './errorFormBlock.module.scss'
+import { Block } from "../../utils/Block/Block";
+import styles from "./errorFormBlock.module.scss";
 
 type TProps = {
-    text: string
-}
+  text: string;
+};
 
 export class ErrorFormBlock extends Block {
-    constructor(props: TProps) {
-        super({
-            styles: styles,
-            text: props.text
-        })
-    }
+  constructor(props: TProps) {
+    super({
+      styles: styles,
+      text: props.text,
+    });
+  }
 
-    render() {
-        return `
+  render() {
+    return `
         <p class="{{styles.textError}}">{{text}}</p>
-        `
-    }
+        `;
+  }
 }
 
 function errorFormBlock(props: TProps) {
-    return new ErrorFormBlock(props)
+  return new ErrorFormBlock(props);
 }
 
-export default errorFormBlock
+export default errorFormBlock;

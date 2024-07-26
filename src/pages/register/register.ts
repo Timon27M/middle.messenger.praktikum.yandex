@@ -1,21 +1,22 @@
 import styles from "./register.module.scss";
 import Button from "../../components/button/button";
-import { Block } from "../../../utils/Block/Block.ts";
+import { Block } from "../../utils/Block/Block.ts";
 import InputBlock from "../../components/inputBlock/inputBlock.ts";
-import { handleValidateInput, submitForm } from "../../../utils/functions.ts";
+import { handleValidateInput, submitForm } from "../../utils/functions.ts";
 import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock.ts";
 class Register extends Block {
   constructor() {
     super({
       styles: styles,
       errorFormBlock: ErrorFormBlock({
-        text: ''
+        text: "",
       }),
       button: Button({
         text: "Регистрация",
         nameButton: "send_register",
         events: {
-          click: (e) => submitForm(e, this.children, this.children.errorFormBlock),
+          click: (e) =>
+            submitForm(e, this.children, this.children.errorFormBlock),
         },
       }),
       emailInputBlock: InputBlock({
