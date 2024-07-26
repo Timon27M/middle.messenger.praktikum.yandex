@@ -26,7 +26,6 @@ export class Input extends Block {
           `${this.props.id}`
         ) as HTMLInputElement;
         const value = element.value;
-        console.log(value)
     return value;
   }
 
