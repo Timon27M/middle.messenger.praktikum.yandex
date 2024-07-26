@@ -132,7 +132,7 @@ class Register extends Block {
         events: {
           blur: () =>
             handleValidateInput(
-              // this.children.passwordInputAgainBlock.children.errorBlock,
+              this.children.passwordInputAgainBlock.children.errorBlock,
               this.children.passwordInputAgainBlock.children.input,
               "Пароли не совпадают"
             ),
