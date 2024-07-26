@@ -21,6 +21,7 @@
     "no-console": "off",
     "@typescript-eslint/no-this-alias": "off",
     "linebreak-style": ["error", "windows"],
+    "eol-last": ["error", "always"],
     "quotes": [
        "error",
        "double"
