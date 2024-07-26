@@ -180,8 +180,6 @@ class Profile extends Block {
       this.children.errorFormBlock
     );
 
-    console.log(isValid);
-
     if (isValid) {
       this.children.emailInputBlock.children.input.setProps({
         disabled: true,
@@ -207,8 +205,7 @@ class Profile extends Block {
         disabled: true,
         class: styles.input,
       });
-
-      console.log(this.children.buttonsForm);
+      
       this.children.buttonsForm.setProps({ type: "changeBlockButton" });
     }
   }

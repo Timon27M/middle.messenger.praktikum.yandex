@@ -87,7 +87,6 @@ export function handleValidateInput(
   text: string
 ) {
   const isValid = validate(input.getValue(), input.props.name);
-  console.log(isValid)
   if (!isValid) {
     console.log(errorBlock)
     errorBlock.setProps({ errorText: text });
