@@ -20,8 +20,8 @@
     "@typescript-eslint/no-explicit-any": "off",
     "no-console": "off",
     "@typescript-eslint/no-this-alias": "off",
-    "linebreak-style": ["error", "windows"],
     "eol-last": ["error", "always"],
+    "linebreak-style": ["error", "unix"],
     "quotes": [
        "error",
        "double"
