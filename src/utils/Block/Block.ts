@@ -99,7 +99,7 @@ export abstract class Block {
       return;
     }
 
-    Object.assign(this.props, newProps);
+    Object.assign(this.props, newProps); 
   }
 
   get element() {
