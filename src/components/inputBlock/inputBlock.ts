@@ -1,4 +1,4 @@
-import { Block } from "../../utils/Block/Block";
+import Block from "../../utils/Block/Block";
 import ErrorBlock from "../errorBlock/errorBlock";
 import Input from "../input/input";
 import styles from "./inputBlock.module.scss";
@@ -21,11 +21,12 @@ type TProps = {
 
 export class InputBlock extends Block {
   public name: string;
+
   public id: string;
 
   constructor(props: TProps) {
     super({
-      styles: styles,
+      styles,
       input: Input({
         class: props.classInput,
         type: props.type,
@@ -47,9 +48,9 @@ export class InputBlock extends Block {
 
   getValue() {
     const element = document.getElementById(
-      `${this.props.id}`
+      `${this.props.id}`,
     ) as HTMLInputElement;
-    const value = element.value;
+    const { value } = element;
     console.log(value);
     return value;
   }
@@ -66,9 +67,9 @@ export class InputBlock extends Block {
 
 function inputBlock(props: TProps) {
   return new InputBlock(
-    (props = {
+    ({
       ...props,
-    })
+    }),
   );
 }
 

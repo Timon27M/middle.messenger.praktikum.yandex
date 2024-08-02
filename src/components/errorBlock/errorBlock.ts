@@ -1,4 +1,4 @@
-import { Block } from "../../utils/Block/Block";
+import Block from "../../utils/Block/Block";
 
 type TProps = {
   class: string;

@@ -1,10 +1,10 @@
-import { EventBus } from "./../EventBus/EventBus";
 import { nanoid } from "nanoid";
 import Handlebars from "handlebars";
+import EventBus from "../EventBus/EventBus";
 
 type TBlockProps = Record<string, any>;
 
-export abstract class Block {
+export default abstract class Block {
   static EVENTS = {
     INIT: "init",
     FLOW_CDM: "flow:component-did-mount",
@@ -15,10 +15,13 @@ export abstract class Block {
   private _element: HTMLElement | null = null;
 
   public props: TBlockProps;
+
   public id = nanoid();
 
   protected eventBus: () => EventBus;
+
   public children: Record<string, any>;
+
   protected abstract render(): string;
 
   constructor(propsAndChildren: Record<string, any> = {}) {
@@ -48,7 +51,6 @@ export abstract class Block {
         props[key] = value;
       }
     });
-
     return { children, props };
   }
 
@@ -99,7 +101,7 @@ export abstract class Block {
       return;
     }
 
-    Object.assign(this.props, newProps); 
+    Object.assign(this.props, newProps);
   }
 
   get element() {

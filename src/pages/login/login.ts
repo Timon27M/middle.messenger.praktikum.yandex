@@ -1,13 +1,14 @@
 import styles from "./login.module.scss";
 import Button from "../../components/button/button";
-import { Block } from "../../utils/Block/Block";
+import Block from "../../utils/Block/Block";
 import InputBlock from "../../components/inputBlock/inputBlock";
 import { handleValidateInput, submitForm } from "../../utils/functions";
 import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
+
 class Login extends Block {
   constructor() {
     super({
-      styles: styles,
+      styles,
       errorFormBlock: ErrorFormBlock({
         text: "",
       }),
@@ -30,12 +31,11 @@ class Login extends Block {
         value: "ivaninvanov",
         id: "login",
         events: {
-          blur: () =>
-            handleValidateInput(
-              this.children.loginInputBlock.children.errorBlock,
-              this.children.loginInputBlock.children.input,
-              "Некорректный логин"
-            ),
+          blur: () => handleValidateInput(
+            this.children.loginInputBlock.children.errorBlock,
+            this.children.loginInputBlock.children.input,
+            "Некорректный логин",
+          ),
         },
       }),
       passwordInputBlock: InputBlock({
@@ -47,12 +47,11 @@ class Login extends Block {
         id: "password",
         errorText: "",
         events: {
-          blur: () =>
-            handleValidateInput(
-              this.children.passwordInputBlock.children.errorBlock,
-              this.children.passwordInputBlock.children.input,
-              "Некорректный пароль"
-            ),
+          blur: () => handleValidateInput(
+            this.children.passwordInputBlock.children.errorBlock,
+            this.children.passwordInputBlock.children.input,
+            "Некорректный пароль",
+          ),
         },
       }),
     });

@@ -1,10 +1,11 @@
 import styles from "./buttonBack.module.scss";
 import { Block } from "../../utils/Block/Block";
+
 class ButtonBack extends Block {
   constructor(props?: Record<string, any>) {
     super({
       ...props,
-      styles: styles,
+      styles,
     });
   }
 

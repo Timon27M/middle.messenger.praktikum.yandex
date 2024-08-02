@@ -1,14 +1,16 @@
 import styles from "./chats.module.scss";
-import { chatListData } from "../../utils/constants.ts";
+import { chatListData } from "../../utils/constants";
 import { createChatList } from "../../utils/functions";
-import { Block } from "../../utils/Block/Block.ts";
+import Block from "../../utils/Block/Block";
+
 class Chats extends Block {
   constructor() {
     super({
-      styles: styles,
+      styles,
       chats: createChatList(chatListData, styles),
     });
   }
+
   render() {
     return `
 <section class="{{styles.chats}}">

@@ -1,4 +1,4 @@
-import { Block } from "../../utils/Block/Block";
+import Block from "../../utils/Block/Block";
 
 type TProps = {
   class: string;
@@ -16,16 +16,17 @@ type TProps = {
 
 export class Input extends Block {
   public name: string;
+
   constructor(props: TProps) {
     super(props);
     this.name = props.name;
   }
 
   getValue() {
-      const element = document.getElementById(
-          `${this.props.id}`
-        ) as HTMLInputElement;
-        const value = element.value;
+    const element = document.getElementById(
+      `${this.props.id}`,
+    ) as HTMLInputElement;
+    const { value } = element;
     return value;
   }
 
@@ -34,8 +35,8 @@ export class Input extends Block {
 
     return `
         <input type="{{type}}" id="{{id}}" ${
-          disabled === true ? "disabled" : "!disabled"
-        } class="{{class}}" placeholder="{{placeholder}}" name="{{name}}" value="{{value}}" />
+  disabled === true ? "disabled" : "!disabled"
+} class="{{class}}" placeholder="{{placeholder}}" name="{{name}}" value="{{value}}" />
         `;
   }
 }

@@ -24,15 +24,15 @@ class Button extends Block {
 
     return `
         <button name={{nameButton}} class="${
-          type === "button" ? "{{styles.button}}" : "{{styles.buttonLink}}"
-        }">{{text}}</button>
+  type === "button" ? "{{styles.button}}" : "{{styles.buttonLink}}"
+}">{{text}}</button>
 `;
   }
 }
 
 function button(props: TButton) {
   return new Button({
-    styles: styles,
+    styles,
     ...props,
   });
 }

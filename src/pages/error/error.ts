@@ -1,4 +1,4 @@
-import { Block } from "../../utils/Block/Block";
+import Block from "../../utils/Block/Block";
 import styles from "./error.module.scss";
 
 type TErrorProps = {
@@ -9,7 +9,7 @@ type TErrorProps = {
 class Error extends Block {
   constructor(props: TErrorProps) {
     super({
-      styles: styles,
+      styles,
       status: props.status,
       text: props.textError,
     });

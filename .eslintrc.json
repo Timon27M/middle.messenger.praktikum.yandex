@@ -8,7 +8,8 @@
   "extends": [
       "airbnb",
       "eslint:recommended",
-      "plugin:@typescript-eslint/recommended"
+      "plugin:@typescript-eslint/recommended",
+      "plugin:import/typescript"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": { 
@@ -26,6 +27,25 @@
     "quotes": [
        "error",
        "double"
-     ]
+     ],
+     "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+   ],
+   "import/no-named-as-default": 0,
+   "no-underscore-dangle":  "off",
+   "no-useless-constructor": 0,
+   "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+   "class-methods-use-this": "off",
+   "no-param-reassign": ["error", { "props": false }],
+   "no-shadow": "off",
+   "@typescript-eslint/no-shadow": ["error"],
+   "func-names": ["off", "always"]
     }
   }

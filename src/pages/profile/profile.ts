@@ -2,16 +2,17 @@ import styles from "./profile.module.scss";
 import ButtonBack from "../../components/buttonBack/buttonBack";
 import Button from "../../components/button/button";
 import avatar from "../../utils/images/avatar.png";
-import { Block } from "../..//utils/Block/Block";
+import Block from "../../utils/Block/Block";
 import InputBlock from "../../components/inputBlock/inputBlock";
 import { handleValidateInput, submitForm } from "../../utils/functions";
 import ButtonsProfile from "../../components/buttonsProfile/buttonsProfile";
 import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
+
 class Profile extends Block {
   constructor() {
     super({
-      styles: styles,
-      avatar: avatar,
+      styles,
+      avatar,
       errorFormBlock: ErrorFormBlock({
         text: "",
       }),
@@ -40,12 +41,11 @@ class Profile extends Block {
         disabled: true,
         id: "email",
         events: {
-          blur: () =>
-            handleValidateInput(
-              this.children.emailInputBlock.children.errorBlock,
-              this.children.emailInputBlock.children.input,
-              "Некорректный email"
-            ),
+          blur: () => handleValidateInput(
+            this.children.emailInputBlock.children.errorBlock,
+            this.children.emailInputBlock.children.input,
+            "Некорректный email",
+          ),
         },
       }),
       loginInputBlock: InputBlock({
@@ -58,12 +58,11 @@ class Profile extends Block {
         disabled: true,
         id: "login",
         events: {
-          blur: () =>
-            handleValidateInput(
-              this.children.loginInputBlock.children.errorBlock,
-              this.children.loginInputBlock.children.input,
-              "Некорректный логин"
-            ),
+          blur: () => handleValidateInput(
+            this.children.loginInputBlock.children.errorBlock,
+            this.children.loginInputBlock.children.input,
+            "Некорректный логин",
+          ),
         },
       }),
       nameInputBlock: InputBlock({
@@ -76,12 +75,11 @@ class Profile extends Block {
         disabled: true,
         id: "first_name",
         events: {
-          blur: () =>
-            handleValidateInput(
-              this.children.nameInputBlock.children.errorBlock,
-              this.children.nameInputBlock.children.input,
-              "Некорректное имя"
-            ),
+          blur: () => handleValidateInput(
+            this.children.nameInputBlock.children.errorBlock,
+            this.children.nameInputBlock.children.input,
+            "Некорректное имя",
+          ),
         },
       }),
       surnameInputBlock: InputBlock({
@@ -94,12 +92,11 @@ class Profile extends Block {
         disabled: true,
         id: "second_name",
         events: {
-          blur: () =>
-            handleValidateInput(
-              this.children.surnameInputBlock.children.errorBlock,
-              this.children.surnameInputBlock.children.input,
-              "Некорректная фамилия"
-            ),
+          blur: () => handleValidateInput(
+            this.children.surnameInputBlock.children.errorBlock,
+            this.children.surnameInputBlock.children.input,
+            "Некорректная фамилия",
+          ),
         },
       }),
       nameInChatInputBlock: InputBlock({
@@ -112,12 +109,11 @@ class Profile extends Block {
         disabled: true,
         id: "display_name",
         events: {
-          blur: () =>
-            handleValidateInput(
-              this.children.nameInChatInputBlock.children.errorBlock,
-              this.children.nameInChatInputBlock.children.input,
-              "Некорректное имя"
-            ),
+          blur: () => handleValidateInput(
+            this.children.nameInChatInputBlock.children.errorBlock,
+            this.children.nameInChatInputBlock.children.input,
+            "Некорректное имя",
+          ),
         },
       }),
       telInputBlock: InputBlock({
@@ -130,12 +126,11 @@ class Profile extends Block {
         disabled: true,
         id: "phone",
         events: {
-          blur: () =>
-            handleValidateInput(
-              this.children.telInputBlock.children.errorBlock,
-              this.children.telInputBlock.children.input,
-              "Некорректный номер телефона"
-            ),
+          blur: () => handleValidateInput(
+            this.children.telInputBlock.children.errorBlock,
+            this.children.telInputBlock.children.input,
+            "Некорректный номер телефона",
+          ),
         },
       }),
     });
@@ -177,7 +172,7 @@ class Profile extends Block {
     const { isValid } = submitForm(
       evt,
       this.children,
-      this.children.errorFormBlock
+      this.children.errorFormBlock,
     );
 
     if (isValid) {
@@ -205,7 +200,7 @@ class Profile extends Block {
         disabled: true,
         class: styles.input,
       });
-      
+
       this.children.buttonsForm.setProps({ type: "changeBlockButton" });
     }
   }

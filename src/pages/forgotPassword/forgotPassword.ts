@@ -3,16 +3,17 @@ import Button from "../../components/button/button";
 import ButtonBack from "../../components/buttonBack/buttonBack";
 import avatar from "../../utils/images/avatar.png";
 
-import { Block } from "../../utils/Block/Block";
+import Block from "../../utils/Block/Block";
 import InputBlock from "../../components/inputBlock/inputBlock";
 import { handleValidateInput, submitForm } from "../../utils/functions";
 import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
+
 class ForgotPassword extends Block {
   constructor(props?: Record<string, any>) {
     super({
       ...props,
-      styles: styles,
-      avatar: avatar,
+      styles,
+      avatar,
       errorFormBlock: ErrorFormBlock({
         text: "",
       }),
@@ -20,8 +21,7 @@ class ForgotPassword extends Block {
         text: "Сохранить",
         nameButton: "send_forgot-password",
         events: {
-          click: (evt: Event) =>
-            submitForm(evt, this.children, this.children.errorFormBlock),
+          click: (evt: Event) => submitForm(evt, this.children, this.children.errorFormBlock),
         },
       }),
       buttonBack: ButtonBack(),
@@ -34,12 +34,11 @@ class ForgotPassword extends Block {
         value: "ivaninvanoV9",
         id: "oldPassword",
         events: {
-          blur: () =>
-            handleValidateInput(
-              this.children.oldPasswordInputBlock.children.errorBlock,
-              this.children.oldPasswordInputBlock.children.input,
-              "Некорректный пароль"
-            ),
+          blur: () => handleValidateInput(
+            this.children.oldPasswordInputBlock.children.errorBlock,
+            this.children.oldPasswordInputBlock.children.input,
+            "Некорректный пароль",
+          ),
         },
       }),
       newPasswordInputBlock: InputBlock({
@@ -51,12 +50,11 @@ class ForgotPassword extends Block {
         value: "ivaninvanoV9",
         id: "newPassword",
         events: {
-          blur: () =>
-            handleValidateInput(
-              this.children.newPasswordInputBlock.children.errorBlock,
-              this.children.newPasswordInputBlock.children.input,
-              "Некорректный пароль"
-            ),
+          blur: () => handleValidateInput(
+            this.children.newPasswordInputBlock.children.errorBlock,
+            this.children.newPasswordInputBlock.children.input,
+            "Некорректный пароль",
+          ),
         },
       }),
       newPasswordAgainInputBlock: InputBlock({
@@ -68,12 +66,11 @@ class ForgotPassword extends Block {
         value: "ivaninvanoV9",
         id: "newPasswordAgain",
         events: {
-          blur: () =>
-            handleValidateInput(
-              this.children.newPasswordAgainInputBlock.children.errorBlock,
-              this.children.newPasswordAgainInputBlock.children.input,
-              "Пароль не совпадает"
-            ),
+          blur: () => handleValidateInput(
+            this.children.newPasswordAgainInputBlock.children.errorBlock,
+            this.children.newPasswordAgainInputBlock.children.input,
+            "Пароль не совпадает",
+          ),
         },
       }),
     });

@@ -1,13 +1,14 @@
 import styles from "./register.module.scss";
 import Button from "../../components/button/button";
-import { Block } from "../../utils/Block/Block.ts";
-import InputBlock from "../../components/inputBlock/inputBlock.ts";
-import { handleValidateInput, submitForm } from "../../utils/functions.ts";
-import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock.ts";
+import Block from "../../utils/Block/Block";
+import InputBlock from "../../components/inputBlock/inputBlock";
+import { handleValidateInput, submitForm } from "../../utils/functions";
+import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
+
 class Register extends Block {
   constructor() {
     super({
-      styles: styles,
+      styles,
       errorFormBlock: ErrorFormBlock({
         text: "",
       }),
@@ -15,8 +16,7 @@ class Register extends Block {
         text: "Регистрация",
         nameButton: "send_register",
         events: {
-          click: (e) =>
-            submitForm(e, this.children, this.children.errorFormBlock),
+          click: (e) => submitForm(e, this.children, this.children.errorFormBlock),
         },
       }),
       emailInputBlock: InputBlock({
@@ -28,12 +28,11 @@ class Register extends Block {
         value: "pochta@yandex.ru",
         id: "email",
         events: {
-          blur: () =>
-            handleValidateInput(
-              this.children.emailInputBlock.children.errorBlock,
-              this.children.emailInputBlock.children.input,
-              "Некорректный email"
-            ),
+          blur: () => handleValidateInput(
+            this.children.emailInputBlock.children.errorBlock,
+            this.children.emailInputBlock.children.input,
+            "Некорректный email",
+          ),
         },
       }),
       loginInputBlock: InputBlock({
@@ -45,12 +44,11 @@ class Register extends Block {
         value: "ivaninvanov",
         id: "login",
         events: {
-          blur: () =>
-            handleValidateInput(
-              this.children.loginInputBlock.children.errorBlock,
-              this.children.loginInputBlock.children.input,
-              "Некорректный логин"
-            ),
+          blur: () => handleValidateInput(
+            this.children.loginInputBlock.children.errorBlock,
+            this.children.loginInputBlock.children.input,
+            "Некорректный логин",
+          ),
         },
       }),
       nameInputBlock: InputBlock({
@@ -62,12 +60,11 @@ class Register extends Block {
         value: "Иван",
         id: "first_name",
         events: {
-          blur: () =>
-            handleValidateInput(
-              this.children.nameInputBlock.children.errorBlock,
-              this.children.nameInputBlock.children.input,
-              "Некорректное имя"
-            ),
+          blur: () => handleValidateInput(
+            this.children.nameInputBlock.children.errorBlock,
+            this.children.nameInputBlock.children.input,
+            "Некорректное имя",
+          ),
         },
       }),
       surnameInputBlock: InputBlock({
@@ -79,12 +76,11 @@ class Register extends Block {
         value: "Иванов",
         id: "second_name",
         events: {
-          blur: () =>
-            handleValidateInput(
-              this.children.surnameInputBlock.children.errorBlock,
-              this.children.surnameInputBlock.children.input,
-              "Некорректная фамилия"
-            ),
+          blur: () => handleValidateInput(
+            this.children.surnameInputBlock.children.errorBlock,
+            this.children.surnameInputBlock.children.input,
+            "Некорректная фамилия",
+          ),
         },
       }),
       telInputBlock: InputBlock({
@@ -96,12 +92,11 @@ class Register extends Block {
         value: "+79099673030",
         id: "phone",
         events: {
-          blur: () =>
-            handleValidateInput(
-              this.children.telInputBlock.children.errorBlock,
-              this.children.telInputBlock.children.input,
-              "Некорректный номер телефона"
-            ),
+          blur: () => handleValidateInput(
+            this.children.telInputBlock.children.errorBlock,
+            this.children.telInputBlock.children.input,
+            "Некорректный номер телефона",
+          ),
         },
       }),
       passwordInputBlock: InputBlock({
@@ -113,12 +108,11 @@ class Register extends Block {
         value: "ivaninvanoV9",
         id: "password",
         events: {
-          blur: () =>
-            handleValidateInput(
-              this.children.passwordInputBlock.children.errorBlock,
-              this.children.passwordInputBlock.children.input,
-              "Некорректный пароль"
-            ),
+          blur: () => handleValidateInput(
+            this.children.passwordInputBlock.children.errorBlock,
+            this.children.passwordInputBlock.children.input,
+            "Некорректный пароль",
+          ),
         },
       }),
       passwordInputAgainBlock: InputBlock({
@@ -130,12 +124,11 @@ class Register extends Block {
         value: "ivaninvanoV9",
         id: "passwordAgain",
         events: {
-          blur: () =>
-            handleValidateInput(
-              this.children.passwordInputAgainBlock.children.errorBlock,
-              this.children.passwordInputAgainBlock.children.input,
-              "Пароли не совпадают"
-            ),
+          blur: () => handleValidateInput(
+            this.children.passwordInputAgainBlock.children.errorBlock,
+            this.children.passwordInputAgainBlock.children.input,
+            "Пароли не совпадают",
+          ),
         },
       }),
     });

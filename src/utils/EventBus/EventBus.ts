@@ -4,7 +4,7 @@ type TListenersObject = {
   [event: string]: Array<TCallback>;
 };
 
-export class EventBus {
+export default class EventBus {
   private listeners: TListenersObject;
 
   constructor() {
@@ -24,9 +24,7 @@ export class EventBus {
       throw new Error(`Нет события: ${event}`);
     }
 
-    this.listeners[event].filter((listener) => {
-      return listener !== callback;
-    });
+    this.listeners[event].filter((listener) => listener !== callback);
   }
 
   emit(event: string, ...args: unknown[]) {

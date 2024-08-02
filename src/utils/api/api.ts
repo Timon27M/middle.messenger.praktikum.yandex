@@ -19,40 +19,41 @@ function queryStringify(data: any) {
   }
 
   const keys = Object.keys(data);
-  return keys.reduce((result, key, index) => {
-    return `${result}${key}=${data[key]}${index < keys.length - 1 ? "&" : ""}`;
-  }, "?");
+  return keys.reduce((result, key, index) => `${result}${key}=${data[key]}${index < keys.length - 1 ? "&" : ""}`, "?");
 }
 
-export class HTTPTransport {
+export default class HTTPTransport {
   get(
     url: string,
-    options: OptionsWithoutMethod = {}
+    options: OptionsWithoutMethod = {},
   ): Promise<XMLHttpRequest> {
     return this.request(url, { ...options, method: METHODS.GET });
   }
+
   post(
     url: string,
-    options: OptionsWithoutMethod = {}
+    options: OptionsWithoutMethod = {},
   ): Promise<XMLHttpRequest> {
     return this.request(url, { ...options, method: METHODS.POST });
   }
+
   put(
     url: string,
-    options: OptionsWithoutMethod = {}
+    options: OptionsWithoutMethod = {},
   ): Promise<XMLHttpRequest> {
     return this.request(url, { ...options, method: METHODS.PUT });
   }
+
   delete(
     url: string,
-    options: OptionsWithoutMethod = {}
+    options: OptionsWithoutMethod = {},
   ): Promise<XMLHttpRequest> {
     return this.request(url, { ...options, method: METHODS.DELETE });
   }
 
   request(
     url: string,
-    options: Options = { method: METHODS.GET }
+    options: Options = { method: METHODS.GET },
   ): Promise<XMLHttpRequest> {
     const { headers = {}, method, data } = options;
 

@@ -2,23 +2,24 @@ import styles from "./chat.module.scss";
 import avatar from "../../utils/images/avatar.png";
 import buttonSettingImage from "../../utils/images/buttonSettings.jpg";
 import buttonDocumentImage from "../../utils/images/buttonDocument.jpg";
-import { Block } from "../../utils/Block/Block";
+import Block from "../../utils/Block/Block";
 import input from "../input/input";
 import ErrorBlock from "../errorBlock/errorBlock";
 import { handleValidateInput } from "../../utils/functions";
+
 class Chat extends Block {
   constructor() {
     super({
-      styles: styles,
+      styles,
       data: {
         image:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlte8jVger7Istf0ctZT7Fxyn_GfHfWDg5-w&s",
         firstName: "Андрей",
         time: "12:48",
       },
-      avatar: avatar,
-      buttonSettingImage: buttonSettingImage,
-      buttonDocumentImage: buttonDocumentImage,
+      avatar,
+      buttonSettingImage,
+      buttonDocumentImage,
       messageInput: input({
         class: styles.input,
         type: "text",
@@ -26,12 +27,11 @@ class Chat extends Block {
         placeholder: "Сообщение",
         id: "message",
         events: {
-          blur: () =>
-            handleValidateInput(
-              this.children.errorBlock,
-              this.children.messageInput,
-              "Поле не может быть пустым"
-            ),
+          blur: () => handleValidateInput(
+            this.children.errorBlock,
+            this.children.messageInput,
+            "Поле не может быть пустым",
+          ),
         },
       }),
       errorBlock: ErrorBlock({

@@ -11,7 +11,7 @@ type TProps = {
 class ButtonsBlockProfile extends Block {
   constructor(props: TProps) {
     super({
-      styles: styles,
+      styles,
       buttonChangeData: Button({
         type: "link",
         styleType: "link",

@@ -1,4 +1,4 @@
-import { Block } from "../../utils/Block/Block";
+import Block from "../../utils/Block/Block";
 import styles from "./errorFormBlock.module.scss";
 
 type TProps = {
@@ -8,7 +8,7 @@ type TProps = {
 export class ErrorFormBlock extends Block {
   constructor(props: TProps) {
     super({
-      styles: styles,
+      styles,
       text: props.text,
     });
   }

@@ -1,9 +1,10 @@
-import { Block } from "../../utils/Block/Block";
+import Block from "../../utils/Block/Block";
 import styles from "./defaultChat.module.scss";
+
 class DefaultChat extends Block {
   constructor() {
     super({
-      styles: styles,
+      styles,
     });
   }
 
