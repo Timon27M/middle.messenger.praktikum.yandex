@@ -1,0 +1,51 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "root": true,
+  "extends": [
+      "airbnb",
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:import/typescript"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": { 
+    "project": ["./tsconfig.json"]
+  },
+  "plugins": [
+      "@typescript-eslint"
+  ],
+  "rules": {
+    "@typescript-eslint/no-explicit-any": "off",
+    "no-console": "off",
+    "@typescript-eslint/no-this-alias": "off",
+    "eol-last": ["error", "always"],
+    "linebreak-style": ["error", "unix"],
+    "quotes": [
+       "error",
+       "double"
+     ],
+     "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+   ],
+   "import/no-named-as-default": 0,
+   "no-underscore-dangle":  "off",
+   "no-useless-constructor": 0,
+   "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+   "class-methods-use-this": "off",
+   "no-param-reassign": ["error", { "props": false }],
+   "no-shadow": "off",
+   "@typescript-eslint/no-shadow": ["error"],
+   "func-names": ["off", "always"]
+    }
+  }

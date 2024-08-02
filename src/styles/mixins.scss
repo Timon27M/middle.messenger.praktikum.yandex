@@ -16,3 +16,12 @@
     outline: none;
   }
 }
+
+@mixin text-error-styles() {
+  font-weight: 400;
+  font-size: 8px;
+  width: 180px;
+  max-height: 19px;
+  overflow: hidden;
+  color: $color-light-red;
+}

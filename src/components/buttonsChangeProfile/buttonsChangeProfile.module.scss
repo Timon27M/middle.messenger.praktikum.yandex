@@ -1,0 +1,33 @@
+@import '../../styles/constants.scss';
+
+.buttons {
+    width: 510px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .button {
+    background-color: rgba($color: $color-black, $alpha: 0);
+    border: none;
+    font-weight: 500;
+    font-size: 13px;
+    width: fit-content;
+    padding: 0;
+    text-decoration: none;
+  
+    &:not(:first-child) {
+      margin-top: 10px;
+    }
+  
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+  
+  .buttonBlue {
+    color: $color-blue;
+  }
+  
+  .buttonRed {
+    color: $color-red;
+  }

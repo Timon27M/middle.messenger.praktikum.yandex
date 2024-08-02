@@ -1,15 +1,34 @@
-import Handlebars from "handlebars";
-import template from "./main.tmpl.ts";
 import styles from "./main.module.scss";
-import Chats from "../../components/chats/chats.ts";
+import Chats from "../../components/chats/chats";
+import Block from "../../utils/Block/Block";
+import DefaultChat from "../../components/defaultChat/defaultChat";
+import Chat from "../../components/chat/chat";
 
-const Main = (chatComponent: () => string) => {
+class Main extends Block {
+  constructor(chatComponent: typeof DefaultChat | typeof Chat) {
+    super({
+      styles,
+      allChats: Chats(),
+      activeChat: chatComponent(),
+    });
+  }
 
-  return Handlebars.compile(template)({
-   styles: styles,
-   allChats: Chats(),
-   activeChat: chatComponent(),
- });
-};
+  render() {
+    return `
+  <main class={{styles.main}}>
+    <div class="{{styles.chats}}">
+        {{{allChats}}}
+    </div>
+     <div class={{styles.activeChat}}>
+        {{{activeChat}}}
+    </div>
+  </main>
+    `;
+  }
+}
 
-export default Main;
+function main(chatComponent: typeof DefaultChat | typeof Chat) {
+  return new Main(chatComponent);
+}
+
+export default main;

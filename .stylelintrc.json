@@ -1,0 +1,18 @@
+{
+    "rules": {
+  },
+    "ignoreFiles": [
+      "build/*",
+      "dist",
+      "node_modules",
+      "**/*.ts",
+      "**/*.js",
+      "**/*.png",
+      "**/*.jpg",
+      "**/*.html",
+      "**/*.svg",
+      "**/*.json",
+      "**/*.md",
+      "**/*.toml"
+    ]
+  } 

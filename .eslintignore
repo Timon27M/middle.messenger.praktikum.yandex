@@ -1,0 +1,7 @@
+/node_modules
+/dist
+/build
+/vite.config.js
+/postcss.config.js
+/src/vite-env.d.ts
+*.config.js

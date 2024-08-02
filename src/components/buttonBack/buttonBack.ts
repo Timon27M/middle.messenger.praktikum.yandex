@@ -1,11 +1,25 @@
-import Handlebars from "handlebars";
-import styles from './buttonBack.module.scss';
-import template from './buttonBack.tmpl';
+import styles from "./buttonBack.module.scss";
+import Block from "../../utils/Block/Block";
 
-const ButtonBack = () => {
-    return Handlebars.compile(template)({
-        styles: styles
-    })
+class ButtonBack extends Block {
+  constructor(props?: Record<string, any>) {
+    super({
+      ...props,
+      styles,
+    });
+  }
+
+  render() {
+    return `
+    <div class="{{styles.backBlock}}">
+        <button class="{{styles.backButton}}"><</button>
+    </div>
+        `;
+  }
 }
 
-export default ButtonBack;
+function buttonBack(props?: Record<string, any>) {
+  return new ButtonBack(props);
+}
+
+export default buttonBack;

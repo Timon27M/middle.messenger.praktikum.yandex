@@ -1,4 +1,5 @@
-@import '../../../styles/constants.scss'; 
+@import "../../styles/constants.scss";
+@import "../../styles/mixins.scss";
 
 .chat {
   width: 100%;
@@ -44,7 +45,7 @@
 
 .messageOwner {
   max-width: 410px;
-  
+
   padding: 15px;
   margin-left: auto;
   margin-bottom: 10px;
@@ -69,8 +70,8 @@
 }
 
 .inputBlock {
-    position: absolute;
-    bottom: 0;
+  position: absolute;
+  bottom: 0;
   padding: 11px 20px 11px 31px;
   display: flex;
   align-items: center;
@@ -90,6 +91,23 @@
 .input {
   width: 100%;
   max-width: 1149px;
+  border: none;
+  background-color: rgba($color: #000000, $alpha: 0);
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.inputContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px 20px;
+  margin-left: 10px;
+  margin-right: 20px;
+  width: 100%;
+  max-width: 1149px;
   background-color: $colot-white-gray;
   border-radius: 30px;
   padding: 10px 20px;
@@ -98,10 +116,29 @@
 }
 
 .buttonSend {
-  border: none;
   border-radius: 50%;
   width: 28px;
   height: 28px;
+  background-color: $color-gray;
+  color: $color-black;
+  font-weight: 600;
+  margin-left: auto;
+
+  &:hover {
+    opacity: 0.6;
+  }
+}
+
+.textError {
+  @include text-error-styles;
+  text-align: right;
+}
+
+.buttonSendActive {
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
   background-color: $color-blue;
   color: $color-white;
   font-weight: 600;
