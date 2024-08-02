@@ -1,4 +1,4 @@
-import { Block } from "../../utils/Block/Block";
+import Block from "../../utils/Block/Block";
 import Button from "../button/button";
 import ButtonsBlockProfile from "../buttonsChangeProfile/buttonsChangeProfile";
 

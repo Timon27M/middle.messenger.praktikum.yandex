@@ -1,4 +1,4 @@
-import { Block } from "../../utils/Block/Block";
+import Block from "../../utils/Block/Block";
 import styles from "./button.module.scss";
 
 type TButton = {
