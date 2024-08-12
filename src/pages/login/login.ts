@@ -5,7 +5,7 @@ import InputBlock from "../../components/inputBlock/inputBlock";
 import { handleValidateInput, submitForm } from "../../utils/functions";
 import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
 
-class Login extends Block {
+export class Login extends Block {
   constructor() {
     super({
       styles,
@@ -86,5 +86,11 @@ class Login extends Block {
 function login() {
   return new Login();
 }
+
+function func(block: typeof Block) {
+  return block;
+}
+
+func(Login);
 
 export default login;

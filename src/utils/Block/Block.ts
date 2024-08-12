@@ -4,7 +4,7 @@ import EventBus from "../EventBus/EventBus";
 
 type TBlockProps = Record<string, any>;
 
-export default abstract class Block {
+export default class Block {
   static EVENTS = {
     INIT: "init",
     FLOW_CDM: "flow:component-did-mount",
@@ -22,7 +22,7 @@ export default abstract class Block {
 
   public children: Record<string, any>;
 
-  protected abstract render(): string;
+  protected render() {}
 
   constructor(propsAndChildren: Record<string, any> = {}) {
     const eventBus = new EventBus();
@@ -184,7 +184,7 @@ export default abstract class Block {
     return propsAndStubs;
   }
 
-  compile(template: string, props: any): DocumentFragment {
+  compile(template: any, props: any): DocumentFragment {
     const htmlElement = Handlebars.compile(template)(props);
 
     const fragment = this._createDocumentElement();

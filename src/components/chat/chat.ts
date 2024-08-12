@@ -7,7 +7,7 @@ import input from "../input/input";
 import ErrorBlock from "../errorBlock/errorBlock";
 import { handleValidateInput } from "../../utils/functions";
 
-class Chat extends Block {
+export class Chat extends Block {
   constructor() {
     super({
       styles,

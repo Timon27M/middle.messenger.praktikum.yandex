@@ -8,7 +8,7 @@ import InputBlock from "../../components/inputBlock/inputBlock";
 import { handleValidateInput, submitForm } from "../../utils/functions";
 import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
 
-class ForgotPassword extends Block {
+export class ForgotPassword extends Block {
   constructor() {
     super({
       styles,

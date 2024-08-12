@@ -4,12 +4,12 @@ import Block from "../../utils/Block/Block";
 import DefaultChat from "../../components/defaultChat/defaultChat";
 import Chat from "../../components/chat/chat";
 
-class Main extends Block {
-  constructor(chatComponent: typeof DefaultChat | typeof Chat) {
+export class Main extends Block {
+  constructor(chatComponent?: typeof DefaultChat | typeof Chat) {
     super({
       styles,
       allChats: Chats(),
-      activeChat: chatComponent(),
+      activeChat: chatComponent === undefined ? DefaultChat() : chatComponent(),
     });
   }
 

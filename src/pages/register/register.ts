@@ -5,7 +5,7 @@ import InputBlock from "../../components/inputBlock/inputBlock";
 import { handleValidateInput, submitForm } from "../../utils/functions";
 import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
 
-class Register extends Block {
+export class Register extends Block {
   constructor() {
     super({
       styles,

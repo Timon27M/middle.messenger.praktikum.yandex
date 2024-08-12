@@ -1,7 +1,7 @@
 import Block from "../../utils/Block/Block";
 import styles from "./defaultChat.module.scss";
 
-class DefaultChat extends Block {
+export class DefaultChat extends Block {
   constructor() {
     super({
       styles,
