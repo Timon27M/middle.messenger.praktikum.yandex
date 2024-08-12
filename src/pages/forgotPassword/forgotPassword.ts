@@ -9,9 +9,8 @@ import { handleValidateInput, submitForm } from "../../utils/functions";
 import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
 
 class ForgotPassword extends Block {
-  constructor(props?: Record<string, any>) {
+  constructor() {
     super({
-      ...props,
       styles,
       avatar,
       errorFormBlock: ErrorFormBlock({
@@ -108,8 +107,8 @@ class ForgotPassword extends Block {
   }
 }
 
-function forgotPassword(props?: Record<string, any>) {
-  return new ForgotPassword(props);
+function forgotPassword() {
+  return new ForgotPassword();
 }
 
 export default forgotPassword;

@@ -23,6 +23,8 @@ function queryStringify(data: any) {
 }
 
 export default class HTTPTransport {
+  private withCredentials = true;
+
   get(
     url: string,
     options: OptionsWithoutMethod = {},
@@ -72,6 +74,8 @@ export default class HTTPTransport {
       xhr.onabort = reject;
       xhr.onerror = reject;
       xhr.ontimeout = reject;
+      xhr.withCredentials = this.withCredentials;
+      xhr.responseType = "json";
 
       if (method === METHODS.GET || !data) {
         xhr.send();

@@ -6,7 +6,8 @@ import { ErrorBlock } from "../components/errorBlock/errorBlock";
 import { ErrorFormBlock } from "../components/errorFormBlock/errorFormBlock";
 
 export function createChatList(arr: IChatCard[], styles: CSSModuleClasses) {
-  const chatCardLayout = arr.map((item, index) => `
+  const chatCardLayout = arr.map(
+    (item, index) => `
     <div class="${styles.chat}" key=${index} id=${index}>
         <img class="${styles.image}" src="${item.image}" alt="image">
         <div>
@@ -24,7 +25,8 @@ export function createChatList(arr: IChatCard[], styles: CSSModuleClasses) {
 }
         </div>
     </div>
-        `);
+        `,
+  );
   const chatCardsLayout = chatCardLayout.join("");
 
   return chatCardsLayout;
@@ -44,8 +46,8 @@ export function submitForm(
   evt.preventDefault();
   const formData: Record<string, string> = {};
 
-  const array = Object.values(childrenObj).filter((child) => (
-    child.id === "password"
+  const array = Object.values(childrenObj).filter(
+    (child) => child.id === "password"
       || child.id === "login"
       || child.id === "email"
       || child.id === "first_name"
@@ -54,8 +56,8 @@ export function submitForm(
       || child.id === "newPassword"
       || child.id === "newPasswordAgain"
       || child.id === "display_name"
-      || child.id === "passwordAgain"
-  ));
+      || child.id === "passwordAgain",
+  );
 
   array.forEach((inputBlock: InputBlock) => {
     formData[inputBlock.children.input.name] = inputBlock.children.input.getValue();
@@ -86,3 +88,48 @@ export function handleValidateInput(
     errorBlock.setProps({ errorText: "" });
   }
 }
+
+type PlainObject<T = any> = {
+  [k in string]: T;
+};
+
+function isPlainObject(value: unknown): value is PlainObject {
+  return (
+    typeof value === "object"
+    && value !== null
+    && value.constructor === Object
+    && Object.prototype.toString.call(value) === "[object Object]"
+  );
+}
+
+function isArray(value: unknown): value is [] {
+  return Array.isArray(value);
+}
+
+function isArrayOrObject(value: unknown): value is [] | PlainObject {
+  return isPlainObject(value) || isArray(value);
+}
+
+export function isEqual(lhs: PlainObject, rhs: PlainObject) {
+  if (Object.keys(lhs).length !== Object.keys(rhs).length) {
+    return false;
+  }
+  /* eslint-disable-next-line */
+  for (const [key, value] of Object.entries(lhs)) {
+    const rightValue = rhs[key];
+    if (isArrayOrObject(value) && isArrayOrObject(rightValue)) {
+      if (isEqual(value, rightValue)) {
+        continue;
+      }
+      return false;
+    }
+
+    if (value !== rightValue) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+export default isEqual;
