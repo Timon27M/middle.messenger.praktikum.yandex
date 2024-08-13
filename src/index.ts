@@ -4,8 +4,9 @@ import { Profile } from "./pages/profile/profile";
 // import { Chat } from "./components/chat/chat";
 import { Login } from "./pages/login/login";
 import { Register } from "./pages/register/register";
+import { ForgotPassword } from "./pages/forgotPassword/forgotPassword";
+import Chat from "./components/chat/chat";
 // import { Error } from "./pages/error/error";
-// import { ForgotPassword } from "./pages/forgotPassword/forgotPassword";
 document.addEventListener("DOMContentLoaded", () => {
   // const root = document.querySelector("#app");
 
@@ -44,7 +45,10 @@ document.addEventListener("DOMContentLoaded", () => {
     .use("/", Login)
     .use("/sign-up", Register)
     .use("/settings", Profile)
-    .use("/messenger", Main);
+    .use("/messenger", Main)
+    .use("/forgot-password", ForgotPassword);
+
+  router.go("/messenger", Chat());
   router.start();
 });
 

@@ -1,10 +1,12 @@
 import Block from "../../utils/Block/Block";
 import styles from "./button.module.scss";
+import "../../styles/constants.scss";
 
 type TButton = {
   text: string;
   nameButton: string;
   styleType?: string;
+  color?: "blue" | "red" | "gray";
   type?: string;
   events?: {
     click?: (evt: Event) => void;
@@ -20,17 +22,29 @@ class Button extends Block {
   }
 
   render() {
-    const { type = "button" } = this.props;
+    const { type = "button", color = "blue" } = this.props;
+
+    let styleColor: string;
+
+    if (color === "blue") {
+      styleColor = "#3369f3";
+    } else if (color === "red") {
+      styleColor = "#f00";
+    } else {
+      styleColor = "#999";
+    }
 
     return `
-        <button name={{nameButton}} class="${
-  type === "button" ? "{{styles.button}}" : "{{styles.buttonLink}}"
-}">{{text}}</button>
+        <button name={{nameButton}} ${
+          type !== "button" && `style="color: ${styleColor}"`
+        } class="${
+      type === "button" ? "{{styles.button}}" : `{{styles.buttonLink}}`
+    }">{{text}}</button>
 `;
   }
 }
 
-function button(props: TButton) {
+function button(props: TButtonWithClass) {
   return new Button({
     styles,
     ...props,

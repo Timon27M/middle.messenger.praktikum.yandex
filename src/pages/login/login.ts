@@ -4,6 +4,7 @@ import Block from "../../utils/Block/Block";
 import InputBlock from "../../components/inputBlock/inputBlock";
 import { handleValidateInput, submitForm } from "../../utils/functions";
 import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
+import { router } from "../../utils/navigations/Router";
 
 export class Login extends Block {
   constructor() {
@@ -21,6 +22,19 @@ export class Login extends Block {
             submitForm(e, this.children, this.children.errorFormBlock);
           },
         },
+      }),
+      buttonRegister: Button({
+        type: "link",
+        styleType: "link",
+        nameButton: "changePage",
+        text: "Нет аккаунта?",
+        color: "blue",
+        events: {
+          click: (evt: Event) => {
+            evt.preventDefault();
+            router.go("/sign-up");
+          },
+        }
       }),
       loginInputBlock: InputBlock({
         classInput: styles.input,
@@ -76,7 +90,7 @@ export class Login extends Block {
       </div>
       <span class="{{styles.errorForm}}">{{{errorFormBlock}}}</span>
       {{{button}}}
-      <a class="{{styles.link}}" href="/register">Нет аккаунта?</a>
+      {{{buttonRegister}}}
   </form>
 </main>
     `;

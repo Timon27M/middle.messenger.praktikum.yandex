@@ -35,8 +35,10 @@ export class Profile extends Block {
         nameButton: "change_profile",
       }),
       buttonsForm: ButtonsProfile({
-        clickChangeButton: (evt: Event) => this.handleChangeDataClick(evt),
+        clickButtonChangeData: (evt: Event) => this.handleChangeDataClick(evt),
         clickSavebutton: (evt: Event) => this.handleSaveDataClick(evt),
+        clickButtonChangePassword: (evt: Event) => this.handleChangePasswordClick(evt),
+        clickButtonLogout: (evt: Event) => this.handleLogoutClick(evt),
       }),
       emailInputBlock: InputBlock({
         classInput: styles.input,
@@ -177,6 +179,18 @@ export class Profile extends Block {
     });
 
     this.children.buttonsForm.setProps({ type: "saveButton" });
+  }
+
+  handleChangePasswordClick(evt: Event) {
+    evt.preventDefault();
+
+    router.go("/forgot-password")
+  }
+
+  handleLogoutClick(evt: Event) {
+    evt.preventDefault();
+
+    router.go("/")
   }
 
   handleSaveDataClick(evt: Event) {

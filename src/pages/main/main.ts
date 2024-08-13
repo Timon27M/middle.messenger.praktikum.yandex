@@ -5,11 +5,11 @@ import DefaultChat from "../../components/defaultChat/defaultChat";
 import Chat from "../../components/chat/chat";
 
 export class Main extends Block {
-  constructor(chatComponent?: typeof DefaultChat | typeof Chat) {
+  constructor(chatComponent?: () => typeof DefaultChat | typeof Chat) {
     super({
       styles,
       allChats: Chats(),
-      activeChat: chatComponent === undefined ? DefaultChat() : chatComponent(),
+      activeChat: chatComponent === undefined ? DefaultChat() : chatComponent,
     });
   }
 
@@ -27,7 +27,7 @@ export class Main extends Block {
   }
 }
 
-function main(chatComponent: typeof DefaultChat | typeof Chat) {
+function main(chatComponent: () => typeof DefaultChat | typeof Chat) {
   return new Main(chatComponent);
 }
 

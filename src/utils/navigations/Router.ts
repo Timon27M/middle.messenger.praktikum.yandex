@@ -8,7 +8,7 @@ export default class Router {
 
   public rootId: string = "#app";
 
-  public history: History | undefined = window.history;
+  public history: History = window.history;
 
   constructor() {
     this.routes = [];
@@ -36,7 +36,6 @@ export default class Router {
 
   private onRoute(pathname: string, props?: Record<string, any>) {
     const route = this.getRoute(pathname);
-    console.log(route);
     if (!route) {
       return;
     }
@@ -45,17 +44,15 @@ export default class Router {
   }
 
   public go(pathname: string, props?: Record<string, any>) {
-    this.history?.pushState({}, "", pathname);
+    this.history.pushState({}, "", pathname);
     this.onRoute(pathname, props);
-  }
-
-  public forward() {
-    this.history?.go();
+    console.log(this.history)
   }
 
   public back() {
-    this.history?.back();
-    console.log(this.history?.back());
+    this.history.back();
+    this.history.pushState({}, "", window.location.pathname);
+    console.log(this.history);
   }
 
   private getRoute(pathname: string) {

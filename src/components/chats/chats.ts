@@ -4,21 +4,24 @@ import { createChatList } from "../../utils/functions";
 import Block from "../../utils/Block/Block";
 import ButtonLink from "../buttonLink/buttonLink";
 import { router } from "../../utils/navigations/Router";
+import Button from "../button/button";
 
 class Chats extends Block {
   constructor() {
     super({
       styles,
       chats: createChatList(chatListData, styles),
-      buttonLink: ButtonLink({
-        class: styles.link,
+      buttonChangeData: Button({
+        type: "link",
+        styleType: "link",
+        nameButton: "changePage",
         text: "Профиль >",
+        color: "gray",
         events: {
-          click: (evt: Event) => {
-            evt.preventDefault();
+          click: () => {
             router.go("/settings");
           },
-        },
+        }
       }),
     });
   }
@@ -29,7 +32,7 @@ class Chats extends Block {
     return `
 <section class="{{styles.chats}}">
   <div class="{{styles.nav}}">
-   {{{buttonLink}}}
+   {{{buttonChangeData}}}
     <input name="message" class="{{styles.input}}" type="text" placeholder="Поиск" />
   </div>
   <div class="{{styles.chats-list}}">{{{chats}}}</div>

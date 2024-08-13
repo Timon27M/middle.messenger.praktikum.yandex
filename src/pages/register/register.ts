@@ -4,6 +4,7 @@ import Block from "../../utils/Block/Block";
 import InputBlock from "../../components/inputBlock/inputBlock";
 import { handleValidateInput, submitForm } from "../../utils/functions";
 import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
+import { router } from "../../utils/navigations/Router";
 
 export class Register extends Block {
   constructor() {
@@ -18,6 +19,19 @@ export class Register extends Block {
         events: {
           click: (e) => submitForm(e, this.children, this.children.errorFormBlock),
         },
+      }),
+      buttonlogin: Button({
+        type: "link",
+        styleType: "link",
+        nameButton: "changePage",
+        text: "Войти",
+        color: "blue",
+        events: {
+          click: (evt: Event) => {
+            evt.preventDefault();
+            router.go("/");
+          },
+        }
       }),
       emailInputBlock: InputBlock({
         classInput: styles.input,
@@ -171,7 +185,7 @@ export class Register extends Block {
     </div>
     <span class="{{styles.errorForm}}">{{{errorFormBlock}}}</span>
       {{{button}}}
-      <a class="{{styles.link}}" href="/login">Войти</a>
+      {{{buttonlogin}}}
   </form>
 </main>
       `;

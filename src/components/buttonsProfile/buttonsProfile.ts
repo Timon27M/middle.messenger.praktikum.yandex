@@ -4,7 +4,9 @@ import ButtonsBlockProfile from "../buttonsChangeProfile/buttonsChangeProfile";
 
 type TProps = {
   type?: string;
-  clickChangeButton: (evt: Event) => void;
+  clickButtonChangeData: (evt: Event) => void;
+  clickButtonChangePassword: (evt: Event) => void;
+  clickButtonLogout: (evt: Event) => void;
   clickSavebutton: (evt: Event) => void;
 };
 
@@ -12,9 +14,9 @@ class ButtonsProfile extends Block {
   constructor(props: TProps) {
     super({
       changeButtons: ButtonsBlockProfile({
-        events: {
-          click: (evt: Event) => props.clickChangeButton(evt),
-        },
+        clickButtonChangeData: props.clickButtonChangeData,
+        clickButtonChangePassword: props.clickButtonChangePassword,
+        clickButtonLogout: props.clickButtonLogout,
       }),
       saveButton: Button({
         text: "Изменить",
