@@ -5,9 +5,10 @@ import avatar from "../../utils/images/avatar.png";
 
 import Block from "../../utils/Block/Block";
 import InputBlock from "../../components/inputBlock/inputBlock";
-import { handleValidateInput, submitForm } from "../../utils/functions";
+import { handleValidateInput, collectData } from "../../utils/functions";
 import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
 import { router } from "../../utils/navigations/Router";
+import authApi from "../../utils/api/AuthApi";
 
 export class ForgotPassword extends Block {
   constructor() {
@@ -22,7 +23,7 @@ export class ForgotPassword extends Block {
         nameButton: "send_forgot-password",
         events: {
           click: (evt: Event) =>
-            submitForm(evt, this.children, this.children.errorFormBlock),
+            collectData(evt, this.children, this.children.errorFormBlock),
         },
       }),
       buttonBack: ButtonBack({
@@ -85,6 +86,13 @@ export class ForgotPassword extends Block {
       }),
     });
   }
+
+  componentDidMount() {
+    authApi.getUser().catch((err) => {
+      console.log(err.message)
+      router.go('/')
+    });
+  };
 
   render() {
     return `

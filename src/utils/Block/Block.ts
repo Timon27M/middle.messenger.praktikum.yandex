@@ -71,6 +71,7 @@ export default class Block {
 
   init() {
     this._createResources();
+    this.eventBus().emit(Block.EVENTS.FLOW_CDM);
 
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }

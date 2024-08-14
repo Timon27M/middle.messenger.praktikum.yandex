@@ -2,9 +2,10 @@ import styles from "./register.module.scss";
 import Button from "../../components/button/button";
 import Block from "../../utils/Block/Block";
 import InputBlock from "../../components/inputBlock/inputBlock";
-import { handleValidateInput, submitForm } from "../../utils/functions";
+import { handleValidateInput, collectData } from "../../utils/functions";
 import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
 import { router } from "../../utils/navigations/Router";
+import authApi, { TRegisterData } from "../../utils/api/AuthApi";
 
 export class Register extends Block {
   constructor() {
@@ -17,7 +18,34 @@ export class Register extends Block {
         text: "Регистрация",
         nameButton: "send_register",
         events: {
-          click: (e) => submitForm(e, this.children, this.children.errorFormBlock),
+          click: (e) => {
+            const { formData } = collectData(
+              e,
+              this.children,
+              this.children.errorFormBlock
+            );
+
+            console.log(formData);
+
+            if (formData.password === formData.passwordAgain) {
+              const newData = {
+                email: formData.email,
+                first_name: formData.first_name,
+                login: formData.login,
+                password: formData.password,
+                second_name: formData.second_name,
+                phone: formData.phone,
+              };
+              authApi
+                .register(newData as TRegisterData)
+                .then(() => {
+                  router.go("/messenger");
+                })
+                .catch((err) => {
+                  console.log(err.message);
+                });
+            }
+          },
         },
       }),
       buttonlogin: Button({
@@ -31,7 +59,7 @@ export class Register extends Block {
             evt.preventDefault();
             router.go("/");
           },
-        }
+        },
       }),
       emailInputBlock: InputBlock({
         classInput: styles.input,
@@ -42,11 +70,12 @@ export class Register extends Block {
         value: "pochta@yandex.ru",
         id: "email",
         events: {
-          blur: () => handleValidateInput(
-            this.children.emailInputBlock.children.errorBlock,
-            this.children.emailInputBlock.children.input,
-            "Некорректный email",
-          ),
+          blur: () =>
+            handleValidateInput(
+              this.children.emailInputBlock.children.errorBlock,
+              this.children.emailInputBlock.children.input,
+              "Некорректный email"
+            ),
         },
       }),
       loginInputBlock: InputBlock({
@@ -58,11 +87,12 @@ export class Register extends Block {
         value: "ivaninvanov",
         id: "login",
         events: {
-          blur: () => handleValidateInput(
-            this.children.loginInputBlock.children.errorBlock,
-            this.children.loginInputBlock.children.input,
-            "Некорректный логин",
-          ),
+          blur: () =>
+            handleValidateInput(
+              this.children.loginInputBlock.children.errorBlock,
+              this.children.loginInputBlock.children.input,
+              "Некорректный логин"
+            ),
         },
       }),
       nameInputBlock: InputBlock({
@@ -74,11 +104,12 @@ export class Register extends Block {
         value: "Иван",
         id: "first_name",
         events: {
-          blur: () => handleValidateInput(
-            this.children.nameInputBlock.children.errorBlock,
-            this.children.nameInputBlock.children.input,
-            "Некорректное имя",
-          ),
+          blur: () =>
+            handleValidateInput(
+              this.children.nameInputBlock.children.errorBlock,
+              this.children.nameInputBlock.children.input,
+              "Некорректное имя"
+            ),
         },
       }),
       surnameInputBlock: InputBlock({
@@ -90,11 +121,12 @@ export class Register extends Block {
         value: "Иванов",
         id: "second_name",
         events: {
-          blur: () => handleValidateInput(
-            this.children.surnameInputBlock.children.errorBlock,
-            this.children.surnameInputBlock.children.input,
-            "Некорректная фамилия",
-          ),
+          blur: () =>
+            handleValidateInput(
+              this.children.surnameInputBlock.children.errorBlock,
+              this.children.surnameInputBlock.children.input,
+              "Некорректная фамилия"
+            ),
         },
       }),
       telInputBlock: InputBlock({
@@ -106,11 +138,12 @@ export class Register extends Block {
         value: "+79099673030",
         id: "phone",
         events: {
-          blur: () => handleValidateInput(
-            this.children.telInputBlock.children.errorBlock,
-            this.children.telInputBlock.children.input,
-            "Некорректный номер телефона",
-          ),
+          blur: () =>
+            handleValidateInput(
+              this.children.telInputBlock.children.errorBlock,
+              this.children.telInputBlock.children.input,
+              "Некорректный номер телефона"
+            ),
         },
       }),
       passwordInputBlock: InputBlock({
@@ -122,11 +155,12 @@ export class Register extends Block {
         value: "ivaninvanoV9",
         id: "password",
         events: {
-          blur: () => handleValidateInput(
-            this.children.passwordInputBlock.children.errorBlock,
-            this.children.passwordInputBlock.children.input,
-            "Некорректный пароль",
-          ),
+          blur: () =>
+            handleValidateInput(
+              this.children.passwordInputBlock.children.errorBlock,
+              this.children.passwordInputBlock.children.input,
+              "Некорректный пароль"
+            ),
         },
       }),
       passwordInputAgainBlock: InputBlock({
@@ -138,13 +172,20 @@ export class Register extends Block {
         value: "ivaninvanoV9",
         id: "passwordAgain",
         events: {
-          blur: () => handleValidateInput(
-            this.children.passwordInputAgainBlock.children.errorBlock,
-            this.children.passwordInputAgainBlock.children.input,
-            "Пароли не совпадают",
-          ),
+          blur: () =>
+            handleValidateInput(
+              this.children.passwordInputAgainBlock.children.errorBlock,
+              this.children.passwordInputAgainBlock.children.input,
+              "Пароли не совпадают"
+            ),
         },
       }),
+    });
+  }
+
+  componentDidMount(): void {
+    authApi.getUser().then(() => {
+      router.go("/messenger");
     });
   }
 

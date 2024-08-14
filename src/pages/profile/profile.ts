@@ -4,10 +4,11 @@ import Button from "../../components/button/button";
 import avatar from "../../utils/images/avatar.png";
 import Block from "../../utils/Block/Block";
 import InputBlock from "../../components/inputBlock/inputBlock";
-import { handleValidateInput, submitForm } from "../../utils/functions";
+import { handleValidateInput, collectData } from "../../utils/functions";
 import ButtonsProfile from "../../components/buttonsProfile/buttonsProfile";
 import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
 import { router } from "../../utils/navigations/Router";
+import authApi from "../../utils/api/AuthApi";
 
 export class Profile extends Block {
   constructor() {
@@ -37,7 +38,8 @@ export class Profile extends Block {
       buttonsForm: ButtonsProfile({
         clickButtonChangeData: (evt: Event) => this.handleChangeDataClick(evt),
         clickSavebutton: (evt: Event) => this.handleSaveDataClick(evt),
-        clickButtonChangePassword: (evt: Event) => this.handleChangePasswordClick(evt),
+        clickButtonChangePassword: (evt: Event) =>
+          this.handleChangePasswordClick(evt),
         clickButtonLogout: (evt: Event) => this.handleLogoutClick(evt),
       }),
       emailInputBlock: InputBlock({
@@ -151,6 +153,13 @@ export class Profile extends Block {
     });
   }
 
+  componentDidMount() {
+    authApi.getUser().catch((err) => {
+      console.log(err.message);
+      router.go("/");
+    });
+  }
+
   handleChangeDataClick(evt: Event) {
     evt.preventDefault();
     this.children.emailInputBlock.children.input.setProps({
@@ -184,19 +193,24 @@ export class Profile extends Block {
   handleChangePasswordClick(evt: Event) {
     evt.preventDefault();
 
-    router.go("/forgot-password")
+    router.go("/forgot-password");
   }
 
   handleLogoutClick(evt: Event) {
     evt.preventDefault();
 
-    router.go("/")
+    authApi
+      .logout()
+      .then(() => {
+        router.go("/");
+      })
+      .catch((err) => console.log(err.message));
   }
 
   handleSaveDataClick(evt: Event) {
     evt.preventDefault();
 
-    const { isValid } = submitForm(
+    const { isValid } = collectData(
       evt,
       this.children,
       this.children.errorFormBlock

@@ -38,7 +38,7 @@ function validate(value: string, name: string) {
   return valid;
 }
 
-export function submitForm(
+export function collectData(
   evt: Event,
   childrenObj: object,
   errorFormBlock: ErrorFormBlock,
@@ -50,6 +50,7 @@ export function submitForm(
     (child) => child.id === "password"
       || child.id === "login"
       || child.id === "email"
+      || child.id === "phone"
       || child.id === "first_name"
       || child.id === "second_name"
       || child.id === "oldPassword"
@@ -70,8 +71,6 @@ export function submitForm(
   } else {
     errorFormBlock.setProps({ text: "" });
   }
-
-  console.log(formData);
 
   return { formData, isValid };
 }

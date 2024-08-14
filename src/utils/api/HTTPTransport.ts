@@ -19,7 +19,11 @@ function queryStringify(data: any) {
   }
 
   const keys = Object.keys(data);
-  return keys.reduce((result, key, index) => `${result}${key}=${data[key]}${index < keys.length - 1 ? "&" : ""}`, "?");
+  return keys.reduce(
+    (result, key, index) =>
+      `${result}${key}=${data[key]}${index < keys.length - 1 ? "&" : ""}`,
+    "?"
+  );
 }
 
 export default class HTTPTransport {
@@ -27,35 +31,35 @@ export default class HTTPTransport {
 
   get(
     url: string,
-    options: OptionsWithoutMethod = {},
+    options: OptionsWithoutMethod = {}
   ): Promise<XMLHttpRequest> {
     return this.request(url, { ...options, method: METHODS.GET });
   }
 
   post(
     url: string,
-    options: OptionsWithoutMethod = {},
+    options: OptionsWithoutMethod = {}
   ): Promise<XMLHttpRequest> {
     return this.request(url, { ...options, method: METHODS.POST });
   }
 
   put(
     url: string,
-    options: OptionsWithoutMethod = {},
+    options: OptionsWithoutMethod = {}
   ): Promise<XMLHttpRequest> {
     return this.request(url, { ...options, method: METHODS.PUT });
   }
 
   delete(
     url: string,
-    options: OptionsWithoutMethod = {},
+    options: OptionsWithoutMethod = {}
   ): Promise<XMLHttpRequest> {
     return this.request(url, { ...options, method: METHODS.DELETE });
   }
 
   request(
     url: string,
-    options: Options = { method: METHODS.GET },
+    options: Options = { method: METHODS.GET }
   ): Promise<XMLHttpRequest> {
     const { headers = {}, method, data } = options;
 
@@ -80,8 +84,14 @@ export default class HTTPTransport {
       if (method === METHODS.GET || !data) {
         xhr.send();
       } else {
-        xhr.send(data);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(JSON.stringify(data));
       }
+    }).then((response: any) => {
+      if (response.status === 200) {
+        return response.response;
+      }
+      throw Error(`Ошибка ${response.status}`);
     });
   }
 }

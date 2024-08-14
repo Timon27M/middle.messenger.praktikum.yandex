@@ -46,7 +46,6 @@ export default class Router {
   public go(pathname: string, props?: Record<string, any>) {
     this.history.pushState({}, "", pathname);
     this.onRoute(pathname, props);
-    console.log(this.history)
   }
 
   public back() {

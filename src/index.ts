@@ -5,7 +5,7 @@ import { Profile } from "./pages/profile/profile";
 import { Login } from "./pages/login/login";
 import { Register } from "./pages/register/register";
 import { ForgotPassword } from "./pages/forgotPassword/forgotPassword";
-import Chat from "./components/chat/chat";
+// import authApi from "./utils/api/AuthApi";
 // import { Error } from "./pages/error/error";
 document.addEventListener("DOMContentLoaded", () => {
   // const root = document.querySelector("#app");
@@ -48,8 +48,25 @@ document.addEventListener("DOMContentLoaded", () => {
     .use("/messenger", Main)
     .use("/forgot-password", ForgotPassword);
 
-  router.go("/messenger", Chat());
+  // authApi
+  //   .getUser()
+  //   .then(() => {
+  //     router.go("/messenger", Chat());
+  //   })
+  //   .catch((err) => {
+  //     console.log(err.message);
+  //     console.log(window.history);
+  //     if (window.location.pathname === "/sign-up") {
+  //       router.go("/sign-up");
+  //     } else {
+  //       router.go("/");
+  //     }
+  //   });
   router.start();
+
+  // authApi.getUser()
+  // .then((data) => console.log(data))
+  // .catch((err) => console.log(err.message));
 });
 
 export default router;

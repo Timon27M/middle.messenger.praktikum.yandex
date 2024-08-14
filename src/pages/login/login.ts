@@ -2,9 +2,10 @@ import styles from "./login.module.scss";
 import Button from "../../components/button/button";
 import Block from "../../utils/Block/Block";
 import InputBlock from "../../components/inputBlock/inputBlock";
-import { handleValidateInput, submitForm } from "../../utils/functions";
+import { handleValidateInput, collectData } from "../../utils/functions";
 import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
 import { router } from "../../utils/navigations/Router";
+import authApi, { TLoginData } from "../../utils/api/AuthApi";
 
 export class Login extends Block {
   constructor() {
@@ -19,7 +20,18 @@ export class Login extends Block {
         events: {
           click: (e) => {
             this.setProps({ textError: "blalba" });
-            submitForm(e, this.children, this.children.errorFormBlock);
+            const { formData } = collectData(
+              e,
+              this.children,
+              this.children.errorFormBlock
+            );
+            // console.log(formData);
+            authApi
+              .login(formData as TLoginData)
+              .then(() => {
+                router.go("/messenger");
+              })
+              .catch((err) => console.log(err.message));
           },
         },
       }),
@@ -34,7 +46,7 @@ export class Login extends Block {
             evt.preventDefault();
             router.go("/sign-up");
           },
-        }
+        },
       }),
       loginInputBlock: InputBlock({
         classInput: styles.input,
@@ -45,11 +57,12 @@ export class Login extends Block {
         value: "ivaninvanov",
         id: "login",
         events: {
-          blur: () => handleValidateInput(
-            this.children.loginInputBlock.children.errorBlock,
-            this.children.loginInputBlock.children.input,
-            "Некорректный логин",
-          ),
+          blur: () =>
+            handleValidateInput(
+              this.children.loginInputBlock.children.errorBlock,
+              this.children.loginInputBlock.children.input,
+              "Некорректный логин"
+            ),
         },
       }),
       passwordInputBlock: InputBlock({
@@ -61,13 +74,20 @@ export class Login extends Block {
         id: "password",
         errorText: "",
         events: {
-          blur: () => handleValidateInput(
-            this.children.passwordInputBlock.children.errorBlock,
-            this.children.passwordInputBlock.children.input,
-            "Некорректный пароль",
-          ),
+          blur: () =>
+            handleValidateInput(
+              this.children.passwordInputBlock.children.errorBlock,
+              this.children.passwordInputBlock.children.input,
+              "Некорректный пароль"
+            ),
         },
       }),
+    });
+  }
+
+  componentDidMount(): void {
+    authApi.getUser().then(() => {
+      router.go("/messenger");
     });
   }
 
