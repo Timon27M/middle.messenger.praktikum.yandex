@@ -1,6 +1,6 @@
 import HTTPTransport from "./HTTPTransport";
 
-type TUserProfile = {
+export type TUserProfile = {
   first_name?: string;
   second_name?: string;
   email?: string;
@@ -11,12 +11,12 @@ type TUserProfile = {
   id?: number;
 };
 
-type TDataUpdatePassword = {
+export type TDataUpdatePassword = {
   oldPassword: string;
   newPassword: string;
 };
 
-type TLogin = {
+export type TLogin = {
   login: string;
 };
 

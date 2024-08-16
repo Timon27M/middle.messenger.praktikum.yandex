@@ -3,8 +3,8 @@ import Chats from "../../components/chats/chats";
 import Block from "../../utils/Block/Block";
 import DefaultChat from "../../components/defaultChat/defaultChat";
 import Chat from "../../components/chat/chat";
-import authApi from "../../utils/api/AuthApi";
 import { router } from "../../utils/navigations/Router";
+import authController from "../../service/authController/AuthController";
 
 export class Main extends Block {
   constructor(chatComponent?: () => typeof DefaultChat | typeof Chat) {
@@ -16,11 +16,11 @@ export class Main extends Block {
   }
 
   componentDidMount() {
-    authApi.getUser().catch((err) => {
-      console.log(err.message)
-      router.go('/')
+    authController.getUser().catch((err) => {
+      console.log(err.message);
+      router.go("/");
     });
-  };
+  }
 
   render() {
     return `

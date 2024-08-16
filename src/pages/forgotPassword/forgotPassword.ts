@@ -8,7 +8,9 @@ import InputBlock from "../../components/inputBlock/inputBlock";
 import { handleValidateInput, collectData } from "../../utils/functions";
 import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
 import { router } from "../../utils/navigations/Router";
-import authApi from "../../utils/api/AuthApi";
+import authController from "../../service/authController/AuthController";
+import userController from "../../service/userController/UserController";
+import { TDataFormUpdatePassword } from "../../utils/types/types";
 
 export class ForgotPassword extends Block {
   constructor() {
@@ -22,8 +24,16 @@ export class ForgotPassword extends Block {
         text: "Сохранить",
         nameButton: "send_forgot-password",
         events: {
-          click: (evt: Event) =>
-            collectData(evt, this.children, this.children.errorFormBlock),
+          click: (evt: Event) => {
+            const { formData } = collectData(
+              evt,
+              this.children,
+              this.children.errorFormBlock
+            );
+
+            console.log(formData);
+            userController.updateUserPassword(formData as TDataFormUpdatePassword);
+          },
         },
       }),
       buttonBack: ButtonBack({
@@ -88,11 +98,11 @@ export class ForgotPassword extends Block {
   }
 
   componentDidMount() {
-    authApi.getUser().catch((err) => {
-      console.log(err.message)
-      router.go('/')
+    authController.getUser().catch((err) => {
+      console.log(err.message);
+      router.go("/");
     });
-  };
+  }
 
   render() {
     return `

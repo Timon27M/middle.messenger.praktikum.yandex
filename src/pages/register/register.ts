@@ -5,7 +5,9 @@ import InputBlock from "../../components/inputBlock/inputBlock";
 import { handleValidateInput, collectData } from "../../utils/functions";
 import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
 import { router } from "../../utils/navigations/Router";
-import authApi, { TRegisterData } from "../../utils/api/AuthApi";
+import authApi from "../../utils/api/AuthApi";
+import authController from "../../service/authController/AuthController";
+import { TRegisterFormData } from "../../utils/types/types";
 
 export class Register extends Block {
   constructor() {
@@ -24,27 +26,8 @@ export class Register extends Block {
               this.children,
               this.children.errorFormBlock
             );
-
-            console.log(formData);
-
-            if (formData.password === formData.passwordAgain) {
-              const newData = {
-                email: formData.email,
-                first_name: formData.first_name,
-                login: formData.login,
-                password: formData.password,
-                second_name: formData.second_name,
-                phone: formData.phone,
-              };
-              authApi
-                .register(newData as TRegisterData)
-                .then(() => {
-                  router.go("/messenger");
-                })
-                .catch((err) => {
-                  console.log(err.message);
-                });
-            }
+            
+            authController.register(formData as TRegisterFormData)
           },
         },
       }),
@@ -184,9 +167,7 @@ export class Register extends Block {
   }
 
   componentDidMount(): void {
-    authApi.getUser().then(() => {
-      router.go("/messenger");
-    });
+    authController.getUser("/messenger")
   }
 
   render() {

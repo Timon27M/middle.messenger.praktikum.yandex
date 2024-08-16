@@ -48,25 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .use("/messenger", Main)
     .use("/forgot-password", ForgotPassword);
 
-  // authApi
-  //   .getUser()
-  //   .then(() => {
-  //     router.go("/messenger", Chat());
-  //   })
-  //   .catch((err) => {
-  //     console.log(err.message);
-  //     console.log(window.history);
-  //     if (window.location.pathname === "/sign-up") {
-  //       router.go("/sign-up");
-  //     } else {
-  //       router.go("/");
-  //     }
-  //   });
   router.start();
-
-  // authApi.getUser()
-  // .then((data) => console.log(data))
-  // .catch((err) => console.log(err.message));
 });
 
 export default router;

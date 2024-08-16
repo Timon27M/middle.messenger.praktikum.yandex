@@ -5,7 +5,8 @@ import InputBlock from "../../components/inputBlock/inputBlock";
 import { handleValidateInput, collectData } from "../../utils/functions";
 import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
 import { router } from "../../utils/navigations/Router";
-import authApi, { TLoginData } from "../../utils/api/AuthApi";
+import { TLoginData } from "../../utils/api/AuthApi";
+import authController from "../../service/authController/AuthController";
 
 export class Login extends Block {
   constructor() {
@@ -25,13 +26,7 @@ export class Login extends Block {
               this.children,
               this.children.errorFormBlock
             );
-            // console.log(formData);
-            authApi
-              .login(formData as TLoginData)
-              .then(() => {
-                router.go("/messenger");
-              })
-              .catch((err) => console.log(err.message));
+            authController.login(formData as TLoginData)
           },
         },
       }),
@@ -86,9 +81,7 @@ export class Login extends Block {
   }
 
   componentDidMount(): void {
-    authApi.getUser().then(() => {
-      router.go("/messenger");
-    });
+    authController.getUser("/messenger")
   }
 
   render() {

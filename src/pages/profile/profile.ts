@@ -8,7 +8,8 @@ import { handleValidateInput, collectData } from "../../utils/functions";
 import ButtonsProfile from "../../components/buttonsProfile/buttonsProfile";
 import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
 import { router } from "../../utils/navigations/Router";
-import authApi from "../../utils/api/AuthApi";
+import authController from "../../service/authController/AuthController";
+import userController from "../../service/userController/UserController";
 
 export class Profile extends Block {
   constructor() {
@@ -154,7 +155,7 @@ export class Profile extends Block {
   }
 
   componentDidMount() {
-    authApi.getUser().catch((err) => {
+    authController.getUser().catch((err) => {
       console.log(err.message);
       router.go("/");
     });
@@ -199,18 +200,13 @@ export class Profile extends Block {
   handleLogoutClick(evt: Event) {
     evt.preventDefault();
 
-    authApi
-      .logout()
-      .then(() => {
-        router.go("/");
-      })
-      .catch((err) => console.log(err.message));
+    authController.logout();
   }
 
   handleSaveDataClick(evt: Event) {
     evt.preventDefault();
 
-    const { isValid } = collectData(
+    const { isValid, formData } = collectData(
       evt,
       this.children,
       this.children.errorFormBlock
@@ -243,6 +239,10 @@ export class Profile extends Block {
       });
 
       this.children.buttonsForm.setProps({ type: "changeBlockButton" });
+
+      console.log(formData);
+
+      userController.updateUserProfile(formData);
     }
   }
 

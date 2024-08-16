@@ -68,6 +68,7 @@ export function collectData(
 
   if (isValid === false) {
     errorFormBlock.setProps({ text: "Данные заполнены неправильно" });
+    throw Error("Данные заполнены неправильно");
   } else {
     errorFormBlock.setProps({ text: "" });
   }

@@ -91,7 +91,7 @@ export default class HTTPTransport {
       if (response.status === 200) {
         return response.response;
       }
-      throw Error(`Ошибка ${response.status}`);
+      throw Error(`Ошибка: ${response.response.reason}`);
     });
   }
 }
