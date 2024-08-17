@@ -5,21 +5,44 @@ import DefaultChat from "../../components/defaultChat/defaultChat";
 import Chat from "../../components/chat/chat";
 import { router } from "../../utils/navigations/Router";
 import authController from "../../service/authController/AuthController";
+import {
+  ChatStore,
+  connect,
+  Message,
+  store,
+  User,
+} from "../../utils/store/Store";
+
+export type ChatPageProps = {
+  currentChatId: string;
+  currentUser?: User;
+  chatList: ChatStore[];
+  messageList: Message[];
+  searchValue: string;
+  chatComponent?: () => typeof Chat;
+};
 
 export class Main extends Block {
-  constructor(chatComponent?: () => typeof DefaultChat | typeof Chat) {
+  constructor(props: ChatPageProps) {
     super({
+      ...props,
       styles,
       allChats: Chats(),
-      activeChat: chatComponent === undefined ? DefaultChat() : chatComponent,
+      activeChat:
+        props.chatComponent === undefined ? DefaultChat() : props.chatComponent,
     });
   }
 
   componentDidMount() {
-    authController.getUser().catch((err) => {
-      console.log(err.message);
-      router.go("/");
-    });
+    authController
+      .getUser()
+      .catch((err) => {
+        console.log(err.message);
+        router.go("/");
+      })
+      .finally(() => {
+        console.log(store.getState());
+      });
   }
 
   render() {
@@ -36,8 +59,20 @@ export class Main extends Block {
   }
 }
 
-function main(chatComponent: () => typeof DefaultChat | typeof Chat) {
-  return new Main(chatComponent);
-}
+const main = () => {
+  const withChats = connect((state) => ({
+    currentChatId: state.currentChatId,
+    currentUser: state.currentUser,
+    chatList: state.chatList || [],
+    messageList: state.messageList || [],
+    searchValue: state.searchValue || "",
+  }));
+
+  return withChats(Main);
+};
+
+// function main(chatComponent: () => typeof DefaultChat | typeof Chat) {
+//   return new main1(chatComponent);
+// }
 
 export default main;

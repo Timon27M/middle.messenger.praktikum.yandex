@@ -1,5 +1,6 @@
 import authApi, { TRegisterData, TLoginData } from "../../utils/api/AuthApi";
 import { router } from "../../utils/navigations/Router";
+import { store } from "../../utils/store/Store";
 import { TRegisterFormData } from "../../utils/types/types";
 
 class AuthController {
@@ -42,11 +43,12 @@ class AuthController {
       .catch((err) => console.log(err.message));
   }
 
-  async getUser(pathname?: string) {
-    await this.authApi.getUser().then(() => {
+  async getUser(pathname?: string, props?: any) {
+    await this.authApi.getUser().then((res) => {
       if (pathname) {
-        router.go(pathname);
+        router.go(pathname, props);
       }
+      store.set("currentUser", res);
     });
   }
 

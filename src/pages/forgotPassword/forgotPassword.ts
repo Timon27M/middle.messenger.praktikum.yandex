@@ -5,7 +5,10 @@ import avatar from "../../utils/images/avatar.png";
 
 import Block from "../../utils/Block/Block";
 import InputBlock from "../../components/inputBlock/inputBlock";
-import { handleValidateInput, collectData } from "../../utils/functions";
+import {
+  handleValidateInput,
+  collectData,
+} from "../../utils/functions/functions";
 import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
 import { router } from "../../utils/navigations/Router";
 import authController from "../../service/authController/AuthController";
@@ -32,7 +35,9 @@ export class ForgotPassword extends Block {
             );
 
             console.log(formData);
-            userController.updateUserPassword(formData as TDataFormUpdatePassword);
+            userController.updateUserPassword(
+              formData as TDataFormUpdatePassword
+            );
           },
         },
       }),

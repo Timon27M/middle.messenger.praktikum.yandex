@@ -1,6 +1,6 @@
 import styles from "./chats.module.scss";
 import { chatListData } from "../../utils/constants";
-import { createChatList } from "../../utils/functions";
+import { createChatList } from "../../utils/functions/functions";
 import Block from "../../utils/Block/Block";
 import ButtonLink from "../buttonLink/buttonLink";
 import { router } from "../../utils/navigations/Router";
@@ -21,7 +21,7 @@ class Chats extends Block {
           click: () => {
             router.go("/settings");
           },
-        }
+        },
       }),
     });
   }

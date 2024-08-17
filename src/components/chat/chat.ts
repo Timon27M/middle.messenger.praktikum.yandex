@@ -5,7 +5,7 @@ import buttonDocumentImage from "../../utils/images/buttonDocument.jpg";
 import Block from "../../utils/Block/Block";
 import input from "../input/input";
 import ErrorBlock from "../errorBlock/errorBlock";
-import { handleValidateInput } from "../../utils/functions";
+import { handleValidateInput } from "../../utils/functions/functions";
 
 export class Chat extends Block {
   constructor() {
@@ -27,11 +27,12 @@ export class Chat extends Block {
         placeholder: "Сообщение",
         id: "message",
         events: {
-          blur: () => handleValidateInput(
-            this.children.errorBlock,
-            this.children.messageInput,
-            "Поле не может быть пустым",
-          ),
+          blur: () =>
+            handleValidateInput(
+              this.children.errorBlock,
+              this.children.messageInput,
+              "Поле не может быть пустым"
+            ),
         },
       }),
       errorBlock: ErrorBlock({

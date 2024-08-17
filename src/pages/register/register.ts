@@ -2,10 +2,12 @@ import styles from "./register.module.scss";
 import Button from "../../components/button/button";
 import Block from "../../utils/Block/Block";
 import InputBlock from "../../components/inputBlock/inputBlock";
-import { handleValidateInput, collectData } from "../../utils/functions";
+import {
+  handleValidateInput,
+  collectData,
+} from "../../utils/functions/functions";
 import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
 import { router } from "../../utils/navigations/Router";
-import authApi from "../../utils/api/AuthApi";
 import authController from "../../service/authController/AuthController";
 import { TRegisterFormData } from "../../utils/types/types";
 
@@ -26,8 +28,8 @@ export class Register extends Block {
               this.children,
               this.children.errorFormBlock
             );
-            
-            authController.register(formData as TRegisterFormData)
+
+            authController.register(formData as TRegisterFormData);
           },
         },
       }),
@@ -167,7 +169,7 @@ export class Register extends Block {
   }
 
   componentDidMount(): void {
-    authController.getUser("/messenger")
+    authController.getUser("/messenger");
   }
 
   render() {

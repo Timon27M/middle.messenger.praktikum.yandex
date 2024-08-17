@@ -2,7 +2,7 @@ import userApi, { TLogin, TUserProfile } from "../../utils/api/UserApi";
 import { TDataFormUpdatePassword } from "../../utils/types/types";
 
 class UserController {
-  userApi: typeof userApi;
+  private userApi: typeof userApi;
 
   constructor() {
     this.userApi = userApi;
@@ -27,8 +27,8 @@ class UserController {
         console.log(err.message);
       });
     } else {
-        alert("Ошибка: Пароли не совпадают")
-        throw Error("Пароли не совпадают")
+      alert("Ошибка: Пароли не совпадают");
+      throw Error("Пароли не совпадают");
     }
   }
 

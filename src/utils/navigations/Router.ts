@@ -51,7 +51,6 @@ export default class Router {
   public back() {
     this.history.back();
     this.history.pushState({}, "", window.location.pathname);
-    console.log(this.history);
   }
 
   private getRoute(pathname: string) {

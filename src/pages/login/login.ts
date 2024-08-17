@@ -2,11 +2,15 @@ import styles from "./login.module.scss";
 import Button from "../../components/button/button";
 import Block from "../../utils/Block/Block";
 import InputBlock from "../../components/inputBlock/inputBlock";
-import { handleValidateInput, collectData } from "../../utils/functions";
+import {
+  handleValidateInput,
+  collectData,
+} from "../../utils/functions/functions";
 import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
 import { router } from "../../utils/navigations/Router";
 import { TLoginData } from "../../utils/api/AuthApi";
 import authController from "../../service/authController/AuthController";
+import Chat from "../../components/chat/chat";
 
 export class Login extends Block {
   constructor() {
@@ -26,7 +30,7 @@ export class Login extends Block {
               this.children,
               this.children.errorFormBlock
             );
-            authController.login(formData as TLoginData)
+            authController.login(formData as TLoginData);
           },
         },
       }),
@@ -81,7 +85,7 @@ export class Login extends Block {
   }
 
   componentDidMount(): void {
-    authController.getUser("/messenger")
+    authController.getUser("/messenger", { chatComponent: Chat() });
   }
 
   render() {

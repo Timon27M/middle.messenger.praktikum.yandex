@@ -4,7 +4,10 @@ import Button from "../../components/button/button";
 import avatar from "../../utils/images/avatar.png";
 import Block from "../../utils/Block/Block";
 import InputBlock from "../../components/inputBlock/inputBlock";
-import { handleValidateInput, collectData } from "../../utils/functions";
+import {
+  handleValidateInput,
+  collectData,
+} from "../../utils/functions/functions";
 import ButtonsProfile from "../../components/buttonsProfile/buttonsProfile";
 import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
 import { router } from "../../utils/navigations/Router";

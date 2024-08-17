@@ -1,5 +1,5 @@
 import { router } from "./utils/navigations/Router";
-import { Main } from "./pages/main/main";
+import Main from "./pages/main/main";
 import { Profile } from "./pages/profile/profile";
 // import { Chat } from "./components/chat/chat";
 import { Login } from "./pages/login/login";
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .use("/", Login)
     .use("/sign-up", Register)
     .use("/settings", Profile)
-    .use("/messenger", Main)
+    .use("/messenger", Main())
     .use("/forgot-password", ForgotPassword);
 
   router.start();

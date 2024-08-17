@@ -48,6 +48,8 @@
     "indent": "off",
     "comma-dangle": "off",
     "no-alert": "off",
-    "operator-linebreak": "off"
+    "operator-linebreak": "off",
+    "no-restricted-syntax": "off",
+    "no-prototype-builtins": "off"
   }
 }
