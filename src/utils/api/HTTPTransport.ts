@@ -13,6 +13,11 @@ type Options = {
 
 type OptionsWithoutMethod = Omit<Options, "method">;
 
+type HTTPMethod = <R = unknown>(
+  path: string,
+  options?: OptionsWithoutMethod
+) => Promise<R>;
+
 function queryStringify(data: any) {
   if (typeof data !== "object") {
     throw new Error("Data must be object");
@@ -29,38 +34,26 @@ function queryStringify(data: any) {
 export default class HTTPTransport {
   private withCredentials = true;
 
-  get(
-    url: string,
-    options: OptionsWithoutMethod = {}
-  ): Promise<XMLHttpRequest> {
+  get: HTTPMethod = (url: string, options: OptionsWithoutMethod = {}) => {
     return this.request(url, { ...options, method: METHODS.GET });
-  }
+  };
 
-  post(
-    url: string,
-    options: OptionsWithoutMethod = {}
-  ): Promise<XMLHttpRequest> {
+  post(url: string, options: OptionsWithoutMethod = {}) {
     return this.request(url, { ...options, method: METHODS.POST });
   }
 
-  put(
-    url: string,
-    options: OptionsWithoutMethod = {}
-  ): Promise<XMLHttpRequest> {
+  put(url: string, options: OptionsWithoutMethod = {}) {
     return this.request(url, { ...options, method: METHODS.PUT });
   }
 
-  delete(
-    url: string,
-    options: OptionsWithoutMethod = {}
-  ): Promise<XMLHttpRequest> {
+  delete(url: string, options: OptionsWithoutMethod = {}) {
     return this.request(url, { ...options, method: METHODS.DELETE });
   }
 
-  request(
+  request = <Response>(
     url: string,
     options: Options = { method: METHODS.GET }
-  ): Promise<XMLHttpRequest> {
+  ): Promise<Response> => {
     const { headers = {}, method, data } = options;
 
     return new Promise((resolve, reject) => {
@@ -93,5 +86,5 @@ export default class HTTPTransport {
       }
       throw Error(`Ошибка: ${response.response.reason}`);
     });
-  }
+  };
 }

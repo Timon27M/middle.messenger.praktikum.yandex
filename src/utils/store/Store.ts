@@ -11,53 +11,54 @@ export enum StoreEvents {
   Updated = "updated",
 }
 
-export interface User {
+export type TUserStore = {
+  id: number;
+  first_name: string;
+  second_name: string;
+  display_name: string;
+  login: string;
+  email: string;
+  phone: string;
+  avatar: string;
+};
+
+export type TMessageStore = {
+  chat_id: number;
+  time: string;
+  type: string;
+  user_id: string;
+  content: string;
+  file?: {
     id: number;
-    first_name: string;
-    second_name: string;
-    display_name: string;
-    login: string;
-    email: string;
-    phone: string;
-    avatar: string;
-  }
-  
-  export type Message = {
-    chat_id: number;
-    time: string;
-    type: string;
-    user_id: string;
-    content: string;
-    file?: {
-      id: number;
-      user_id: number;
-      path: string;
-      filename: string;
-      content_type: string;
-      content_size: number;
-      upload_date: string;
-    };
+    user_id: number;
+    path: string;
+    filename: string;
+    content_type: string;
+    content_size: number;
+    upload_date: string;
   };
-  
-  export type LastMessage = {
-    time: string;
-    content: string;
-    user: User;
-  };
-  
-  export type ChatStore = {
-    id: number;
-    title: string;
-    avatar: string | null;
-    created_by: number;
-    unread_count: number;
-    last_message?: LastMessage;
-  };
+};
+
+export type TLastMessage = {
+  time: string;
+  content: string;
+  id: number;
+  user: TUserStore;
+};
+
+export type TChatStore = {
+  id: number;
+  title: string;
+  avatar: string | null;
+  created_by: number;
+  unread_count: number;
+  last_message?: TLastMessage;
+};
 
 export type RootStore = {
-  currentUser?: User;
-  chatList?: ChatStore[];
-  messageList?: Message[];
+  currentUser?: TUserStore;
+  chatList?: TChatStore[];
+  messageList?: TMessageStore[];
   currentChatId?: string;
   searchValue?: string;
 };
@@ -79,7 +80,7 @@ export const store = new Store();
 
 export const connect = (mapStateToProps: (state: RootStore) => Indexed) => {
   return (Component: typeof Block): typeof Block => {
-    return class extends Component {
+     return class extends Component {
       constructor(props: any) {
         let state = mapStateToProps(store.getState() as RootStore);
 

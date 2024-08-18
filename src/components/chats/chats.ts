@@ -5,12 +5,19 @@ import Block from "../../utils/Block/Block";
 import ButtonLink from "../buttonLink/buttonLink";
 import { router } from "../../utils/navigations/Router";
 import Button from "../button/button";
+import { store, TChatStore } from "../../utils/store/Store";
+import ChatList from "../chatList/ChatList";
 
-class Chats extends Block {
-  constructor() {
+export type TProps = {
+  chatList: TChatStore[] | undefined;
+};
+
+export default class Chats extends Block {
+  constructor(props: TProps) {
     super({
       styles,
-      chats: createChatList(chatListData, styles),
+      chats: ChatList(props.chatList),
+      // chats: createChatList(props.chatList, styles),
       buttonChangeData: Button({
         type: "link",
         styleType: "link",
@@ -41,8 +48,8 @@ class Chats extends Block {
   }
 }
 
-function chats() {
-  return new Chats();
-}
+// function chats(props: TProps) {
+//   return new Chats(props);
+// }
 
-export default chats;
+// export default chats;

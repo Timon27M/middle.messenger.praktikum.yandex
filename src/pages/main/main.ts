@@ -1,23 +1,24 @@
 import styles from "./main.module.scss";
-import Chats from "../../components/chats/chats";
+import Chats, { TProps } from "../../components/chats/chats";
 import Block from "../../utils/Block/Block";
 import DefaultChat from "../../components/defaultChat/defaultChat";
 import Chat from "../../components/chat/chat";
 import { router } from "../../utils/navigations/Router";
 import authController from "../../service/authController/AuthController";
 import {
-  ChatStore,
   connect,
-  Message,
   store,
-  User,
+  TChatStore,
+  TMessageStore,
+  TUserStore,
 } from "../../utils/store/Store";
+import chatController from "../../service/chatController/ChatController";
 
 export type ChatPageProps = {
   currentChatId: string;
-  currentUser?: User;
-  chatList: ChatStore[];
-  messageList: Message[];
+  chatList: TChatStore[];
+  currentUser?: TUserStore;
+  messageList: TMessageStore[];
   searchValue: string;
   chatComponent?: () => typeof Chat;
 };
@@ -27,7 +28,6 @@ export class Main extends Block {
     super({
       ...props,
       styles,
-      allChats: Chats(),
       activeChat:
         props.chatComponent === undefined ? DefaultChat() : props.chatComponent,
     });
@@ -43,13 +43,36 @@ export class Main extends Block {
       .finally(() => {
         console.log(store.getState());
       });
+
+    chatController
+      .getChats()
+      .finally(() => {
+        console.log(store.getState());
+      });
+  }
+
+  renderChatsList() {
+    const { chatList } = this.props;
+
+    // console.log(new Chats({chatList: chatList}).getContent())
+    console.log(new Chats({chatList: chatList}))
+    return new Chats({chatList: chatList});
+
+    // function chats() {
+    //   return new Chats({chatList: chatList})
+    // } 
+
+    // console.log(DefaultChat())
+
   }
 
   render() {
+    const chats = this.renderChatsList()
+    
     return `
   <main class={{styles.main}}>
     <div class="{{styles.chats}}">
-        {{{allChats}}}
+    {{{${chats}}}}
     </div>
      <div class={{styles.activeChat}}>
         {{{activeChat}}}
@@ -70,9 +93,5 @@ const main = () => {
 
   return withChats(Main);
 };
-
-// function main(chatComponent: () => typeof DefaultChat | typeof Chat) {
-//   return new main1(chatComponent);
-// }
 
 export default main;

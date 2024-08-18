@@ -4,22 +4,23 @@ import { IChatCard, CSSModuleClasses } from "../types";
 import { regexps } from "../constants";
 import { ErrorBlock } from "../../components/errorBlock/errorBlock";
 import { ErrorFormBlock } from "../../components/errorFormBlock/errorFormBlock";
+import { TChatStore } from "../store/Store";
 
-export function createChatList(arr: IChatCard[], styles: CSSModuleClasses) {
+export function createChatList(arr: TChatStore[], styles: CSSModuleClasses) {
   const chatCardLayout = arr.map(
     (item, index) => `
     <div class="${styles.chat}" key=${index} id=${index}>
-        <img class="${styles.image}" src="${item.image}" alt="image">
+        <img class="${styles.image}" src="${item.avatar}" alt="image">
         <div>
-            <p class="${styles.firstName}">${item.firstName}</p>
+            <p class="${styles.firstName}">${item.title}</p>
             <div class="${styles.lastMessageBlock}">
-            ${item.owner === true ? `<p class=${styles.owner}>Вы: </p>` : ""}
-            <p class=${styles.lastMessageText}>${item.lastMessage}</p></div>
+            ${item.created_by === true ? `<p class=${styles.owner}>Вы: </p>` : ""}
+            <p class=${styles.lastMessageText}>${item.last_message}</p></div>
         </div>
         <div class="${styles.info}">
             <p class="${styles.time}">${item.time}</p>
             ${
-              item.owner === true
+              item.created_by === true
                 ? `<span class="${styles.messageUnread}">2</span>`
                 : ""
             }

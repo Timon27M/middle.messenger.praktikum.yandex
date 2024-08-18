@@ -50,6 +50,7 @@
     "no-alert": "off",
     "operator-linebreak": "off",
     "no-restricted-syntax": "off",
-    "no-prototype-builtins": "off"
+    "no-prototype-builtins": "off",
+    "arrow-body-style": "off"
   }
 }

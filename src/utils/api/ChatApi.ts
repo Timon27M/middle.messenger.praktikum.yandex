@@ -1,3 +1,4 @@
+import { TChatStore } from "../store/Store";
 import HTTPTransport from "./HTTPTransport";
 
 export type TChatCreate = {
@@ -23,8 +24,8 @@ class ChatApi {
     this.httpTransport = new HTTPTransport();
   }
 
-  getChats() {
-    return this.httpTransport.get(`${this.url}`);
+  getChats(): Promise<TChatStore[] | undefined> {
+    return this.httpTransport.get(`${this.url}/chats`);
   }
 
   getUsersChat(id: string) {
