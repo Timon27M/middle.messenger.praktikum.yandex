@@ -1,3 +1,5 @@
+@import '../../styles/constants.scss';
+
 .main {
   display: flex;
 }
@@ -8,5 +10,24 @@
 
 .chats {
   color: blue;
-  max-width: 310px;
+  width: 380px;
+  display: flex;
+  flex-direction: column;
+  padding: 21px 10px 0;
+  border-right: 3px solid $colot-white-gray;
+  max-height: calc(100vh - 25px);
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.2) inset;
+    background-color: $color-light-white;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $color-dark-blue;
+    border-radius: 7px;
+  }
 }

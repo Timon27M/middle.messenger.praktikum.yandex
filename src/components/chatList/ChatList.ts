@@ -1,55 +1,76 @@
 import chatController from "../../service/chatController/ChatController";
 import Block from "../../utils/Block/Block";
-import { TChatStore } from "../../utils/store/Store";
+import { connect, TChatStore } from "../../utils/store/Store";
 import ChatItem from "../chatItem/ChatItem";
 
-class ChatList extends Block {
-  chatsArr?: TChatStore[] | undefined;
+type TProps = {
+  chatList: TChatStore[] | undefined;
+};
 
-  constructor(chatsArr?: TChatStore[] | undefined) {
-    super();
-    this.chatsArr = chatsArr;
+class ChatList extends Block {
+    chats: any
+    newProps: TProps
+
+  constructor(props: TProps) {
+    super({
+      ...props,
+    });
+    
+    this.chats = this.createChats(props.chatList)
+    this.newProps = props;
   }
 
- createChats(array: TChatStore[] | undefined) {
-      if (array) {
-        const chatComponents = array.map((chat) => {
-           return  ChatItem({
-              id: chat.id,
-              avatar: chat.avatar,
-              title: chat.title,
-              created_by: chat.created_by,
-              last_message: chat.last_message,
-              unread_count: chat.unread_count,
-            })
+  createChats(array: TChatStore[] | undefined) {
+    if (this.props.chatList !== undefined) {
+      const chatComponents = this.props.chatList.map((chat) => {
+        return ChatItem({
+          id: chat.id,
+          avatar: chat.avatar,
+          title: chat.title,
+          created_by: chat.created_by,
+          last_message: chat.last_message,
+          unread_count: chat.unread_count,
         });
+      });
 
-        return chatComponents
-
-      }
-
-      return undefined;
-    };
-
-   render() {
-    const chats = this.createChats(this.chatsArr);
-    console.log(chats);
-
-    if (chats !== undefined) {
-      return `
-            ${chats.map((chat) => {
-              if (chat) {
-                return `{{{chat}}}`;
-              }
-            })}
-        `;
+      return chatComponents;
     }
-      return "efwef";
+
+    return undefined;
+  }
+
+  render() {
+
+    // const chats = this.createChats(this.chatsArr);
+    // console.log(chats);
+
+    // if (chats !== null && chats !== undefined) {
+    //     console.log(chats)
+    //   return `
+    //         ${chats.map((chat) => {
+    //           if (chat) {
+    //             console.log(chat);
+    //             return `{{{chat}}}`;
+    //           }
+    //         })}
+    //     `;
+    // }
+    // return "efwef";
+    return `
+        <div>{{{chatCards}}}</div>
+    `;
   }
 }
 
-function chatList(props: TChatStore[] | undefined) {
-  return new ChatList(props);
+function chatList() {
+  //   return new ChatList(props);
+  const withChats = connect((state) => ({
+    chatList: state.chatList || [],
+  }));
+
+  const component = withChats(ChatList);
+
+  return new component();
 }
 
 export default chatList;

@@ -84,13 +84,13 @@ export const connect = (mapStateToProps: (state: RootStore) => Indexed) => {
       constructor(props: any) {
         let state = mapStateToProps(store.getState() as RootStore);
 
-        super({ ...props, ...mapStateToProps(store.getState()) });
-
+        super({ ...props, ...state });
+//store
         store.on(StoreEvents.Updated, () => {
           const newState = mapStateToProps(store.getState());
-          if (!isEqual(state, newState)) {
+        //   if (!isEqual(state, newState)) {
             this.setProps({ ...newState });
-          }
+        //   }
 
           state = newState;
         });

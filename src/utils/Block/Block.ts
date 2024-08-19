@@ -18,6 +18,8 @@ export default class Block {
 
   public id = nanoid();
 
+  protected componentDidMount() {}
+
   protected eventBus: () => EventBus;
 
   public children: Record<string, any>;
@@ -76,14 +78,12 @@ export default class Block {
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }
 
-  _componentDidMount() {
-    this.componentDidMount();
+   _componentDidMount() {
+     this.componentDidMount();
     Object.values(this.children).forEach((child) => {
       child.dispatchComponentDidMount();
     });
   }
-
-  componentDidMount() {}
 
   dispatchComponentDidMount() {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);

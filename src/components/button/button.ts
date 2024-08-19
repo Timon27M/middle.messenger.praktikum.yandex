@@ -34,11 +34,13 @@ class Button extends Block {
       styleColor = "#999";
     }
 
+    console.log(this.props);
+
     return `
         <button name={{nameButton}} ${
           type !== "button" && `style="color: ${styleColor}"`
         } class="${
-      type === "button" ? "{{styles.button}}" : `{{styles.buttonLink}}`
+      type === "button" ? "{{styles.button}}" : "{{styles.buttonLink}}"
     }">{{text}}</button>
 `;
   }
