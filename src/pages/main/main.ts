@@ -13,8 +13,7 @@ import {
 } from "../../utils/store/Store";
 import chatController from "../../service/chatController/ChatController";
 import chats from "../../components/chats/chats";
-import chatItem, { ChatItem } from "../../components/chatItem/ChatItem";
-import chatList from "../../components/chatList/ChatList";
+import chatItem from "../../components/chatItem/ChatItem";
 
 export type ChatPageProps = {
   currentChatId: string;
@@ -22,112 +21,57 @@ export type ChatPageProps = {
   currentUser?: TUserStore;
   messageList: TMessageStore[];
   searchValue: string;
-  chatComponent?: () => typeof Chat;
+  chatComponent?: typeof Chat;
 };
 
-function fun() {
-  console.log(store.getState())
-}
+function renderChatsList(chatList: TChatStore[]) {
+  if (chatList !== undefined && chatList.length > 0) {
+    const chatComponents = chatList.map((chat) => {
+      const chatTest = chatItem(chat);
 
+      return chatTest;
+    });
+    return chatComponents;
+  }
+  return undefined;
+}
 export class Main extends Block {
-  chatList: TChatStore[];
-  testStore: any;
 
   constructor(props: ChatPageProps) {
     super({
       ...props,
       styles,
-      chatList: chatList(),
+      chatLists: renderChatsList(props.chatList),
       chats: chats(),
-      activeChat:
-        props.chatComponent === undefined ? DefaultChat() : props.chatComponent,
+      activeChat: props.currentChatId ? props.currentChatId : DefaultChat(),
     });
 
-    this.chatList = props.chatList;
+    console.log(props.currentChatId)
   }
 
   componentDidMount() {
+    chatController.getChats().finally(() => {
+      this.props.chatLists = renderChatsList(this.props.chatList);
+    });
     authController.getUser().catch((err) => {
       console.log(err.message);
       router.go("/");
     });
-
-    chatController.getChats().finally(() => {
-      this.setProps(store.getState().chatList);
-      console.log(store.getState());
-    });
-  }
-
-  test() {
-    let obj = {
-      chatList: {},
-    };
-    chatController.getChats().finally(() => {
-      console.log(1);
-      console.log(store.getState());
-      console.log(this.props.chatList);
-    });
-
-    return obj;
-  }
-
-  // renderChatsList() {
-  //   const { chatList } = this.props;
-
-  //   // console.log(new Chats({chatList: chatList}).getContent())
-  //   console.log(new Chats({chatList: chatList}))
-  //   return new Chats({chatList: chatList});
-
-  //   // function chats() {
-  //   //   return new Chats({chatList: chatList})
-  //   // }
-
-  //   // console.log(DefaultChat())
-
-  // }
-
-  renderChatsList() {
-    const newChatList = store.getState().chatList;
-
-    if (newChatList !== undefined) {
-      const chatComponents = newChatList.map((chat) => {
-        const chatTest = chatItem({
-          id: chat.id,
-          avatar: chat.avatar,
-          title: chat.title,
-          created_by: chat.created_by,
-          last_message: chat.last_message,
-          unread_count: chat.unread_count,
-          // events: {
-          //   click: () => console.log("qwer")
-          // }
-        });
-        
-        return chatTest.getContent().outerHTML;
-      });
-      return chatComponents.join("");
-    }
-    return "<div></div>";
   }
 
   render() {
-    const Test = this.renderChatsList();
-    console.log(this.props)
 
     return `
     <main class={{styles.main}}>
       <div class="{{styles.chats}}">
       {{{chats}}}
-     ${Test}
-     {{{newTest}}}
+      {{{chatLists}}}
       </div>
        <div class={{styles.activeChat}}>
           {{{activeChat}}}
       </div>
     </main>
       `;
-
-    // console.log(this.props.chatList)
   }
 }
 
@@ -136,8 +80,6 @@ const main = () => {
     currentChatId: state.currentChatId,
     currentUser: state.currentUser,
     chatList: state.chatList || [],
-    messageList: state.messageList || [],
-    searchValue: state.searchValue || "",
   }));
 
   return withChats(Main);

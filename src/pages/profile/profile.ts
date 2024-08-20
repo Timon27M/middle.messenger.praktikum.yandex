@@ -13,6 +13,7 @@ import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
 import { router } from "../../utils/navigations/Router";
 import authController from "../../service/authController/AuthController";
 import userController from "../../service/userController/UserController";
+import chat from "../../components/chat/chat";
 
 export class Profile extends Block {
   constructor() {
@@ -197,7 +198,7 @@ export class Profile extends Block {
   handleChangePasswordClick(evt: Event) {
     evt.preventDefault();
 
-    router.go("/forgot-password");
+    router.go("/messenger", { chatComponent: chat() });
   }
 
   handleLogoutClick(evt: Event) {

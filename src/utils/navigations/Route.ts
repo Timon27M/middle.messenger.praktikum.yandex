@@ -16,7 +16,7 @@ export default class Route {
   constructor(
     pathname: string,
     view: typeof Block,
-    props: rootId & Record<string, any>,
+    props: rootId & Record<string, any>
   ) {
     this.pathname = pathname;
     this.BlockClass = view;
@@ -58,6 +58,8 @@ export default class Route {
       this.pageRender(this.block, this.props.rootId);
     }
     if (this.block && this.props.rootId) {
+      console.log(props)
+      this.block.setProps(props);
       this.pageRender(this.block, this.props.rootId);
     }
   }

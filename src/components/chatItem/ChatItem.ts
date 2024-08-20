@@ -2,57 +2,45 @@ import Block from "../../utils/Block/Block";
 import { store, TChatStore } from "../../utils/store/Store";
 import styles from "./ChatItem.module.scss";
 
-import defaultAvatar from "../../utils/images/avatar.png"
+import defaultAvatar from "../../utils/images/avatar.png";
+import { router } from "../../utils/navigations/Router";
+import Chat from "../chat/chat";
 
-type TProps = {
-  events?: {
-    click?: () => void;
-  };
-} & TChatStore 
+type TProps = TChatStore;
 
 export class ChatItem extends Block {
   constructor(props: TProps) {
     super({
       ...props,
-      styles: styles,
+      styles,
       id: props.id,
       avatar: props.avatar,
       title: props.title,
-      created_by: props.created_by,
-      last_message: props.last_message,
+      createdBy: props.created_by,
+      lastMessage: props.last_message,
       time: props.last_message?.time,
-      unread_count: props.unread_count,
+      unreadCount: props.unread_count,
       events: {
-        click: () => console.log("WEGFUW")
-      }
+        click: (e: Event) => {
+          e.preventDefault();
+          console.log(props.id);
+          router.go("/messenger", { chatComponent: Chat() });
+          // store.set("currentChatId", Chat());
+        },
+      },
     });
   }
 
-//   <div class="{{styles.chat}}" key={{id}} id={{id}}>
-//     <img class="{{styles.image}}" src="{{avatar}}" alt="image">
-//     <div>
-//         <p class="{{styles.firstName}}">{{title}}</p>
-//         <div class="{{styles.lastMessageBlock}}">
-//         ${owner === true ? "<p class={{styles.owner}}>Вы: </p>" : ""}
-//         <p class={{styles.lastMessageText}}>{{last_message}}</p></div>
-//     </div>
-//     <div class="{{styles.info}}}">
-//         <p class="{{styles.time}}">{{last_message.time}}</p>
-//         ${
-//           owner === true
-//             ? "<span class={{styles.messageUnread}}>{{unread_count}}</span>"
-//             : ""
-//         }
-//     </div>
-// </div>
   render() {
-    const owner = this.props.created_by === store.getState().currentUser?.id;
-    const { avatar, last_message, unread_count } = this.props;
+    const owner = this.props.createdBy === store.getState().currentUser?.id;
+    const { avatar, lastMessage, unreadCount } = this.props;
 
-    const data = new Date(last_message?.time).toLocaleTimeString()
+    const data = new Date(lastMessage?.time).toLocaleTimeString();
     return `
       <div class="{{styles.chat}}" key={{id}} id={{id}}>
-    <img class="{{styles.image}}" src="${avatar === null ? defaultAvatar : avatar}" alt="image">
+    <img class="{{styles.image}}" src="${
+      avatar === null ? defaultAvatar : avatar
+    }" alt="image">
     <div class="{{styles.container}}">
         <p class="{{styles.firstName}}">{{title}}</p>
         <div class="{{styles.lastMessageBlock}}">
@@ -62,7 +50,7 @@ export class ChatItem extends Block {
     <div class="{{styles.info}}">
         <p class="{{styles.time}}">${data !== "Invalid Date" ? data : ""}</p>
         ${
-          unread_count !== 0
+          unreadCount !== 0
             ? "<span class={{styles.messageUnread}}>{{unread_count}}</span>"
             : ""
         }

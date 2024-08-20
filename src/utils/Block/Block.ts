@@ -24,16 +24,19 @@ export default class Block {
 
   public children: Record<string, any>;
 
-  protected render() {}
+  public lists: Record<string, any>;
+
+  public render() {}
 
   constructor(propsAndChildren: Record<string, any> = {}) {
     const eventBus = new EventBus();
 
-    const { children, props } = this._getChildren(propsAndChildren);
+    const { children, props, lists } = this._getChildren(propsAndChildren);
 
-    this.children = children;
+    this.children = this._makePropsProxy(children);
 
     this.props = this._makePropsProxy(props);
+    this.lists = this._makePropsProxy(lists);
 
     this.eventBus = () => eventBus;
 
@@ -45,15 +48,18 @@ export default class Block {
   _getChildren(propsAndChildren: Record<string, any>) {
     const children: Record<string, any> = {};
     const props: Record<string, any> = {};
+    const lists: Record<string, any> = {};
 
     Object.entries(propsAndChildren).forEach(([key, value]) => {
       if (value instanceof Block) {
         children[key] = value;
+      } else if (Array.isArray(value)) {
+        lists[key] = value;
       } else {
         props[key] = value;
       }
     });
-    return { children, props };
+    return { children, props, lists };
   }
 
   _registerEvents(eventBus: EventBus) {
@@ -78,8 +84,8 @@ export default class Block {
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }
 
-   _componentDidMount() {
-     this.componentDidMount();
+  _componentDidMount() {
+    this.componentDidMount();
     Object.values(this.children).forEach((child) => {
       child.dispatchComponentDidMount();
     });
@@ -90,6 +96,9 @@ export default class Block {
   }
 
   _componentDidUpdate() {
+    const { lists } = this._getChildren(this.props);
+
+    this.lists = this._makePropsProxy(lists);
     this.componentDidUpdate();
   }
 
@@ -182,6 +191,10 @@ export default class Block {
       propsAndStubs[key] = `<div data-id="${child.id}"></div>`;
     });
 
+    Object.entries(this.lists).forEach(([key]) => {
+      propsAndStubs[key] = `<div data-id="__l_${key}"></div>`;
+    });
+
     return propsAndStubs;
   }
 
@@ -198,6 +211,26 @@ export default class Block {
       if (stub) {
         stub.replaceWith(child.getContent());
       }
+    });
+
+    Object.entries(this.lists).forEach(([key, child]) => {
+      const stub = fragment.content.querySelector(`[data-id="__l_${key}"]`);
+
+      if (!stub) {
+        return;
+      }
+
+      const listContent = this._createDocumentElement();
+
+      child.forEach((item: any) => {
+        if (item instanceof Block) {
+          listContent.content.append(item.getContent());
+        } else {
+          listContent.content.append(`${item}`);
+        }
+      });
+
+      stub.replaceWith(listContent.content);
     });
 
     return fragment.content;

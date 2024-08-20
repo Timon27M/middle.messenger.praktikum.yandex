@@ -6,33 +6,6 @@ import { ErrorBlock } from "../../components/errorBlock/errorBlock";
 import { ErrorFormBlock } from "../../components/errorFormBlock/errorFormBlock";
 import { TChatStore } from "../store/Store";
 
-export function createChatList(arr: TChatStore[], styles: CSSModuleClasses) {
-  const chatCardLayout = arr.map(
-    (item, index) => `
-    <div class="${styles.chat}" key=${index} id=${index}>
-        <img class="${styles.image}" src="${item.avatar}" alt="image">
-        <div>
-            <p class="${styles.firstName}">${item.title}</p>
-            <div class="${styles.lastMessageBlock}">
-            ${item.created_by === true ? `<p class=${styles.owner}>Вы: </p>` : ""}
-            <p class=${styles.lastMessageText}>${item.last_message}</p></div>
-        </div>
-        <div class="${styles.info}">
-            <p class="${styles.time}">${item.time}</p>
-            ${
-              item.created_by === true
-                ? `<span class="${styles.messageUnread}">2</span>`
-                : ""
-            }
-        </div>
-    </div>
-        `
-  );
-  const chatCardsLayout = chatCardLayout.join("");
-
-  return chatCardsLayout;
-}
-
 function validate(value: string, name: string) {
   const valid = new RegExp(regexps[name]).test(value);
 
