@@ -21,7 +21,10 @@ export class ChatItem extends Block {
       created_by: props.created_by,
       last_message: props.last_message,
       time: props.last_message?.time,
-      unread_count: props.unread_count
+      unread_count: props.unread_count,
+      events: {
+        click: () => console.log("WEGFUW")
+      }
     });
   }
 

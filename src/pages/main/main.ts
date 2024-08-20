@@ -25,6 +25,10 @@ export type ChatPageProps = {
   chatComponent?: () => typeof Chat;
 };
 
+function fun() {
+  console.log(store.getState())
+}
+
 export class Main extends Block {
   chatList: TChatStore[];
   testStore: any;
@@ -94,10 +98,11 @@ export class Main extends Block {
           created_by: chat.created_by,
           last_message: chat.last_message,
           unread_count: chat.unread_count,
-          events: {
-            click: () => console.log("qwer")
-          }
+          // events: {
+          //   click: () => console.log("qwer")
+          // }
         });
+        
         return chatTest.getContent().outerHTML;
       });
       return chatComponents.join("");
@@ -107,12 +112,14 @@ export class Main extends Block {
 
   render() {
     const Test = this.renderChatsList();
+    console.log(this.props)
 
     return `
     <main class={{styles.main}}>
       <div class="{{styles.chats}}">
       {{{chats}}}
      ${Test}
+     {{{newTest}}}
       </div>
        <div class={{styles.activeChat}}>
           {{{activeChat}}}

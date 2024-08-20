@@ -10,19 +10,22 @@ type TProps = {
 class ChatList extends Block {
     chats: any
     newProps: TProps
+    chatList: TChatStore[] | undefined
 
   constructor(props: TProps) {
     super({
       ...props,
+      chatsData: props.chatList,
     });
+    this.chatList = props.chatList
     
     this.chats = this.createChats(props.chatList)
     this.newProps = props;
   }
 
   createChats(array: TChatStore[] | undefined) {
-    if (this.props.chatList !== undefined) {
-      const chatComponents = this.props.chatList.map((chat) => {
+    if (this.chatList !== undefined) {
+      const chatComponents = this.chatList.map((chat) => {
         return ChatItem({
           id: chat.id,
           avatar: chat.avatar,
