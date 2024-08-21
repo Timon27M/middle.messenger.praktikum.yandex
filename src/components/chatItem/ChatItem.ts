@@ -3,7 +3,6 @@ import { store, TChatStore } from "../../utils/store/Store";
 import styles from "./ChatItem.module.scss";
 
 import defaultAvatar from "../../utils/images/avatar.png";
-import { router } from "../../utils/navigations/Router";
 import Chat from "../chat/chat";
 
 type TProps = TChatStore;
@@ -23,9 +22,7 @@ export class ChatItem extends Block {
       events: {
         click: (e: Event) => {
           e.preventDefault();
-          console.log(props.id);
-          router.go("/messenger", { chatComponent: Chat() });
-          // store.set("currentChatId", Chat());
+            store.set("currentChat", Chat());
         },
       },
     });

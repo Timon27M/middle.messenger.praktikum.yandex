@@ -59,7 +59,7 @@ export type RootStore = {
   currentUser?: TUserStore;
   chatList?: TChatStore[];
   messageList?: TMessageStore[];
-  currentChatId?: string;
+  currentChat?: string;
   searchValue?: string;
 };
 
@@ -85,12 +85,12 @@ export const connect = (mapStateToProps: (state: RootStore) => Indexed) => {
         let state = mapStateToProps(store.getState() as RootStore);
 
         super({ ...props, ...state });
-//store
+
         store.on(StoreEvents.Updated, () => {
           const newState = mapStateToProps(store.getState());
-        //   if (!isEqual(state, newState)) {
+          if (!isEqual(state, newState)) {
             this.setProps({ ...newState });
-        //   }
+          }
 
           state = newState;
         });

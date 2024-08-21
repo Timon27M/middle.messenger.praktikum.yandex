@@ -33,10 +33,10 @@ export default class Block {
 
     const { children, props, lists } = this._getChildren(propsAndChildren);
 
-    this.children = this._makePropsProxy(children);
+    this.children = children;
 
-    this.props = this._makePropsProxy(props);
-    this.lists = this._makePropsProxy(lists);
+    this.props = this._makePropsProxy({ ...props });
+    this.lists = this._makePropsProxy({ ...lists });
 
     this.eventBus = () => eventBus;
 
@@ -98,12 +98,17 @@ export default class Block {
   _componentDidUpdate() {
     const { lists } = this._getChildren(this.props);
 
-    this.lists = this._makePropsProxy(lists);
-    this.componentDidUpdate();
+    if (lists !== this.lists) {
+      this.lists = lists;
+    }
+
+    if (this.componentDidUpdate()) {
+      this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+    }
   }
 
   componentDidUpdate() {
-    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+    return true;
   }
 
   setProps(newProps: object = {}) {
@@ -132,10 +137,10 @@ export default class Block {
         return typeof value === "function" ? value.bind(target) : value;
       },
       set(target: TBlockProps, prop: string & keyof TBlockProps, value: any) {
+        const oldProps = { ...target };
         target[prop] = value;
 
-        self.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...target }, target);
-
+        self.eventBus().emit(Block.EVENTS.FLOW_CDU, oldProps, target);
         return true;
       },
       deleteProperty() {
@@ -167,7 +172,11 @@ export default class Block {
   _render() {
     const template = this.render();
 
-    const propsAndStubs = this._getPropsAndStubs(this.props);
+    const propsAndStubs = this._getPropsAndStubs({
+      ...this.lists,
+      ...this.children,
+      ...this.props,
+    });
 
     const fragment = this.compile(template, propsAndStubs);
 
@@ -208,9 +217,10 @@ export default class Block {
     Object.values(this.children).forEach((child) => {
       const stub = fragment.content.querySelector(`[data-id="${child.id}"]`);
 
-      if (stub) {
-        stub.replaceWith(child.getContent());
+      if (!stub) {
+        return;
       }
+      stub.replaceWith(child.getContent());
     });
 
     Object.entries(this.lists).forEach(([key, child]) => {

@@ -16,7 +16,7 @@ import chats from "../../components/chats/chats";
 import chatItem from "../../components/chatItem/ChatItem";
 
 export type ChatPageProps = {
-  currentChatId: string;
+  currentChat: typeof Chat;
   chatList: TChatStore[];
   currentUser?: TUserStore;
   messageList: TMessageStore[];
@@ -36,17 +36,14 @@ function renderChatsList(chatList: TChatStore[]) {
   return undefined;
 }
 export class Main extends Block {
-
   constructor(props: ChatPageProps) {
     super({
       ...props,
       styles,
       chatLists: renderChatsList(props.chatList),
       chats: chats(),
-      activeChat: props.currentChatId ? props.currentChatId : DefaultChat(),
+      activeChat: props.currentChat ? props.currentChat : DefaultChat(),
     });
-
-    console.log(props.currentChatId)
   }
 
   componentDidMount() {
@@ -59,8 +56,8 @@ export class Main extends Block {
     });
   }
 
-  render() {
 
+  render() {
     return `
     <main class={{styles.main}}>
       <div class="{{styles.chats}}">
@@ -77,7 +74,7 @@ export class Main extends Block {
 
 const main = () => {
   const withChats = connect((state) => ({
-    currentChatId: state.currentChatId,
+    currentChat: state.currentChat,
     currentUser: state.currentUser,
     chatList: state.chatList || [],
   }));
