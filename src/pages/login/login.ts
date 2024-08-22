@@ -85,7 +85,7 @@ export class Login extends Block {
   }
 
   componentDidMount(): void {
-    authController.getUser("/messenger", { chatComponent: Chat() });
+    authController.getUser("/messenger");
   }
 
   render() {

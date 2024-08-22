@@ -13,10 +13,14 @@ import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
 import { router } from "../../utils/navigations/Router";
 import authController from "../../service/authController/AuthController";
 import userController from "../../service/userController/UserController";
-import chat from "../../components/chat/chat";
+import { connect, store, TUserStore } from "../../utils/store/Store";
+
+type TProps = {
+  currentUser: TUserStore | undefined;
+};
 
 export class Profile extends Block {
-  constructor() {
+  constructor(props: TProps) {
     super({
       styles,
       avatar,
@@ -53,7 +57,7 @@ export class Profile extends Block {
         errorText: "",
         type: "email",
         name: "email",
-        value: "pochta@yandex.ru",
+        value: props.currentUser?.email,
         disabled: true,
         id: "email",
         events: {
@@ -71,7 +75,7 @@ export class Profile extends Block {
         errorText: "",
         type: "text",
         name: "login",
-        value: "ivanivanov",
+        value: props.currentUser?.login,
         disabled: true,
         id: "login",
         events: {
@@ -89,7 +93,7 @@ export class Profile extends Block {
         errorText: "",
         type: "text",
         name: "first_name",
-        value: "Иван",
+        value: props.currentUser?.first_name,
         disabled: true,
         id: "first_name",
         events: {
@@ -107,7 +111,7 @@ export class Profile extends Block {
         errorText: "",
         type: "text",
         name: "second_name",
-        value: "Иванов",
+        value: props.currentUser?.second_name,
         disabled: true,
         id: "second_name",
         events: {
@@ -125,7 +129,7 @@ export class Profile extends Block {
         errorText: "",
         type: "text",
         name: "display_name",
-        value: "Иван",
+        value: props.currentUser?.display_name,
         disabled: true,
         id: "display_name",
         events: {
@@ -143,7 +147,7 @@ export class Profile extends Block {
         errorText: "",
         type: "tel",
         name: "phone",
-        value: "+79099673030",
+        value: props.currentUser?.phone,
         disabled: true,
         id: "phone",
         events: {
@@ -159,10 +163,42 @@ export class Profile extends Block {
   }
 
   componentDidMount() {
-    authController.getUser().catch((err) => {
-      console.log(err.message);
-      router.go("/");
-    });
+    authController
+      .getUser()
+      .catch((err) => {
+        console.log(err.message);
+        router.go("/");
+      })
+      .finally(() => {
+        const data = store.getState().currentUser;
+        this.changeInputValue(data);
+
+        console.log(this.children.emailInputBlock);
+        this.setProps({ currentUser: store.getState().currentUser });
+      });
+  }
+
+  changeInputValue(data: TUserStore | undefined) {
+    if (data !== undefined) {
+      this.children.emailInputBlock.children.input.setProps({
+        value: data.email,
+      });
+      this.children.loginInputBlock.children.input.setProps({
+        value: data.login,
+      });
+      this.children.nameInputBlock.children.input.setProps({
+        value: data.first_name,
+      });
+      this.children.surnameInputBlock.children.input.setProps({
+        value: data.second_name,
+      });
+      this.children.nameInChatInputBlock.children.input.setProps({
+        value: data.display_name,
+      });
+      this.children.telInputBlock.children.input.setProps({
+        value: data.phone,
+      });
+    }
   }
 
   handleChangeDataClick(evt: Event) {
@@ -198,7 +234,7 @@ export class Profile extends Block {
   handleChangePasswordClick(evt: Event) {
     evt.preventDefault();
 
-    router.go("/messenger", { chatComponent: chat() });
+    router.go("/forgot-password");
   }
 
   handleLogoutClick(evt: Event) {
@@ -216,38 +252,45 @@ export class Profile extends Block {
       this.children.errorFormBlock
     );
 
-    if (isValid) {
-      this.children.emailInputBlock.children.input.setProps({
-        disabled: true,
-        class: styles.input,
-      });
-      this.children.nameInputBlock.children.input.setProps({
-        disabled: true,
-        class: styles.input,
-      });
-      this.children.surnameInputBlock.children.input.setProps({
-        disabled: true,
-        class: styles.input,
-      });
-      this.children.nameInChatInputBlock.children.input.setProps({
-        disabled: true,
-        class: styles.input,
-      });
-      this.children.loginInputBlock.children.input.setProps({
-        disabled: true,
-        class: styles.input,
-      });
-      this.children.telInputBlock.children.input.setProps({
-        disabled: true,
-        class: styles.input,
-      });
+    this.children.buttonsForm.setProps({ type: "changeBlockButton" });
 
-      this.children.buttonsForm.setProps({ type: "changeBlockButton" });
+    console.log(formData);
 
-      console.log(formData);
-
-      userController.updateUserProfile(formData);
-    }
+    userController
+      .updateUserProfile(formData)
+      .then((res) => {
+        this.changeInputValue(store.getState().currentUser);
+        console.log(res);
+        console.log(store.getState());
+      })
+      .finally(() => {
+        if (isValid) {
+          this.children.emailInputBlock.children.input.setProps({
+            disabled: true,
+            class: styles.input,
+          });
+          this.children.nameInputBlock.children.input.setProps({
+            disabled: true,
+            class: styles.input,
+          });
+          this.children.surnameInputBlock.children.input.setProps({
+            disabled: true,
+            class: styles.input,
+          });
+          this.children.nameInChatInputBlock.children.input.setProps({
+            disabled: true,
+            class: styles.input,
+          });
+          this.children.loginInputBlock.children.input.setProps({
+            disabled: true,
+            class: styles.input,
+          });
+          this.children.telInputBlock.children.input.setProps({
+            disabled: true,
+            class: styles.input,
+          });
+        }
+      });
   }
 
   render() {
@@ -302,7 +345,11 @@ export class Profile extends Block {
 }
 
 function profile() {
-  return new Profile();
+  const withChats = connect((state) => ({
+    currentUser: { ...state.currentUser },
+  }));
+
+  return withChats(Profile);
 }
 
 export default profile;

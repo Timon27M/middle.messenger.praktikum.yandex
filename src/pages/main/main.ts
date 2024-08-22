@@ -6,7 +6,6 @@ import { router } from "../../utils/navigations/Router";
 import authController from "../../service/authController/AuthController";
 import {
   connect,
-  store,
   TChatStore,
   TMessageStore,
   TUserStore,
@@ -48,14 +47,13 @@ export class Main extends Block {
 
   componentDidMount() {
     chatController.getChats().finally(() => {
-      this.props.chatLists = renderChatsList(this.props.chatList);
+      this.setProps({ chatLists: renderChatsList(this.props.chatList) });
     });
     authController.getUser().catch((err) => {
       console.log(err.message);
       router.go("/");
     });
   }
-
 
   render() {
     return `
@@ -65,7 +63,7 @@ export class Main extends Block {
       {{{chatLists}}}
       </div>
        <div class={{styles.activeChat}}>
-          {{{activeChat}}}
+          {{{currentChat}}}
       </div>
     </main>
       `;
@@ -74,9 +72,10 @@ export class Main extends Block {
 
 const main = () => {
   const withChats = connect((state) => ({
-    currentChat: state.currentChat,
+    currentChat: state.currentChat || DefaultChat(),
     currentUser: state.currentUser,
     chatList: state.chatList || [],
+    messageList: state.messageList || undefined,
   }));
 
   return withChats(Main);

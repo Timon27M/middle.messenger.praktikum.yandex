@@ -1,13 +1,9 @@
 import styles from "./chats.module.scss";
-import { chatListData } from "../../utils/constants";
-import { createChatList } from "../../utils/functions/functions";
 import Block from "../../utils/Block/Block";
-import ButtonLink from "../buttonLink/buttonLink";
 import { router } from "../../utils/navigations/Router";
 import Button from "../button/button";
-import { connect, store, TChatStore } from "../../utils/store/Store";
+import { connect, TChatStore } from "../../utils/store/Store";
 import ChatList from "../chatList/ChatList";
-import chatItem from "../chatItem/ChatItem";
 
 export type TProps = {
   chatList: TChatStore[] | undefined;

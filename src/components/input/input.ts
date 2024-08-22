@@ -5,7 +5,7 @@ type TProps = {
   type: string;
   name: string;
   value?: string;
-  placeholder?: string,
+  placeholder?: string;
   id: string;
   disabled?: boolean | undefined;
   events?: {
@@ -24,10 +24,18 @@ export class Input extends Block {
 
   getValue() {
     const element = document.getElementById(
-      `${this.props.id}`,
+      `${this.props.id}`
     ) as HTMLInputElement;
     const { value } = element;
     return value;
+  }
+
+  clearValue() {
+    const element = document.getElementById(
+      `${this.props.id}`
+    ) as HTMLInputElement;
+
+    element.value = "";
   }
 
   render() {
@@ -35,8 +43,8 @@ export class Input extends Block {
 
     return `
         <input type="{{type}}" id="{{id}}" ${
-  disabled === true ? "disabled" : "!disabled"
-} class="{{class}}" placeholder="{{placeholder}}" name="{{name}}" value="{{value}}" />
+          disabled === true ? "disabled" : "!disabled"
+        } class="{{class}}" placeholder="{{placeholder}}" name="{{name}}" value="{{value}}" />
         `;
   }
 }

@@ -45,7 +45,6 @@ class ButtonsBlockProfile extends Block {
     });
   }
 
-  //<a type="button" href="/forgot-password" class="{{styles.button}} {{styles.buttonBlue}}">Изменить пароль</a>
   render() {
     return `
         <div class="{{styles.buttons}}">

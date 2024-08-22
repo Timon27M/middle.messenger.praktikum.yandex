@@ -1,12 +1,10 @@
 import { Input } from "../../components/input/input";
 import { InputBlock } from "../../components/inputBlock/inputBlock";
-import { IChatCard, CSSModuleClasses } from "../types";
 import { regexps } from "../constants";
 import { ErrorBlock } from "../../components/errorBlock/errorBlock";
 import { ErrorFormBlock } from "../../components/errorFormBlock/errorFormBlock";
-import { TChatStore } from "../store/Store";
 
-function validate(value: string, name: string) {
+export function validate(value: string, name: string): boolean {
   const valid = new RegExp(regexps[name]).test(value);
 
   return valid;
@@ -41,8 +39,7 @@ export function collectData(
   });
 
   const isValid = Object.entries(formData).every(([key, value]) =>
-    validate(value, key)
-  );
+    validate(value, key));
 
   if (isValid === false) {
     errorFormBlock.setProps({ text: "Данные заполнены неправильно" });

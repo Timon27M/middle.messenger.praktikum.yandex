@@ -5,16 +5,24 @@ import buttonDocumentImage from "../../utils/images/buttonDocument.jpg";
 import Block from "../../utils/Block/Block";
 import input from "../input/input";
 import ErrorBlock from "../errorBlock/errorBlock";
-import { handleValidateInput } from "../../utils/functions/functions";
+import {
+  handleValidateInput,
+  validate,
+} from "../../utils/functions/functions";
+import { store } from "../../utils/store/Store";
+import webSocket from "../../utils/api/WebSocket";
+import createMessageList from "../../utils/functions/createMessageList";
+import buttonLink from "../buttonLink/buttonLink";
 
 export class Chat extends Block {
-  constructor() {
+  constructor(id: number) {
     super({
       styles,
+      id,
       data: {
         image:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlte8jVger7Istf0ctZT7Fxyn_GfHfWDg5-w&s",
-        firstName: "Андрей",
+        firstName: "Qwer",
         time: "12:48",
       },
       avatar,
@@ -35,14 +43,85 @@ export class Chat extends Block {
             ),
         },
       }),
+      buttonSendMessage: buttonLink({
+        class: styles.buttonSendActive,
+        text: ">",
+        events: {
+          click: (evt: Event) => {
+            evt.preventDefault();
+
+            const value = this.children.messageInput.getValue()
+
+            const valid = validate(
+              value,
+              "message"
+            );
+
+            if (valid === true) {
+
+              webSocket.send(value);
+              this.children.messageInput.clearValue()
+            } else {
+              alert("Заполните поле сообщение правильно")
+            }
+
+          },
+        },
+      }),
       errorBlock: ErrorBlock({
         class: styles.textError,
         errorText: "",
       }),
+      messageList: createMessageList(),
     });
   }
 
+  componentDidMount() {
+    const userId = store.getState().currentUser?.id;
+    webSocket.create(this.props.id, userId, this);
+    console.log(webSocket);
+    console.log(store.getState());
+  }
+
   // <input type="text" class="{{styles.input}}" name="message" placeholder="Сообщение" />
+
+  // <div class={{styles.messageOwner}}>
+  //       <p class="{{styles.messageText}}">Привет! Смотри, тут всплыл интересный
+  //         кусок лунной космической истории — НАСА в какой-то момент попросила
+  //         Хассельблад адаптировать модель SWC для полетов на Луну. Сейчас мы все
+  //         знаем что астронавты летали с моделью 500 EL — и к слову говоря, все
+  //         тушки этих камер все еще находятся на поверхности Луны, так как
+  //         астронавты с собой забрали только кассеты с пленкой. Хассельблад в итоге
+  //         адаптировал SWC для космоса, но что-то пошло не так и на ракету они так
+  //         никогда и не попали. Всего их было произведено 25 штук, одну из них
+  //         недавно продали на аукционе за 45000 евро.</p>
+  //       <p class={{styles.time}}>{{data.time}}</p>
+  //     </div>
+  //     <div class={{styles.messageOwner}}>
+  //       <p class="{{styles.messageText}}">Привет! Смотри, тут всплыл интересный
+  //         кусок лунной космической истории — НАСА в какой-то момент попросила
+  //         Хассельблад адаптировать модель SWC для полетов на Луну. Сейчас мы все
+  //         знаем что астронавты летали с моделью 500 EL — и к слову говоря, все
+  //         тушки этих камер все еще находятся на поверхности Луны, так как
+  //         астронавты с собой забрали только кассеты с пленкой. Хассельблад в итоге
+  //         адаптировал SWC для космоса, но что-то пошло не так и на ракету они так
+  //         никогда и не попали. Всего их было произведено 25 штук, одну из них
+  //         недавно продали на аукционе за 45000 евро.</p>
+  //       <p class={{styles.time}}>{{data.time}}</p>
+  //     </div>
+  //     <div class={{styles.messageOwner}}>
+  //       <p class="{{styles.messageText}}">Привет! Смотри, тут всплыл интересный
+  //         кусок лунной космической истории — НАСА в какой-то момент попросила
+  //         Хассельблад адаптировать модель SWC для полетов на Луну. Сейчас мы все
+  //         знаем что астронавты летали с моделью 500 EL — и к слову говоря, все
+  //         тушки этих камер все еще находятся на поверхности Луны, так как
+  //         астронавты с собой забрали только кассеты с пленкой. Хассельблад в итоге
+  //         адаптировал SWC для космоса, но что-то пошло не так и на ракету они так
+  //         никогда и не попали. Всего их было произведено 25 штук, одну из них
+  //         недавно продали на аукционе за 45000 евро.
+  //       </p>
+  //       <p class={{styles.time}}>{{data.time}}</p>
+  //     </div>
 
   render() {
     return `
@@ -55,43 +134,7 @@ export class Chat extends Block {
     </button>
   </div>
   <div class="{{styles.container}}">
-    <div class={{styles.messageOwner}}>
-      <p class="{{styles.messageText}}">Привет! Смотри, тут всплыл интересный
-        кусок лунной космической истории — НАСА в какой-то момент попросила
-        Хассельблад адаптировать модель SWC для полетов на Луну. Сейчас мы все
-        знаем что астронавты летали с моделью 500 EL — и к слову говоря, все
-        тушки этих камер все еще находятся на поверхности Луны, так как
-        астронавты с собой забрали только кассеты с пленкой. Хассельблад в итоге
-        адаптировал SWC для космоса, но что-то пошло не так и на ракету они так
-        никогда и не попали. Всего их было произведено 25 штук, одну из них
-        недавно продали на аукционе за 45000 евро.</p>
-      <p class={{styles.time}}>{{data.time}}</p>
-    </div>
-    <div class={{styles.messageOwner}}>
-      <p class="{{styles.messageText}}">Привет! Смотри, тут всплыл интересный
-        кусок лунной космической истории — НАСА в какой-то момент попросила
-        Хассельблад адаптировать модель SWC для полетов на Луну. Сейчас мы все
-        знаем что астронавты летали с моделью 500 EL — и к слову говоря, все
-        тушки этих камер все еще находятся на поверхности Луны, так как
-        астронавты с собой забрали только кассеты с пленкой. Хассельблад в итоге
-        адаптировал SWC для космоса, но что-то пошло не так и на ракету они так
-        никогда и не попали. Всего их было произведено 25 штук, одну из них
-        недавно продали на аукционе за 45000 евро.</p>
-      <p class={{styles.time}}>{{data.time}}</p>
-    </div>
-    <div class={{styles.messageOwner}}>
-      <p class="{{styles.messageText}}">Привет! Смотри, тут всплыл интересный
-        кусок лунной космической истории — НАСА в какой-то момент попросила
-        Хассельблад адаптировать модель SWC для полетов на Луну. Сейчас мы все
-        знаем что астронавты летали с моделью 500 EL — и к слову говоря, все
-        тушки этих камер все еще находятся на поверхности Луны, так как
-        астронавты с собой забрали только кассеты с пленкой. Хассельблад в итоге
-        адаптировал SWC для космоса, но что-то пошло не так и на ракету они так
-        никогда и не попали. Всего их было произведено 25 штук, одну из них
-        недавно продали на аукционе за 45000 евро.
-      </p>
-      <p class={{styles.time}}>{{data.time}}</p>
-    </div>
+    {{{messageList}}}
   </div>
   <div class="{{styles.inputBlock}}">
     <button class="{{styles.documentButton}}">
@@ -101,17 +144,15 @@ export class Chat extends Block {
       {{{messageInput}}}
       {{{errorBlock}}}
     </div>
-    <button class="{{styles.buttonSendActive}}">
-      >
-    </button>
+    {{{buttonSendMessage}}}
   </div>
 </section>
     `;
   }
 }
 
-function chat() {
-  return new Chat();
+function chat(id: number) {
+  return new Chat(id);
 }
 
 export default chat;

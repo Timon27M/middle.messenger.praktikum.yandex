@@ -51,6 +51,8 @@
     "operator-linebreak": "off",
     "no-restricted-syntax": "off",
     "no-prototype-builtins": "off",
-    "arrow-body-style": "off"
+    "arrow-body-style": "off",
+    "max-classes-per-file": "off",
+    "eslint-plugin-import/no-cycle": "off"
   }
 }

@@ -33,11 +33,12 @@ export class ForgotPassword extends Block {
               this.children,
               this.children.errorFormBlock
             );
-
             console.log(formData);
             userController.updateUserPassword(
               formData as TDataFormUpdatePassword
-            );
+            ).then(() => {
+              alert("Пароль успешно изменен")
+            })
           },
         },
       }),
@@ -54,7 +55,8 @@ export class ForgotPassword extends Block {
         errorText: "",
         type: "password",
         name: "oldPassword",
-        value: "ivaninvanoV9",
+        value: "",
+        placeholder: "Введите старый пароль",
         id: "oldPassword",
         events: {
           blur: () =>
@@ -71,7 +73,8 @@ export class ForgotPassword extends Block {
         errorText: "",
         type: "password",
         name: "newPassword",
-        value: "ivaninvanoV9",
+        value: "",
+        placeholder: "Введите новый пароль",
         id: "newPassword",
         events: {
           blur: () =>
@@ -88,7 +91,8 @@ export class ForgotPassword extends Block {
         errorText: "",
         type: "password",
         name: "newPasswordAgain",
-        value: "ivaninvanoV9",
+        placeholder: "Повторите новый пароль",
+        value: "",
         id: "newPasswordAgain",
         events: {
           blur: () =>

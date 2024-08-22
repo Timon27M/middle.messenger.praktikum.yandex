@@ -1,3 +1,5 @@
+import { Chat } from "../../components/chat/chat";
+import { DefaultChat } from "../../components/defaultChat/defaultChat";
 import Block from "../Block/Block";
 import EventBus from "../EventBus/EventBus";
 import { isEqual } from "../functions/isEqual";
@@ -59,7 +61,7 @@ export type RootStore = {
   currentUser?: TUserStore;
   chatList?: TChatStore[];
   messageList?: TMessageStore[];
-  currentChat?: string;
+  currentChat?: typeof Chat | typeof DefaultChat;
   searchValue?: string;
 };
 
@@ -80,7 +82,7 @@ export const store = new Store();
 
 export const connect = (mapStateToProps: (state: RootStore) => Indexed) => {
   return (Component: typeof Block): typeof Block => {
-     return class extends Component {
+    return class extends Component {
       constructor(props: any) {
         let state = mapStateToProps(store.getState() as RootStore);
 

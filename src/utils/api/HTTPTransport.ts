@@ -53,7 +53,7 @@ export default class HTTPTransport {
   request = <Response>(
     url: string,
     options: Options = { method: METHODS.GET }
-  ): Promise<Response> => {
+  ): Promise<Response> | Promise<any> => {
     const { headers = {}, method, data } = options;
 
     return new Promise((resolve, reject) => {

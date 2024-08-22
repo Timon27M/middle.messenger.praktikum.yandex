@@ -1,6 +1,7 @@
 import { nanoid } from "nanoid";
 import Handlebars from "handlebars";
 import EventBus from "../EventBus/EventBus";
+import merge from "../functions/merge";
 
 type TBlockProps = Record<string, any>;
 
@@ -96,10 +97,17 @@ export default class Block {
   }
 
   _componentDidUpdate() {
-    const { lists } = this._getChildren(this.props);
+    const { lists, children } = this._getChildren(this.props);
+    // console.log(this.props)
 
     if (lists !== this.lists) {
       this.lists = lists;
+    }
+    if (children !== this.children) {
+      // console.log(this.children)
+      // console.log(children)
+      // console.log(merge(this.children, children))
+      this.children = merge(this.children, children);
     }
 
     if (this.componentDidUpdate()) {
@@ -117,6 +125,7 @@ export default class Block {
     }
 
     Object.assign(this.props, newProps);
+    // Object.assign(this.props, newProps);
   }
 
   get element() {
