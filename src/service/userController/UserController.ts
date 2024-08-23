@@ -20,11 +20,13 @@ class UserController {
       });
   }
 
-  updateUserAvatar(data: FormData) {
-    this.userApi.updateUserAvatar(data);
+  async updateUserAvatar(data: FormData) {
+    await this.userApi.updateUserAvatar(data).then((res) => {
+      store.set("currentUser", res);
+    });
   }
 
- async updateUserPassword(data: TDataFormUpdatePassword) {
+  async updateUserPassword(data: TDataFormUpdatePassword) {
     if (
       data.newPassword === data.newPasswordAgain &&
       data.oldPassword !== data.newPassword
@@ -33,7 +35,7 @@ class UserController {
         oldPassword: data.oldPassword,
         newPassword: data.newPassword,
       };
-     await this.userApi.updateUserPassword(dataRequest).catch((err) => {
+      await this.userApi.updateUserPassword(dataRequest).catch((err) => {
         console.log(err.message);
       });
     } else {
@@ -42,8 +44,10 @@ class UserController {
     }
   }
 
-  searchUser(data: TLogin) {
-    this.userApi.searchUser(data);
+  async searchUser(data: TLogin): Promise<any> {
+    await this.userApi.searchUser(data).then((res) => {
+      console.log(res);
+    });
   }
 }
 

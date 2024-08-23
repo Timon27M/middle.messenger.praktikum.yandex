@@ -3,7 +3,7 @@ import chatApi, {
   TChatCreate,
   TChatDelete,
 } from "../../utils/api/ChatApi";
-import { store, TChatStore } from "../../utils/store/Store";
+import { store } from "../../utils/store/Store";
 
 class ChatController {
   private chatApi: typeof chatApi;
@@ -27,12 +27,12 @@ class ChatController {
     this.chatApi.getUsersChat(id);
   }
 
-  create(data: TChatCreate) {
-    this.chatApi.create(data);
+ async create(data: TChatCreate) {
+   await this.chatApi.create(data);
   }
 
-  addUser(data: TChatAddAndDeleteUser) {
-    this.chatApi.addUser(data);
+ async addUser(data: TChatAddAndDeleteUser) {
+    await this.chatApi.addUser(data);
   }
 
   deleteUser(data: TChatAddAndDeleteUser) {

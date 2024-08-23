@@ -33,19 +33,19 @@ class ChatApi {
   }
 
   create(data: TChatCreate) {
-    return this.httpTransport.post(`${this.url}`, { data });
+    return this.httpTransport.post(`${this.url}/chats`, { data });
   }
 
   addUser(data: TChatAddAndDeleteUser) {
-    return this.httpTransport.put(`${this.url}/users`, { data });
+    return this.httpTransport.put(`${this.url}/chats/users`, { data });
   }
 
   deleteUser(data: TChatAddAndDeleteUser) {
-    return this.httpTransport.delete(`${this.url}/users`, { data });
+    return this.httpTransport.delete(`${this.url}/chats/users`, { data });
   }
 
   deleteChat(data: TChatDelete) {
-    return this.httpTransport.delete(`${this.url}`, { data });
+    return this.httpTransport.delete(`${this.url}/chats`, { data });
   }
 }
 

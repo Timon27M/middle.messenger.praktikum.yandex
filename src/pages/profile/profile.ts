@@ -14,6 +14,8 @@ import { router } from "../../utils/navigations/Router";
 import authController from "../../service/authController/AuthController";
 import userController from "../../service/userController/UserController";
 import { connect, store, TUserStore } from "../../utils/store/Store";
+import Popup from "../../components/popup/popup";
+import ButtonLink from "../../components/buttonLink/buttonLink";
 
 type TProps = {
   currentUser: TUserStore | undefined;
@@ -32,6 +34,37 @@ export class Profile extends Block {
           this.handleSaveDataClick(e);
         },
       },
+      popup: Popup({
+        titlePopup: "Смена аватара",
+        subTitle: "Выбрать аватар с компьютера",
+        typeInput: "file",
+        name: "avatarPopup",
+        button: Button({
+          text: "Поменять",
+          nameButton: "changeAvatar",
+          events: {
+            click: (evt: Event) => {
+              evt.preventDefault();
+
+              const inputValue = this.children.popup.children.input.getFiles();
+
+              if (inputValue[0]) {
+                const formData = new FormData();
+                formData.append("avatar", inputValue[0]);
+
+                userController
+                  .updateUserAvatar(formData)
+                  .then(() => {
+                    this.children.popup.setProps({ show: false });
+                  })
+                  .catch((err) => {
+                    alert(`${err.message}`);
+                  });
+              }
+            },
+          },
+        }),
+      }),
       ButtonBack: ButtonBack({
         events: {
           click: () => {
@@ -43,6 +76,15 @@ export class Profile extends Block {
         text: "Изменить",
         type: "button",
         nameButton: "change_profile",
+      }),
+      buttonAvatar: ButtonLink({
+        class: styles.avatarButton,
+        text: "",
+        events: {
+          click: () => {
+            this.children.popup.setProps({ show: true });
+          },
+        },
       }),
       buttonsForm: ButtonsProfile({
         clickButtonChangeData: (evt: Event) => this.handleChangeDataClick(evt),
@@ -173,7 +215,6 @@ export class Profile extends Block {
         const data = store.getState().currentUser;
         this.changeInputValue(data);
 
-        console.log(this.children.emailInputBlock);
         this.setProps({ currentUser: store.getState().currentUser });
       });
   }
@@ -258,10 +299,8 @@ export class Profile extends Block {
 
     userController
       .updateUserProfile(formData)
-      .then((res) => {
+      .then(() => {
         this.changeInputValue(store.getState().currentUser);
-        console.log(res);
-        console.log(store.getState());
       })
       .finally(() => {
         if (isValid) {
@@ -294,13 +333,23 @@ export class Profile extends Block {
   }
 
   render() {
+    let avatarLink: string;
+
+    if (store.getState().currentUser?.avatar) {
+      avatarLink = `https://ya-praktikum.tech/api/v2/resources${
+        store.getState().currentUser?.avatar
+      }`;
+    } else {
+      avatarLink = avatar;
+    }
     return `
 <main class="{{styles.profile}}">
 {{{ButtonBack}}}
   <form class="{{styles.container}}">
-  <a href="">
-    <img class="{{styles.avatar}}" src={{avatar}} alt="avatar" />
-    </a>
+  <div class="{{styles.avatarBlock}}">
+    <img class="{{styles.avatarImage}}" src="${avatarLink}" alt="avatar" />
+    {{{buttonAvatar}}}
+    </div>
     <h2 class="{{styles.name}}">Ваня</h2>
   </div>
   <div class="{{styles.inputsBlock}}">
@@ -338,7 +387,9 @@ export class Profile extends Block {
     <a class="{{styles.popupLink}}" href="#">Выбрать файл на компьютере</a>
    {{{ButtonPopup}}}
   </div>
-</form>
+  </div>
+  </form>
+  {{{popup}}}
 </main>
     `;
   }

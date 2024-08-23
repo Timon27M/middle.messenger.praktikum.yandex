@@ -11,15 +11,19 @@ type TProps = {
   events?: {
     blur?: () => void;
     click?: () => void;
+    keyup?: (evt: KeyboardEvent) => void;
   };
 };
 
 export class Input extends Block {
   public name: string;
 
+  class: string | undefined;
+
   constructor(props: TProps) {
     super(props);
     this.name = props.name;
+    this.class = props.class;
   }
 
   getValue() {
@@ -28,6 +32,14 @@ export class Input extends Block {
     ) as HTMLInputElement;
     const { value } = element;
     return value;
+  }
+
+  getFiles() {
+    const element = document.getElementById(
+      `${this.props.id}`
+    ) as HTMLInputElement;
+    const { files } = element;
+    return files;
   }
 
   clearValue() {

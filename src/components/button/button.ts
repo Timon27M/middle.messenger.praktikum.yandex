@@ -16,7 +16,7 @@ type TButton = {
 type TButtonWithClass = TButton & {
   styles?: CSSModuleClasses;
 };
-class Button extends Block {
+export class Button extends Block {
   constructor(props: TButtonWithClass) {
     super(props);
   }

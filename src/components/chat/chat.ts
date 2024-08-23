@@ -5,25 +5,32 @@ import buttonDocumentImage from "../../utils/images/buttonDocument.jpg";
 import Block from "../../utils/Block/Block";
 import input from "../input/input";
 import ErrorBlock from "../errorBlock/errorBlock";
-import {
-  handleValidateInput,
-  validate,
-} from "../../utils/functions/functions";
+import { handleValidateInput, validate } from "../../utils/functions/functions";
 import { store } from "../../utils/store/Store";
 import webSocket from "../../utils/api/WebSocket";
 import createMessageList from "../../utils/functions/createMessageList";
 import buttonLink from "../buttonLink/buttonLink";
+import Popup from "../popup/popup";
+import Button from "../button/button";
+import userController from "../../service/userController/UserController";
+import chatController from "../../service/chatController/ChatController";
+
+type TProps = {
+  id: number;
+  title: string;
+  image: string | null;
+};
 
 export class Chat extends Block {
-  constructor(id: number) {
+  constructor(props: TProps) {
     super({
       styles,
-      id,
+      id: props.id,
       data: {
-        image:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlte8jVger7Istf0ctZT7Fxyn_GfHfWDg5-w&s",
-        firstName: "Qwer",
-        time: "12:48",
+        image: props.image
+          ? props.image
+          : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlte8jVger7Istf0ctZT7Fxyn_GfHfWDg5-w&s",
+        firstName: props.title,
       },
       avatar,
       buttonSettingImage,
@@ -43,6 +50,77 @@ export class Chat extends Block {
             ),
         },
       }),
+      buttonAddUser: buttonLink({
+        text: "Добавить пользователя",
+        class: styles.buttonNavbar,
+        events: {
+          click: () => {
+            this.children.popupAddUser.setProps({ show: true })
+          },
+        },
+      }),
+      buttonDeleteUser: buttonLink({
+        text: "Удалить пользователя",
+        class: styles.buttonNavbar,
+        events: {
+          click: () => {},
+        },
+      }),
+      buttonDeleteChat: buttonLink({
+        text: "Удалить чат",
+        class: styles.buttonNavbar,
+        events: {
+          click: () => {},
+        },
+      }),
+      popupAddUser: Popup({
+        titlePopup: "Добавить пользователя",
+        typeInput: "text",
+        placeholder: "Логин",
+        name: "popupAddUser",
+        button: Button({
+          text: "Добавить",
+          nameButton: "addUser",
+          events: {
+            click: (evt: Event) => {
+              evt.preventDefault();
+              const value =
+                this.children.popupAddUser.children.input.getValue();
+                console.log(value)
+
+              if (value) {
+                userController.searchUser({ login: value }).then((res) => {
+                  console.log(res)
+                  // const usersId = res[0].id;
+                  // if (usersId) {
+                  //   chatController.addUser({
+                  //     users: [usersId],
+                  //     chatId: props.id,
+                  //   }).then((res) => {
+                  //     console.log(res)
+                  //   })
+                  // }
+                });
+              }
+            },
+          },
+        }),
+      }),
+      popupDeleteUser: Popup({
+        titlePopup: "Удалить пользователя",
+        typeInput: "text",
+        placeholder: "Логин",
+        name: "popupDeleteUser",
+        button: Button({
+          text: "Удалить",
+          nameButton: "deleteUser",
+          events: {
+            click: (evt: Event) => {
+              evt.preventDefault();
+            },
+          },
+        }),
+      }),
       buttonSendMessage: buttonLink({
         class: styles.buttonSendActive,
         text: ">",
@@ -50,21 +128,16 @@ export class Chat extends Block {
           click: (evt: Event) => {
             evt.preventDefault();
 
-            const value = this.children.messageInput.getValue()
+            const value = this.children.messageInput.getValue();
 
-            const valid = validate(
-              value,
-              "message"
-            );
+            const valid = validate(value, "message");
 
             if (valid === true) {
-
               webSocket.send(value);
-              this.children.messageInput.clearValue()
+              this.children.messageInput.clearValue();
             } else {
-              alert("Заполните поле сообщение правильно")
+              alert("Заполните поле сообщение правильно");
             }
-
           },
         },
       }),
@@ -79,59 +152,22 @@ export class Chat extends Block {
   componentDidMount() {
     const userId = store.getState().currentUser?.id;
     webSocket.create(this.props.id, userId, this);
-    console.log(webSocket);
-    console.log(store.getState());
   }
-
-  // <input type="text" class="{{styles.input}}" name="message" placeholder="Сообщение" />
-
-  // <div class={{styles.messageOwner}}>
-  //       <p class="{{styles.messageText}}">Привет! Смотри, тут всплыл интересный
-  //         кусок лунной космической истории — НАСА в какой-то момент попросила
-  //         Хассельблад адаптировать модель SWC для полетов на Луну. Сейчас мы все
-  //         знаем что астронавты летали с моделью 500 EL — и к слову говоря, все
-  //         тушки этих камер все еще находятся на поверхности Луны, так как
-  //         астронавты с собой забрали только кассеты с пленкой. Хассельблад в итоге
-  //         адаптировал SWC для космоса, но что-то пошло не так и на ракету они так
-  //         никогда и не попали. Всего их было произведено 25 штук, одну из них
-  //         недавно продали на аукционе за 45000 евро.</p>
-  //       <p class={{styles.time}}>{{data.time}}</p>
-  //     </div>
-  //     <div class={{styles.messageOwner}}>
-  //       <p class="{{styles.messageText}}">Привет! Смотри, тут всплыл интересный
-  //         кусок лунной космической истории — НАСА в какой-то момент попросила
-  //         Хассельблад адаптировать модель SWC для полетов на Луну. Сейчас мы все
-  //         знаем что астронавты летали с моделью 500 EL — и к слову говоря, все
-  //         тушки этих камер все еще находятся на поверхности Луны, так как
-  //         астронавты с собой забрали только кассеты с пленкой. Хассельблад в итоге
-  //         адаптировал SWC для космоса, но что-то пошло не так и на ракету они так
-  //         никогда и не попали. Всего их было произведено 25 штук, одну из них
-  //         недавно продали на аукционе за 45000 евро.</p>
-  //       <p class={{styles.time}}>{{data.time}}</p>
-  //     </div>
-  //     <div class={{styles.messageOwner}}>
-  //       <p class="{{styles.messageText}}">Привет! Смотри, тут всплыл интересный
-  //         кусок лунной космической истории — НАСА в какой-то момент попросила
-  //         Хассельблад адаптировать модель SWC для полетов на Луну. Сейчас мы все
-  //         знаем что астронавты летали с моделью 500 EL — и к слову говоря, все
-  //         тушки этих камер все еще находятся на поверхности Луны, так как
-  //         астронавты с собой забрали только кассеты с пленкой. Хассельблад в итоге
-  //         адаптировал SWC для космоса, но что-то пошло не так и на ракету они так
-  //         никогда и не попали. Всего их было произведено 25 штук, одну из них
-  //         недавно продали на аукционе за 45000 евро.
-  //       </p>
-  //       <p class={{styles.time}}>{{data.time}}</p>
-  //     </div>
 
   render() {
     return `
-    <section class="{{styles.chat}}">
+    <section class="{{styles.sectionChat}}">
+    <div class="{{styles.chat}}">
   <div class="{{styles.navbar}}">
+  <div class="{{styles.navbarContainer}}">
     <img class="{{styles.image}}" src={{avatar}} alt="image" />
     <p class="{{styles.firstName}}">{{data.firstName}}</p>
-    <button class="{{styles.settingsButton}}">
-      <img src={{buttonSettingImage}} alt="image" />
-    </button>
+    </div>
+    <div>
+    {{{buttonAddUser}}}
+    {{{buttonDeleteUser}}}
+    {{{buttonDeleteChat}}}
+    </div>
   </div>
   <div class="{{styles.container}}">
     {{{messageList}}}
@@ -146,13 +182,15 @@ export class Chat extends Block {
     </div>
     {{{buttonSendMessage}}}
   </div>
-</section>
+  </div>
+  {{{popupAddUser}}}
+  </section>
     `;
   }
 }
 
-function chat(id: number) {
-  return new Chat(id);
+function chat(props: TProps) {
+  return new Chat(props);
 }
 
 export default chat;

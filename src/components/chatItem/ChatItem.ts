@@ -22,8 +22,15 @@ export class ChatItem extends Block {
       events: {
         click: (e: Event) => {
           e.preventDefault();
-          console.log(this.props.id)
-            store.set("currentChat", Chat(props.id));
+          console.log(this.props.id);
+          store.set(
+            "currentChat",
+            Chat({
+              id: props.id,
+              title: props.title,
+              image: props.avatar,
+            })
+          );
         },
       },
     });

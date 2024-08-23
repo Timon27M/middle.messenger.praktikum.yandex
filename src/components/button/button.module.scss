@@ -3,7 +3,8 @@
 .button {
   border: none;
   border-radius: 8px;
-  width: 280px;
+  width: 100%;
+  max-width: 280px;
   height: 37px;
   background-color: $color-blue;
   color: $color-white;
