@@ -14,9 +14,12 @@ import Popup from "../popup/popup";
 import Button from "../button/button";
 import userController from "../../service/userController/UserController";
 import chatController from "../../service/chatController/ChatController";
+import { router } from "../../utils/navigations/Router";
+import DefaultChat from "../defaultChat/defaultChat";
 
 type TProps = {
   id: number;
+  ownerId: number;
   title: string;
   image: string | null;
 };
@@ -55,7 +58,7 @@ export class Chat extends Block {
         class: styles.buttonNavbar,
         events: {
           click: () => {
-            this.children.popupAddUser.setProps({ show: true })
+            this.children.popupAddUser.setProps({ show: true });
           },
         },
       }),
@@ -63,14 +66,24 @@ export class Chat extends Block {
         text: "Удалить пользователя",
         class: styles.buttonNavbar,
         events: {
-          click: () => {},
+          click: () => {
+            this.children.popupDeleteUser.setProps({ show: true });
+          },
         },
       }),
       buttonDeleteChat: buttonLink({
         text: "Удалить чат",
         class: styles.buttonNavbar,
         events: {
-          click: () => {},
+          click: () => {
+            if (props.ownerId === store.getState().currentUser?.id) {
+              chatController.deleteChat({chatId: props.id}).then(() => {
+                store.set("currentChat", DefaultChat())
+              })
+            } else {
+              alert("Нет прав доступа")
+            }
+          },
         },
       }),
       popupAddUser: Popup({
@@ -86,22 +99,27 @@ export class Chat extends Block {
               evt.preventDefault();
               const value =
                 this.children.popupAddUser.children.input.getValue();
-                console.log(value)
-
+              console.log(value);
+              if (store.getState().currentUser?.id === props.ownerId) {
               if (value) {
                 userController.searchUser({ login: value }).then((res) => {
-                  console.log(res)
-                  // const usersId = res[0].id;
-                  // if (usersId) {
-                  //   chatController.addUser({
-                  //     users: [usersId],
-                  //     chatId: props.id,
-                  //   }).then((res) => {
-                  //     console.log(res)
-                  //   })
-                  // }
+                  console.log(res);
+                  const usersId = res[0].id;
+                  if (usersId) {
+                    chatController.addUser({
+                      users: [usersId],
+                      chatId: props.id,
+                    });
+                  }
                 });
+                this.children.popupAddUser.setProps({ show: false });
+              } else {
+                alert("Введите логин");
               }
+            } else {
+              alert("Нет прав доступа")
+              this.children.popupAddUser.setProps({ show: false });
+            }
             },
           },
         }),
@@ -117,6 +135,27 @@ export class Chat extends Block {
           events: {
             click: (evt: Event) => {
               evt.preventDefault();
+              const value =
+                this.children.popupDeleteUser.children.input.getValue();
+              if (store.getState().currentUser?.id === props.ownerId) {
+                if (value) {
+                  userController.searchUser({ login: value }).then((res) => {
+                    console.log(res);
+                    const usersId = res[0].id;
+                    if (usersId) {
+                      chatController.deleteUser({
+                        users: [usersId],
+                        chatId: props.id,
+                      });
+                    }
+                  });
+                } else {
+                  alert("Введите логин");
+                }
+              } else {
+                alert("У вас нет прав доступа")
+                this.children.popupDeleteUser.setProps({ show: false });
+              }
             },
           },
         }),
@@ -184,6 +223,7 @@ export class Chat extends Block {
   </div>
   </div>
   {{{popupAddUser}}}
+  {{{popupDeleteUser}}}
   </section>
     `;
   }

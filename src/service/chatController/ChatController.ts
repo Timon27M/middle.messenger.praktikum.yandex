@@ -35,12 +35,12 @@ class ChatController {
     await this.chatApi.addUser(data);
   }
 
-  deleteUser(data: TChatAddAndDeleteUser) {
-    this.chatApi.deleteUser(data);
+ async deleteUser(data: TChatAddAndDeleteUser) {
+   await this.chatApi.deleteUser(data);
   }
 
-  deleteChat(data: TChatDelete) {
-    this.chatApi.deleteChat(data);
+ async deleteChat(data: TChatDelete) {
+   return this.chatApi.deleteChat(data);
   }
 }
 

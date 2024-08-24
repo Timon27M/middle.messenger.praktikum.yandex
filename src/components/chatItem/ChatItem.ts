@@ -29,6 +29,7 @@ export class ChatItem extends Block {
               id: props.id,
               title: props.title,
               image: props.avatar,
+              ownerId: props.created_by,
             })
           );
         },

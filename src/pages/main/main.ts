@@ -111,6 +111,7 @@ export class Main extends Block {
                     chatController
                       .getChats()
                       .then(() => {
+
                         this.setProps({
                           chatLists: renderChatsList(this.props.chatList),
                         });

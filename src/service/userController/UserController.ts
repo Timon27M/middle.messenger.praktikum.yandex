@@ -45,9 +45,7 @@ class UserController {
   }
 
   async searchUser(data: TLogin): Promise<any> {
-    await this.userApi.searchUser(data).then((res) => {
-      console.log(res);
-    });
+    return this.userApi.searchUser(data);
   }
 }
 
