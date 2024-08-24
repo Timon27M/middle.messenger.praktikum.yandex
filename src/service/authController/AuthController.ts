@@ -1,3 +1,4 @@
+import DefaultChat from "../../components/defaultChat/defaultChat";
 import authApi, { TRegisterData, TLoginData } from "../../utils/api/AuthApi";
 import { router } from "../../utils/navigations/Router";
 import { store } from "../../utils/store/Store";
@@ -57,6 +58,12 @@ class AuthController {
       .logout()
       .then(() => {
         router.go("/");
+
+        store.set("currentUser", undefined)
+        store.set("chatList", [])
+        store.set("messageList", [])
+        store.set("chatComponentList", [])
+        store.set("currentChat", DefaultChat())
       })
       .catch((err) => {
         console.log(err.message);

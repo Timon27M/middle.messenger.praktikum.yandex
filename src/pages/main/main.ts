@@ -12,14 +12,11 @@ import {
   TUserStore,
 } from "../../utils/store/Store";
 import chatController from "../../service/chatController/ChatController";
-import chats from "../../components/chats/chats";
-import chatItem from "../../components/chatItem/ChatItem";
 import Input from "../../components/input/input";
 import Button from "../../components/button/button";
 import renderChatsList from "../../utils/functions/renderChatsList";
 import searchChat from "../../utils/functions/searchChats";
 import Popup from "../../components/popup/popup";
-import createMessageList from "../../utils/functions/createMessageList";
 
 export type ChatPageProps = {
   currentChat: typeof Chat;
@@ -35,7 +32,6 @@ export class Main extends Block {
     super({
       ...props,
       styles,
-      chatLists: renderChatsList(props.chatList),
       buttonChangeData: Button({
         type: "link",
         styleType: "link",
@@ -48,7 +44,6 @@ export class Main extends Block {
           },
         },
       }),
-      // popup: Popup({})
       input: Input({
         class: styles.input,
         type: "text",
@@ -64,16 +59,13 @@ export class Main extends Block {
               if (value === "") {
                 const allChatList = store.getState().chatList;
                 if (allChatList) {
-                  this.setProps({
-                    chatLists: renderChatsList(allChatList),
-                  });
+                  store.set("chatComponentList", renderChatsList(allChatList))
                 }
               } else {
                 const { newChatsList } = searchChat(value);
 
                 if (newChatsList) {
-                  console.log(this);
-                  this.setProps({ chatLists: renderChatsList(newChatsList) });
+                  store.set("chatComponentList", renderChatsList(newChatsList))
                 }
               }
               evt.target.focus();
@@ -111,10 +103,7 @@ export class Main extends Block {
                     chatController
                       .getChats()
                       .then(() => {
-
-                        this.setProps({
-                          chatLists: renderChatsList(this.props.chatList),
-                        });
+                        store.set("chatComponentList", renderChatsList(this.props.chatList))
                       })
                       .finally(() => {});
                   })
@@ -132,12 +121,12 @@ export class Main extends Block {
   }
 
   componentDidMount() {
-    chatController.getChats().then(() => {
-      this.setProps({ chatLists: renderChatsList(this.props.chatList) });
-    });
     authController.getUser().catch((err) => {
       console.log(err.message);
       router.go("/");
+    });
+    chatController.getChats().then(() => {
+      store.set("chatComponentList", renderChatsList(this.props.chatList))
     });
   }
 
@@ -154,7 +143,7 @@ export class Main extends Block {
     {{{input}}}
     </div>
     </div>
-      {{{chatLists}}}
+      {{{chatComponentList}}}
       </div>
        <div class={{styles.activeChat}}>
           {{{currentChat}}}
@@ -168,6 +157,7 @@ export class Main extends Block {
 const main = () => {
   const withChats = connect((state) => ({
     currentChat: state.currentChat || DefaultChat(),
+    chatComponentList: state.chatComponentList || [],
     currentUser: state.currentUser,
     chatList: state.chatList || [],
     messageList: state.messageList || undefined,

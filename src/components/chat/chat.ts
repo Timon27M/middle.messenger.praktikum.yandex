@@ -16,6 +16,7 @@ import userController from "../../service/userController/UserController";
 import chatController from "../../service/chatController/ChatController";
 import { router } from "../../utils/navigations/Router";
 import DefaultChat from "../defaultChat/defaultChat";
+import renderChatsList from "../../utils/functions/renderChatsList";
 
 type TProps = {
   id: number;
@@ -77,11 +78,20 @@ export class Chat extends Block {
         events: {
           click: () => {
             if (props.ownerId === store.getState().currentUser?.id) {
-              chatController.deleteChat({chatId: props.id}).then(() => {
-                store.set("currentChat", DefaultChat())
-              })
+              chatController.deleteChat({ chatId: props.id }).then(() => {
+                store.set("currentChat", DefaultChat());
+                
+                chatController.getChats().then(() => {
+                  const { chatList } = store.getState();
+                  if (chatList) {
+                    store.set("chatComponentList", renderChatsList(chatList));
+                  } else {
+                    store.set("chatComponentList", renderChatsList([]));
+                  }
+                });
+              });
             } else {
-              alert("Нет прав доступа")
+              alert("Нет прав доступа");
             }
           },
         },
@@ -101,25 +111,25 @@ export class Chat extends Block {
                 this.children.popupAddUser.children.input.getValue();
               console.log(value);
               if (store.getState().currentUser?.id === props.ownerId) {
-              if (value) {
-                userController.searchUser({ login: value }).then((res) => {
-                  console.log(res);
-                  const usersId = res[0].id;
-                  if (usersId) {
-                    chatController.addUser({
-                      users: [usersId],
-                      chatId: props.id,
-                    });
-                  }
-                });
-                this.children.popupAddUser.setProps({ show: false });
+                if (value) {
+                  userController.searchUser({ login: value }).then((res) => {
+                    console.log(res);
+                    const usersId = res[0].id;
+                    if (usersId) {
+                      chatController.addUser({
+                        users: [usersId],
+                        chatId: props.id,
+                      });
+                    }
+                  });
+                  this.children.popupAddUser.setProps({ show: false });
+                } else {
+                  alert("Введите логин");
+                }
               } else {
-                alert("Введите логин");
+                alert("Нет прав доступа");
+                this.children.popupAddUser.setProps({ show: false });
               }
-            } else {
-              alert("Нет прав доступа")
-              this.children.popupAddUser.setProps({ show: false });
-            }
             },
           },
         }),
@@ -153,7 +163,7 @@ export class Chat extends Block {
                   alert("Введите логин");
                 }
               } else {
-                alert("У вас нет прав доступа")
+                alert("У вас нет прав доступа");
                 this.children.popupDeleteUser.setProps({ show: false });
               }
             },

@@ -1,4 +1,5 @@
 import { Chat } from "../../components/chat/chat";
+import { ChatItem } from "../../components/chatItem/ChatItem";
 import { DefaultChat } from "../../components/defaultChat/defaultChat";
 import Block from "../Block/Block";
 import EventBus from "../EventBus/EventBus";
@@ -61,8 +62,8 @@ export type RootStore = {
   currentUser?: TUserStore;
   chatList?: TChatStore[];
   messageList?: TMessageStore[];
+  chatComponentList?: typeof ChatItem | [];
   currentChat?: typeof Chat | typeof DefaultChat;
-  searchValue?: string;
 };
 
 class Store extends EventBus {

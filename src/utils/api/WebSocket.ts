@@ -16,10 +16,7 @@ class WebSocketChat {
           `wss://ya-praktikum.tech/ws/chats/${userId}/${chatId}/${token}`
         );
 
-        console.log(this.socket);
-
         this.socket.addEventListener("open", () => {
-          console.log("qwe");
           this.socket?.send(
             JSON.stringify({
               content: "0",
@@ -30,7 +27,6 @@ class WebSocketChat {
 
         this.socket.addEventListener("message", (evt) => {
           const data = JSON.parse(evt.data);
-          console.log(evt);
           if (data.type === "message") {
             const { messageList } = store.getState();
             store.set("messageList", [...(messageList || []), data]);
@@ -39,9 +35,6 @@ class WebSocketChat {
           }
 
           block.setProps({ messageList: createMessageList() });
-          console.log(createMessageList());
-
-          console.log(store.getState());
         });
 
         this.socket.addEventListener("close", (evt) => {

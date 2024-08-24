@@ -10,7 +10,6 @@ import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
 import { router } from "../../utils/navigations/Router";
 import { TLoginData } from "../../utils/api/AuthApi";
 import authController from "../../service/authController/AuthController";
-import Chat from "../../components/chat/chat";
 
 export class Login extends Block {
   constructor() {

@@ -62,6 +62,7 @@ export default class Route {
       // this.block = new this.BlockClass(props);
       this.block.setProps(props);
       this.pageRender(this.block, this.props.rootId);
+      this.block._componentDidMount();
     }
   }
 }

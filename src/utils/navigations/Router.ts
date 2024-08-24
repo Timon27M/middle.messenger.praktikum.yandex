@@ -20,7 +20,6 @@ export default class Router {
     const route = new Route(pathname, block, { rootId: this.rootId });
 
     this.routes.push(route);
-
     return this;
   }
 
