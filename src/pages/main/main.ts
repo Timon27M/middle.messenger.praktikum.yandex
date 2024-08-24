@@ -53,19 +53,19 @@ export class Main extends Block {
         events: {
           keyup: (evt: KeyboardEvent) => {
             if (evt.target instanceof HTMLInputElement) {
-              const value = evt.target.value;
+              const { value } = evt.target;
 
               console.log(value);
               if (value === "") {
                 const allChatList = store.getState().chatList;
                 if (allChatList) {
-                  store.set("chatComponentList", renderChatsList(allChatList))
+                  store.set("chatComponentList", renderChatsList(allChatList));
                 }
               } else {
                 const { newChatsList } = searchChat(value);
 
                 if (newChatsList) {
-                  store.set("chatComponentList", renderChatsList(newChatsList))
+                  store.set("chatComponentList", renderChatsList(newChatsList));
                 }
               }
               evt.target.focus();
@@ -103,7 +103,7 @@ export class Main extends Block {
                     chatController
                       .getChats()
                       .then(() => {
-                        store.set("chatComponentList", renderChatsList(this.props.chatList))
+                        store.set("chatComponentList", renderChatsList(this.props.chatList));
                       })
                       .finally(() => {});
                   })
@@ -126,7 +126,7 @@ export class Main extends Block {
       router.go("/");
     });
     chatController.getChats().then(() => {
-      store.set("chatComponentList", renderChatsList(this.props.chatList))
+      store.set("chatComponentList", renderChatsList(this.props.chatList));
     });
   }
 

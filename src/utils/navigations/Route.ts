@@ -58,8 +58,6 @@ export default class Route {
       this.pageRender(this.block, this.props.rootId);
     }
     if (this.block && this.props.rootId) {
-      // console.log(props);
-      // this.block = new this.BlockClass(props);
       this.block.setProps(props);
       this.pageRender(this.block, this.props.rootId);
       this.block._componentDidMount();

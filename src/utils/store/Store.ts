@@ -3,7 +3,7 @@ import { ChatItem } from "../../components/chatItem/ChatItem";
 import { DefaultChat } from "../../components/defaultChat/defaultChat";
 import Block from "../Block/Block";
 import EventBus from "../EventBus/EventBus";
-import { isEqual } from "../functions/isEqual";
+import isEqual from "../functions/isEqual";
 import set from "../functions/set";
 
 type Indexed<T = unknown> = {

@@ -1,7 +1,7 @@
 import { PlainObject } from "../types/types";
 import isArrayOrObject from "./isArrayOrObject";
 
-export function isEqual(lhs: PlainObject, rhs: PlainObject) {
+export default function isEqual(lhs: PlainObject, rhs: PlainObject) {
     if (Object.keys(lhs).length !== Object.keys(rhs).length) {
       return false;
     }
@@ -14,11 +14,11 @@ export function isEqual(lhs: PlainObject, rhs: PlainObject) {
         }
         return false;
       }
-  
+
       if (value !== rightValue) {
         return false;
       }
     }
-  
+
     return true;
   }

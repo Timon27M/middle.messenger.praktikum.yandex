@@ -59,11 +59,11 @@ class AuthController {
       .then(() => {
         router.go("/");
 
-        store.set("currentUser", undefined)
-        store.set("chatList", [])
-        store.set("messageList", [])
-        store.set("chatComponentList", [])
-        store.set("currentChat", DefaultChat())
+        store.set("currentUser", undefined);
+        store.set("chatList", []);
+        store.set("messageList", []);
+        store.set("chatComponentList", []);
+        store.set("currentChat", DefaultChat());
       })
       .catch((err) => {
         console.log(err.message);

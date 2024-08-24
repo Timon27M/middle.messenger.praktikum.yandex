@@ -5,7 +5,6 @@ import Button from "../button/button";
 import Input from "../input/input";
 
 export type TProps = {
-  // chatList: TChatStore[] | undefined;
   searchFunction: () => void;
 };
 

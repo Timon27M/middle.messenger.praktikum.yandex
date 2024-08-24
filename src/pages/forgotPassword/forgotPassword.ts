@@ -37,8 +37,8 @@ export class ForgotPassword extends Block {
             userController.updateUserPassword(
               formData as TDataFormUpdatePassword
             ).then(() => {
-              alert("Пароль успешно изменен")
-            })
+              alert("Пароль успешно изменен");
+            });
           },
         },
       }),

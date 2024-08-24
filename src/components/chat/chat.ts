@@ -14,7 +14,6 @@ import Popup from "../popup/popup";
 import Button from "../button/button";
 import userController from "../../service/userController/UserController";
 import chatController from "../../service/chatController/ChatController";
-import { router } from "../../utils/navigations/Router";
 import DefaultChat from "../defaultChat/defaultChat";
 import renderChatsList from "../../utils/functions/renderChatsList";
 
@@ -80,7 +79,7 @@ export class Chat extends Block {
             if (props.ownerId === store.getState().currentUser?.id) {
               chatController.deleteChat({ chatId: props.id }).then(() => {
                 store.set("currentChat", DefaultChat());
-                
+
                 chatController.getChats().then(() => {
                   const { chatList } = store.getState();
                   if (chatList) {

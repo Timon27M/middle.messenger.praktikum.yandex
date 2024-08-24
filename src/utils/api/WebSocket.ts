@@ -2,6 +2,7 @@ import Block from "../Block/Block";
 import createMessageList from "../functions/createMessageList";
 import { store } from "../store/Store";
 import HTTPTransport from "./HTTPTransport";
+
 class WebSocketChat {
   socket: WebSocket | undefined;
 

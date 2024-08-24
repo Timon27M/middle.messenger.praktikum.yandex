@@ -125,7 +125,6 @@ export default class Block {
     }
 
     Object.assign(this.props, newProps);
-    // Object.assign(this.props, newProps);
   }
 
   get element() {
