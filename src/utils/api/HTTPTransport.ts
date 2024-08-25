@@ -1,3 +1,5 @@
+import { BASE_URL } from "../constants";
+
 enum METHODS {
   GET = "GET",
   POST = "POST",
@@ -13,7 +15,7 @@ type Options = {
 
 type OptionsWithoutMethod = Omit<Options, "method">;
 
-type HTTPMethod = <R = unknown>(
+type HTTPMethod = <R = any>(
   path: string,
   options?: OptionsWithoutMethod
 ) => Promise<R>;
@@ -34,26 +36,29 @@ function queryStringify(data: any) {
 export default class HTTPTransport {
   private withCredentials = true;
 
+  private baseUrl: string;
+
+  constructor() {
+    this.baseUrl = BASE_URL;
+  }
+
   get: HTTPMethod = (url: string, options: OptionsWithoutMethod = {}) => {
-    return this.request(url, { ...options, method: METHODS.GET });
+    return this.request(this.baseUrl + url, { ...options, method: METHODS.GET });
   };
 
-  post(url: string, options: OptionsWithoutMethod = {}) {
-    return this.request(url, { ...options, method: METHODS.POST });
-  }
+  post: HTTPMethod = (url: string, options: OptionsWithoutMethod = {}) => {
+    return this.request(this.baseUrl + url, { ...options, method: METHODS.POST });
+  };
 
-  put(url: string, options: OptionsWithoutMethod = {}) {
-    return this.request(url, { ...options, method: METHODS.PUT });
-  }
+  put: HTTPMethod = (url: string, options: OptionsWithoutMethod = {}) => {
+    return this.request(this.baseUrl + url, { ...options, method: METHODS.PUT });
+  };
 
-  delete(url: string, options: OptionsWithoutMethod = {}) {
-    return this.request(url, { ...options, method: METHODS.DELETE });
-  }
+  delete: HTTPMethod = (url: string, options: OptionsWithoutMethod = {}) => {
+    return this.request(this.baseUrl + url, { ...options, method: METHODS.DELETE });
+  };
 
-  request = <Response>(
-    url: string,
-    options: Options = { method: METHODS.GET }
-  ): Promise<Response> | Promise<any> => {
+  request = (url: string, options: Options = { method: METHODS.GET }) => {
     const { headers = {}, method, data } = options;
 
     return new Promise((resolve, reject) => {
@@ -77,11 +82,11 @@ export default class HTTPTransport {
       if (method === METHODS.GET || !data) {
         xhr.send();
       } else if (data instanceof FormData) {
-          xhr.send(data);
-        } else {
-          xhr.setRequestHeader("Content-Type", "application/json");
-          xhr.send(JSON.stringify(data));
-        }
+        xhr.send(data);
+      } else {
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(JSON.stringify(data));
+      }
     }).then((response: any) => {
       if (response.status === 200) {
         return response.response;

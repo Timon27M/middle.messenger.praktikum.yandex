@@ -1,5 +1,4 @@
 import styles from "./chat.module.scss";
-import avatar from "../../utils/images/avatar.png";
 import buttonSettingImage from "../../utils/images/buttonSettings.jpg";
 import buttonDocumentImage from "../../utils/images/buttonDocument.jpg";
 import Block from "../../utils/Block/Block";
@@ -22,6 +21,7 @@ type TProps = {
   ownerId: number;
   title: string;
   image: string | null;
+  avatar: string
 };
 
 export class Chat extends Block {
@@ -35,7 +35,7 @@ export class Chat extends Block {
           : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlte8jVger7Istf0ctZT7Fxyn_GfHfWDg5-w&s",
         firstName: props.title,
       },
-      avatar,
+      avatar: props.avatar,
       buttonSettingImage,
       buttonDocumentImage,
       messageInput: input({
@@ -112,7 +112,6 @@ export class Chat extends Block {
               if (store.getState().currentUser?.id === props.ownerId) {
                 if (value) {
                   userController.searchUser({ login: value }).then((res) => {
-                    console.log(res);
                     const usersId = res[0].id;
                     if (usersId) {
                       chatController.addUser({
@@ -149,7 +148,6 @@ export class Chat extends Block {
               if (store.getState().currentUser?.id === props.ownerId) {
                 if (value) {
                   userController.searchUser({ login: value }).then((res) => {
-                    console.log(res);
                     const usersId = res[0].id;
                     if (usersId) {
                       chatController.deleteUser({
@@ -161,9 +159,9 @@ export class Chat extends Block {
                 } else {
                   alert("Введите логин");
                 }
+                this.children.popupDeleteUser.setProps({ show: false });
               } else {
                 alert("У вас нет прав доступа");
-                this.children.popupDeleteUser.setProps({ show: false });
               }
             },
           },

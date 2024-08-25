@@ -17,30 +17,30 @@ export type TLoginData = {
 class AuthApi {
   httpTransport: HTTPTransport;
 
-  url: string;
+  endpoint: string;
 
-  constructor(url: string) {
+  constructor(endpoint: string) {
     this.httpTransport = new HTTPTransport();
-    this.url = url;
+    this.endpoint = endpoint;
   }
 
   register(data: TRegisterData) {
-    return this.httpTransport.post(`${this.url}/auth/signup`, { data });
+    return this.httpTransport.post(`${this.endpoint}/signup`, { data });
   }
 
   login(data: TLoginData) {
-    return this.httpTransport.post(`${this.url}/auth/signin`, { data });
+    return this.httpTransport.post(`${this.endpoint}//signin`, { data });
   }
 
   getUser() {
-    return this.httpTransport.get(`${this.url}/auth/user`);
+    return this.httpTransport.get(`${this.endpoint}/user`);
   }
 
   logout() {
-    return this.httpTransport.post(`${this.url}/auth/logout`);
+    return this.httpTransport.post(`${this.endpoint}/logout`);
   }
 }
 
-const authApi = new AuthApi("https://ya-praktikum.tech/api/v2");
+const authApi = new AuthApi("/auth");
 
 export default authApi;

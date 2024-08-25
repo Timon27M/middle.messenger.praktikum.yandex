@@ -26,6 +26,7 @@ export class Profile extends Block {
     super({
       styles,
       avatar,
+      currentUserName: props.currentUser?.first_name,
       errorFormBlock: ErrorFormBlock({
         text: "",
       }),
@@ -342,6 +343,7 @@ export class Profile extends Block {
     } else {
       avatarLink = avatar;
     }
+    const currentUserName = store.getState().currentUser?.first_name;
     return `
 <main class="{{styles.profile}}">
 {{{ButtonBack}}}
@@ -350,7 +352,7 @@ export class Profile extends Block {
     <img class="{{styles.avatarImage}}" src="${avatarLink}" alt="avatar" />
     {{{buttonAvatar}}}
     </div>
-    <h2 class="{{styles.name}}">Ваня</h2>
+    <h2 class="{{styles.name}}">${currentUserName || ""}</h2>
   </div>
   <div class="{{styles.inputsBlock}}">
     <div class="{{styles.inputBlock}}">

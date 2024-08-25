@@ -17,38 +17,38 @@ export type TChatDelete = {
 class ChatApi {
   httpTransport: HTTPTransport;
 
-  private url: string;
+  private endpoint: string;
 
-  constructor(url: string) {
-    this.url = url;
+  constructor(endpoint: string) {
+    this.endpoint = endpoint;
     this.httpTransport = new HTTPTransport();
   }
 
   getChats(): Promise<TChatStore[] | undefined> {
-    return this.httpTransport.get(`${this.url}/chats`);
+    return this.httpTransport.get(`${this.endpoint}`);
   }
 
   getUsersChat(id: string) {
-    return this.httpTransport.get(`${this.url}/chats/${id}/users`);
+    return this.httpTransport.get(`${this.endpoint}/${id}/users`);
   }
 
   create(data: TChatCreate) {
-    return this.httpTransport.post(`${this.url}/chats`, { data });
+    return this.httpTransport.post(`${this.endpoint}`, { data });
   }
 
   addUser(data: TChatAddAndDeleteUser) {
-    return this.httpTransport.put(`${this.url}/chats/users`, { data });
+    return this.httpTransport.put(`${this.endpoint}/users`, { data });
   }
 
   deleteUser(data: TChatAddAndDeleteUser) {
-    return this.httpTransport.delete(`${this.url}/chats/users`, { data });
+    return this.httpTransport.delete(`${this.endpoint}/users`, { data });
   }
 
   deleteChat(data: TChatDelete) {
-    return this.httpTransport.delete(`${this.url}/chats`, { data });
+    return this.httpTransport.delete(`${this.endpoint}`, { data });
   }
 }
 
-const chatApi = new ChatApi("https://ya-praktikum.tech/api/v2");
+const chatApi = new ChatApi("/chats");
 
 export default chatApi;

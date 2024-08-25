@@ -10,7 +10,7 @@ class WebSocketChat {
     this.socket?.close();
     const httpTransport = new HTTPTransport();
     httpTransport
-      .post(`https://ya-praktikum.tech/api/v2/chats/token/${chatId}`)
+      .post(`/chats/token/${chatId}`)
       .then((res) => {
         const { token } = res;
         this.socket = new WebSocket(
@@ -27,7 +27,12 @@ class WebSocketChat {
         });
 
         this.socket.addEventListener("message", (evt) => {
-          const data = JSON.parse(evt.data);
+          let data;
+          try {
+            data = JSON.parse(evt.data);
+          } catch (err) {
+            console.log(err);
+          }
           if (data.type === "message") {
             const { messageList } = store.getState();
             store.set("messageList", [...(messageList || []), data]);

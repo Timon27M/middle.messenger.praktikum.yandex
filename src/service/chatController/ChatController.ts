@@ -23,8 +23,8 @@ class ChatController {
       });
   }
 
-  getUsersChat(id: string) {
-    this.chatApi.getUsersChat(id);
+ async getUsersChat(id: string) {
+    return this.chatApi.getUsersChat(id);
   }
 
  async create(data: TChatCreate) {

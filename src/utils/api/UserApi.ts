@@ -21,32 +21,32 @@ export type TLogin = {
 };
 
 class UserApi {
-  url: string;
+  endpoint: string;
 
   httpTransport: HTTPTransport;
 
-  constructor(url: string) {
-    this.url = url;
+  constructor(endpoint: string) {
+    this.endpoint = endpoint;
     this.httpTransport = new HTTPTransport();
   }
 
   updateUserProfile(data: TUserProfile) {
-    return this.httpTransport.put(`${this.url}/user/profile`, { data });
+    return this.httpTransport.put(`${this.endpoint}/profile`, { data });
   }
 
   updateUserAvatar(data: FormData) {
-    return this.httpTransport.put(`${this.url}/user/profile/avatar`, { data });
+    return this.httpTransport.put(`${this.endpoint}/profile/avatar`, { data });
   }
 
   updateUserPassword(data: TDataUpdatePassword) {
-    return this.httpTransport.put(`${this.url}/user/password`, { data });
+    return this.httpTransport.put(`${this.endpoint}/password`, { data });
   }
 
   searchUser(data: TLogin) {
-    return this.httpTransport.post(`${this.url}/user/search`, { data });
+    return this.httpTransport.post(`${this.endpoint}/search`, { data });
   }
 }
 
-const userApi = new UserApi("https://ya-praktikum.tech/api/v2");
+const userApi = new UserApi("/user");
 
 export default userApi;
