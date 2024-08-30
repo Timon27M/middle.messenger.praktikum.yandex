@@ -9,7 +9,7 @@ type TProps = {
   errorText: string;
   type: string;
   name: string;
-  placeholder?: string;
+  placeholder?: string
   value?: string;
   id: string;
   disabled?: boolean | undefined;
