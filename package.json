@@ -14,7 +14,8 @@
     "preview": "vite preview",
     "start": "npm run build && npm run dev",
     "eslint": "npx eslint .",
-    "test": "mocha --config=./.mocharc.json -n import=./mochaloader.js ./src/**/*.test.ts"
+    "test": "mocha --config=./.mocharc.json -n import=./mochaloader.js ./src/**/*.test.ts",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@types/chai": "^4.3.19",
