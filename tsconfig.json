@@ -19,7 +19,13 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
     "sourceMap": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "esModuleInterop": true,
+    "baseUrl" : "."
+  },
+  "ts-node": {
+    "files": true
+
   },
   "include": ["src", "./.eslintrc.js"]
   }

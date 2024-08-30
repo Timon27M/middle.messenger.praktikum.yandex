@@ -3,22 +3,34 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm-run-all test eslint:all"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "start": "npm run build && npm run dev",
-    "eslint": "npx eslint ."
+    "eslint": "npx eslint .",
+    "test": "mocha --config=./.mocharc.json -n import=./mochaloader.js ./src/**/*.test.ts"
   },
   "devDependencies": {
+    "@types/chai": "^4.3.19",
+    "@types/mocha": "^10.0.7",
+    "@types/sinon": "^17.0.3",
     "@typescript-eslint/eslint-plugin": "^7.17.0",
     "@typescript-eslint/parser": "^7.17.0",
     "autoprefixer": "^10.4.19",
+    "chai": "^5.1.1",
     "cssnano": "^7.0.4",
     "eslint": "^8.57.0",
     "eslint-config-airbnb": "^19.0.4",
     "globals": "^15.8.0",
     "handlebars": "^4.7.8",
+    "husky": "^9.1.5",
+    "mocha": "^10.7.3",
     "postcss": "^8.4.39",
     "postcss-loader": "^8.1.1",
     "stylelint": "^16.7.0",
@@ -28,10 +40,13 @@
   },
   "dependencies": {
     "autoprefixer": "^10.4.19",
+    "jsdom": "^25.0.0",
     "nanoid": "^5.0.7",
     "nvm": "^0.0.4",
     "sass": "^1.77.6",
     "scss": "^0.2.4",
+    "sinon": "^18.0.0",
+    "ts-node": "^10.9.2",
     "vite-plugin-handlebars": "^2.0.0"
   },
   "engines": {

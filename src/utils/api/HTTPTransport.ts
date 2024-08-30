@@ -1,6 +1,6 @@
 import { BASE_URL } from "../constants";
 
-enum METHODS {
+export enum METHODS {
   GET = "GET",
   POST = "POST",
   PUT = "PUT",
@@ -8,7 +8,7 @@ enum METHODS {
 }
 
 type Options = {
-  method: METHODS;
+  method: string;
   data?: any;
   headers?: Record<string, string>;
 };
