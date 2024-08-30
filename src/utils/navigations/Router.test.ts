@@ -17,24 +17,24 @@ describe("Router", () => {
   });
 
   it("should call the use method", () => {
-    const routerUse = sinon.spy(router, "use")
+    const routerUse = sinon.spy(router, "use");
 
-    router.use("path", ComponentClass)
+    router.use("path", ComponentClass);
 
-    expect(routerUse.calledOnce).to.equal(true)
-  })
+    expect(routerUse.calledOnce).to.equal(true);
+  });
 
   it("should call the go method", () => {
-   router.go('/path')
+    router.go("/path");
 
-    expect(window.location.pathname).to.equal("/path")
-  })
+    expect(window.location.pathname).to.equal("/path");
+  });
 
   it("should call the back method", () => {
-   const windowBack= sinon.spy(window.history, 'back')
+    const windowBack = sinon.spy(window.history, "back");
 
-    router.back()
+    router.back();
 
-    expect(windowBack.calledOnce).to.equal(true)
-  })
+    expect(windowBack.calledOnce).to.equal(true);
+  });
 });
