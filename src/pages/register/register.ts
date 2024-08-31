@@ -2,10 +2,16 @@ import styles from "./register.module.scss";
 import Button from "../../components/button/button";
 import Block from "../../utils/Block/Block";
 import InputBlock from "../../components/inputBlock/inputBlock";
-import { handleValidateInput, submitForm } from "../../utils/functions";
+import {
+  handleValidateInput,
+  collectData,
+} from "../../utils/functions/functions";
 import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
+import { router } from "../../utils/navigations/Router";
+import authController from "../../service/authController/AuthController";
+import { TRegisterFormData } from "../../utils/types/types";
 
-class Register extends Block {
+export class Register extends Block {
   constructor() {
     super({
       styles,
@@ -16,7 +22,28 @@ class Register extends Block {
         text: "Регистрация",
         nameButton: "send_register",
         events: {
-          click: (e) => submitForm(e, this.children, this.children.errorFormBlock),
+          click: (e) => {
+            const { formData } = collectData(
+              e,
+              this.children,
+              this.children.errorFormBlock
+            );
+
+            authController.register(formData as TRegisterFormData);
+          },
+        },
+      }),
+      buttonlogin: Button({
+        type: "link",
+        styleType: "link",
+        nameButton: "changePage",
+        text: "Войти",
+        color: "blue",
+        events: {
+          click: (evt: Event) => {
+            evt.preventDefault();
+            router.go("/");
+          },
         },
       }),
       emailInputBlock: InputBlock({
@@ -28,11 +55,12 @@ class Register extends Block {
         value: "pochta@yandex.ru",
         id: "email",
         events: {
-          blur: () => handleValidateInput(
-            this.children.emailInputBlock.children.errorBlock,
-            this.children.emailInputBlock.children.input,
-            "Некорректный email",
-          ),
+          blur: () =>
+            handleValidateInput(
+              this.children.emailInputBlock.children.errorBlock,
+              this.children.emailInputBlock.children.input,
+              "Некорректный email"
+            ),
         },
       }),
       loginInputBlock: InputBlock({
@@ -44,11 +72,12 @@ class Register extends Block {
         value: "ivaninvanov",
         id: "login",
         events: {
-          blur: () => handleValidateInput(
-            this.children.loginInputBlock.children.errorBlock,
-            this.children.loginInputBlock.children.input,
-            "Некорректный логин",
-          ),
+          blur: () =>
+            handleValidateInput(
+              this.children.loginInputBlock.children.errorBlock,
+              this.children.loginInputBlock.children.input,
+              "Некорректный логин"
+            ),
         },
       }),
       nameInputBlock: InputBlock({
@@ -60,11 +89,12 @@ class Register extends Block {
         value: "Иван",
         id: "first_name",
         events: {
-          blur: () => handleValidateInput(
-            this.children.nameInputBlock.children.errorBlock,
-            this.children.nameInputBlock.children.input,
-            "Некорректное имя",
-          ),
+          blur: () =>
+            handleValidateInput(
+              this.children.nameInputBlock.children.errorBlock,
+              this.children.nameInputBlock.children.input,
+              "Некорректное имя"
+            ),
         },
       }),
       surnameInputBlock: InputBlock({
@@ -76,11 +106,12 @@ class Register extends Block {
         value: "Иванов",
         id: "second_name",
         events: {
-          blur: () => handleValidateInput(
-            this.children.surnameInputBlock.children.errorBlock,
-            this.children.surnameInputBlock.children.input,
-            "Некорректная фамилия",
-          ),
+          blur: () =>
+            handleValidateInput(
+              this.children.surnameInputBlock.children.errorBlock,
+              this.children.surnameInputBlock.children.input,
+              "Некорректная фамилия"
+            ),
         },
       }),
       telInputBlock: InputBlock({
@@ -92,11 +123,12 @@ class Register extends Block {
         value: "+79099673030",
         id: "phone",
         events: {
-          blur: () => handleValidateInput(
-            this.children.telInputBlock.children.errorBlock,
-            this.children.telInputBlock.children.input,
-            "Некорректный номер телефона",
-          ),
+          blur: () =>
+            handleValidateInput(
+              this.children.telInputBlock.children.errorBlock,
+              this.children.telInputBlock.children.input,
+              "Некорректный номер телефона"
+            ),
         },
       }),
       passwordInputBlock: InputBlock({
@@ -108,11 +140,12 @@ class Register extends Block {
         value: "ivaninvanoV9",
         id: "password",
         events: {
-          blur: () => handleValidateInput(
-            this.children.passwordInputBlock.children.errorBlock,
-            this.children.passwordInputBlock.children.input,
-            "Некорректный пароль",
-          ),
+          blur: () =>
+            handleValidateInput(
+              this.children.passwordInputBlock.children.errorBlock,
+              this.children.passwordInputBlock.children.input,
+              "Некорректный пароль"
+            ),
         },
       }),
       passwordInputAgainBlock: InputBlock({
@@ -124,14 +157,19 @@ class Register extends Block {
         value: "ivaninvanoV9",
         id: "passwordAgain",
         events: {
-          blur: () => handleValidateInput(
-            this.children.passwordInputAgainBlock.children.errorBlock,
-            this.children.passwordInputAgainBlock.children.input,
-            "Пароли не совпадают",
-          ),
+          blur: () =>
+            handleValidateInput(
+              this.children.passwordInputAgainBlock.children.errorBlock,
+              this.children.passwordInputAgainBlock.children.input,
+              "Пароли не совпадают"
+            ),
         },
       }),
     });
+  }
+
+  componentDidMount(): void {
+    authController.getUser("/messenger");
   }
 
   render() {
@@ -171,7 +209,7 @@ class Register extends Block {
     </div>
     <span class="{{styles.errorForm}}">{{{errorFormBlock}}}</span>
       {{{button}}}
-      <a class="{{styles.link}}" href="/login">Войти</a>
+      {{{buttonlogin}}}
   </form>
 </main>
       `;

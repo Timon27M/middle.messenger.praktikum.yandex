@@ -2,10 +2,16 @@ import styles from "./login.module.scss";
 import Button from "../../components/button/button";
 import Block from "../../utils/Block/Block";
 import InputBlock from "../../components/inputBlock/inputBlock";
-import { handleValidateInput, submitForm } from "../../utils/functions";
+import {
+  handleValidateInput,
+  collectData,
+} from "../../utils/functions/functions";
 import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
+import { router } from "../../utils/navigations/Router";
+import { TLoginData } from "../../utils/api/AuthApi";
+import authController from "../../service/authController/AuthController";
 
-class Login extends Block {
+export class Login extends Block {
   constructor() {
     super({
       styles,
@@ -18,7 +24,25 @@ class Login extends Block {
         events: {
           click: (e) => {
             this.setProps({ textError: "blalba" });
-            submitForm(e, this.children, this.children.errorFormBlock);
+            const { formData } = collectData(
+              e,
+              this.children,
+              this.children.errorFormBlock
+            );
+            authController.login(formData as TLoginData);
+          },
+        },
+      }),
+      buttonRegister: Button({
+        type: "link",
+        styleType: "link",
+        nameButton: "changePage",
+        text: "Нет аккаунта?",
+        color: "blue",
+        events: {
+          click: (evt: Event) => {
+            evt.preventDefault();
+            router.go("/sign-up");
           },
         },
       }),
@@ -31,11 +55,12 @@ class Login extends Block {
         value: "ivaninvanov",
         id: "login",
         events: {
-          blur: () => handleValidateInput(
-            this.children.loginInputBlock.children.errorBlock,
-            this.children.loginInputBlock.children.input,
-            "Некорректный логин",
-          ),
+          blur: () =>
+            handleValidateInput(
+              this.children.loginInputBlock.children.errorBlock,
+              this.children.loginInputBlock.children.input,
+              "Некорректный логин"
+            ),
         },
       }),
       passwordInputBlock: InputBlock({
@@ -47,14 +72,19 @@ class Login extends Block {
         id: "password",
         errorText: "",
         events: {
-          blur: () => handleValidateInput(
-            this.children.passwordInputBlock.children.errorBlock,
-            this.children.passwordInputBlock.children.input,
-            "Некорректный пароль",
-          ),
+          blur: () =>
+            handleValidateInput(
+              this.children.passwordInputBlock.children.errorBlock,
+              this.children.passwordInputBlock.children.input,
+              "Некорректный пароль"
+            ),
         },
       }),
     });
+  }
+
+  componentDidMount(): void {
+    authController.getUser("/messenger");
   }
 
   render() {
@@ -76,7 +106,7 @@ class Login extends Block {
       </div>
       <span class="{{styles.errorForm}}">{{{errorFormBlock}}}</span>
       {{{button}}}
-      <a class="{{styles.link}}" href="/register">Нет аккаунта?</a>
+      {{{buttonRegister}}}
   </form>
 </main>
     `;
@@ -86,5 +116,11 @@ class Login extends Block {
 function login() {
   return new Login();
 }
+
+function func(block: typeof Block) {
+  return block;
+}
+
+func(Login);
 
 export default login;

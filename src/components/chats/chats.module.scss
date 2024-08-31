@@ -1,26 +1,4 @@
-@import '../../styles/constants.scss';
-
-.chats {
-  display: flex;
-  flex-direction: column;
-  padding: 21px 10px 0;
-  border-right: 3px solid $colot-white-gray;
-  max-height: calc(100vh - 25px);
-  overflow-y: scroll;
-
-  &::-webkit-scrollbar {
-    width: 5px;
-  }
-
-  &::-webkit-scrollbar-track {
-    -webkit-box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.2) inset;
-    background-color: $color-light-white;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: $color-dark-blue;
-    border-radius: 7px;
-  }
-}
+@import "../../styles/constants.scss";
 
 .nav {
   display: flex;
@@ -36,6 +14,10 @@
   width: min-content;
   cursor: pointer;
   text-decoration: none;
+  border: none;
+  background-color: rgba($color: #000000, $alpha: 0);
+  width: 75px;
+  padding: 0;
 }
 
 .arrow {
@@ -47,7 +29,7 @@
   padding: 0;
   width: 100%;
   max-width: 290px;
-  margin-top: 23px;
+  margin-top: 15px;
   background-color: $color-light-white;
   border: 1px solid rgba($color: $color-black, $alpha: 0);
   border-radius: 5px;
@@ -71,6 +53,12 @@
   &:hover {
     border: 1px solid gray;
   }
+}
+
+.container {
+  margin-top: 20px;
+  width: 100%;
+  max-width: 290px;
 }
 
 .chats-list {

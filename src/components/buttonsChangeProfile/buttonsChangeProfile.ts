@@ -3,9 +3,9 @@ import Button from "../button/button";
 import styles from "./buttonsChangeProfile.module.scss";
 
 type TProps = {
-  events: {
-    click: (evt: Event) => void;
-  };
+  clickButtonChangeData: (evt: Event) => void;
+  clickButtonChangePassword: (evt: Event) => void;
+  clickButtonLogout: (evt: Event) => void;
 };
 
 class ButtonsBlockProfile extends Block {
@@ -17,7 +17,30 @@ class ButtonsBlockProfile extends Block {
         styleType: "link",
         nameButton: "changeData",
         text: "Изменить данные",
-        events: props.events,
+        color: "blue",
+        events: {
+          click: (evt: Event) => props.clickButtonChangeData(evt)
+        },
+      }),
+      buttonChangePassword: Button({
+        type: "link",
+        styleType: "link",
+        nameButton: "changePasssword",
+        text: "Изменить пароль",
+        color: "blue",
+        events: {
+          click: (evt: Event) => props.clickButtonChangePassword(evt)
+        },
+      }),
+      buttonLogout: Button({
+        type: "link",
+        styleType: "link",
+        nameButton: "logout",
+        text: "Выйти",
+        color: "red",
+        events: {
+          click: (evt: Event) => props.clickButtonLogout(evt)
+        },
       }),
     });
   }
@@ -26,8 +49,8 @@ class ButtonsBlockProfile extends Block {
     return `
         <div class="{{styles.buttons}}">
             {{{buttonChangeData}}}
-            <a type="button" href="/forgot-password" class="{{styles.button}} {{styles.buttonBlue}}">Изменить пароль</a>
-            <a type="button" href="/login" class="{{styles.button}} {{styles.buttonRed}}">Выйти</a>
+            {{{buttonChangePassword}}}
+            {{{buttonLogout}}}
         </div>
         `;
   }

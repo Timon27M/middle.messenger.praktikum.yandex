@@ -9,6 +9,7 @@
 
 .navbar {
   display: flex;
+  justify-content: space-between;
   padding: 10px 20px 10px 31px;
   align-items: center;
   border-bottom: 2px solid $colot-white-gray;
@@ -41,6 +42,25 @@
   height: calc(100vh - 189px);
   padding: 30px 20px 30px 31px;
   overflow-y: scroll;
+}
+
+.navbarContainer {
+  display: flex;
+  align-items: center;
+}
+
+.buttonNavbar {
+  background-color: $color-light-black;
+  color: $color-white;
+  font-size: 14px;
+  border: none;
+  padding: 7px;
+  border-radius: 20px;
+
+
+  &:hover {
+    opacity: 0.6;
+  }
 }
 
 .messageOwner {

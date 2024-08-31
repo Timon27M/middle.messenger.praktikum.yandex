@@ -6,7 +6,7 @@ type TErrorProps = {
   textError: string;
 };
 
-class Error extends Block {
+export class Error extends Block {
   constructor(props: TErrorProps) {
     super({
       styles,

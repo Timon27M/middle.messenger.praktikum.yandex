@@ -1,10 +1,11 @@
 import { nanoid } from "nanoid";
 import Handlebars from "handlebars";
 import EventBus from "../EventBus/EventBus";
+import merge from "../functions/merge";
 
 type TBlockProps = Record<string, any>;
 
-export default abstract class Block {
+export default class Block {
   static EVENTS = {
     INIT: "init",
     FLOW_CDM: "flow:component-did-mount",
@@ -18,20 +19,25 @@ export default abstract class Block {
 
   public id = nanoid();
 
+  protected componentDidMount() {}
+
   protected eventBus: () => EventBus;
 
   public children: Record<string, any>;
 
-  protected abstract render(): string;
+  public lists: Record<string, any>;
+
+  public render() {}
 
   constructor(propsAndChildren: Record<string, any> = {}) {
     const eventBus = new EventBus();
 
-    const { children, props } = this._getChildren(propsAndChildren);
+    const { children, props, lists } = this._getChildren(propsAndChildren);
 
     this.children = children;
 
-    this.props = this._makePropsProxy(props);
+    this.props = this._makePropsProxy({ ...props });
+    this.lists = this._makePropsProxy({ ...lists });
 
     this.eventBus = () => eventBus;
 
@@ -43,15 +49,18 @@ export default abstract class Block {
   _getChildren(propsAndChildren: Record<string, any>) {
     const children: Record<string, any> = {};
     const props: Record<string, any> = {};
+    const lists: Record<string, any> = {};
 
     Object.entries(propsAndChildren).forEach(([key, value]) => {
       if (value instanceof Block) {
         children[key] = value;
+      } else if (Array.isArray(value)) {
+        lists[key] = value;
       } else {
         props[key] = value;
       }
     });
-    return { children, props };
+    return { children, props, lists };
   }
 
   _registerEvents(eventBus: EventBus) {
@@ -71,6 +80,7 @@ export default abstract class Block {
 
   init() {
     this._createResources();
+    this.eventBus().emit(Block.EVENTS.FLOW_CDM);
 
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }
@@ -82,18 +92,31 @@ export default abstract class Block {
     });
   }
 
-  componentDidMount() {}
-
   dispatchComponentDidMount() {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
 
   _componentDidUpdate() {
-    this.componentDidUpdate();
+    const { lists, children } = this._getChildren(this.props);
+    // console.log(this.props)
+
+    if (lists !== this.lists) {
+      this.lists = lists;
+    }
+    if (children !== this.children) {
+      // console.log(this.children)
+      // console.log(children)
+      // console.log(merge(this.children, children))
+      this.children = merge(this.children, children);
+    }
+
+    if (this.componentDidUpdate()) {
+      this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+    }
   }
 
   componentDidUpdate() {
-    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+    return true;
   }
 
   setProps(newProps: object = {}) {
@@ -122,10 +145,10 @@ export default abstract class Block {
         return typeof value === "function" ? value.bind(target) : value;
       },
       set(target: TBlockProps, prop: string & keyof TBlockProps, value: any) {
+        const oldProps = { ...target };
         target[prop] = value;
 
-        self.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...target }, target);
-
+        self.eventBus().emit(Block.EVENTS.FLOW_CDU, oldProps, target);
         return true;
       },
       deleteProperty() {
@@ -157,7 +180,11 @@ export default abstract class Block {
   _render() {
     const template = this.render();
 
-    const propsAndStubs = this._getPropsAndStubs(this.props);
+    const propsAndStubs = this._getPropsAndStubs({
+      ...this.lists,
+      ...this.children,
+      ...this.props,
+    });
 
     const fragment = this.compile(template, propsAndStubs);
 
@@ -181,10 +208,14 @@ export default abstract class Block {
       propsAndStubs[key] = `<div data-id="${child.id}"></div>`;
     });
 
+    Object.entries(this.lists).forEach(([key]) => {
+      propsAndStubs[key] = `<div data-id="__l_${key}"></div>`;
+    });
+
     return propsAndStubs;
   }
 
-  compile(template: string, props: any): DocumentFragment {
+  compile(template: any, props: any): DocumentFragment {
     const htmlElement = Handlebars.compile(template)(props);
 
     const fragment = this._createDocumentElement();
@@ -194,9 +225,30 @@ export default abstract class Block {
     Object.values(this.children).forEach((child) => {
       const stub = fragment.content.querySelector(`[data-id="${child.id}"]`);
 
-      if (stub) {
-        stub.replaceWith(child.getContent());
+      if (!stub) {
+        return;
       }
+      stub.replaceWith(child.getContent());
+    });
+
+    Object.entries(this.lists).forEach(([key, child]) => {
+      const stub = fragment.content.querySelector(`[data-id="__l_${key}"]`);
+
+      if (!stub) {
+        return;
+      }
+
+      const listContent = this._createDocumentElement();
+
+      child.forEach((item: any) => {
+        if (item instanceof Block) {
+          listContent.content.append(item.getContent());
+        } else {
+          listContent.content.append(`${item}`);
+        }
+      });
+
+      stub.replaceWith(listContent.content);
     });
 
     return fragment.content;

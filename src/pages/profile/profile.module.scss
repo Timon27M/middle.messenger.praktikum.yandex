@@ -16,7 +16,8 @@
   align-items: center;
 }
 
-.avatar {
+.avatarBlock {
+  position: relative;
   width: 130px;
   height: 130px;
   border-radius: 50%;
@@ -24,6 +25,21 @@
   &:hover {
     opacity: 0.6;
   }
+}
+
+.avatarImage {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+}
+
+.avatarButton {
+  position: absolute;
+  width: 100%;
+  height: 130px;
+  border-radius: 50%;
+  left: 0;
+  opacity: 0;
 }
 
 .name {

@@ -4,15 +4,29 @@ import Button from "../../components/button/button";
 import avatar from "../../utils/images/avatar.png";
 import Block from "../../utils/Block/Block";
 import InputBlock from "../../components/inputBlock/inputBlock";
-import { handleValidateInput, submitForm } from "../../utils/functions";
+import {
+  handleValidateInput,
+  collectData,
+} from "../../utils/functions/functions";
 import ButtonsProfile from "../../components/buttonsProfile/buttonsProfile";
 import ErrorFormBlock from "../../components/errorFormBlock/errorFormBlock";
+import { router } from "../../utils/navigations/Router";
+import authController from "../../service/authController/AuthController";
+import userController from "../../service/userController/UserController";
+import { connect, store, TUserStore } from "../../utils/store/Store";
+import Popup from "../../components/popup/popup";
+import ButtonLink from "../../components/buttonLink/buttonLink";
 
-class Profile extends Block {
-  constructor() {
+type TProps = {
+  currentUser: TUserStore | undefined;
+};
+
+export class Profile extends Block {
+  constructor(props: TProps) {
     super({
       styles,
       avatar,
+      currentUserName: props.currentUser?.first_name,
       errorFormBlock: ErrorFormBlock({
         text: "",
       }),
@@ -21,15 +35,64 @@ class Profile extends Block {
           this.handleSaveDataClick(e);
         },
       },
-      ButtonBack: ButtonBack(),
+      popup: Popup({
+        titlePopup: "Смена аватара",
+        subTitle: "Выбрать аватар с компьютера",
+        typeInput: "file",
+        name: "avatarPopup",
+        button: Button({
+          text: "Поменять",
+          nameButton: "changeAvatar",
+          events: {
+            click: (evt: Event) => {
+              evt.preventDefault();
+
+              const inputValue = this.children.popup.children.input.getFiles();
+
+              if (inputValue[0]) {
+                const formData = new FormData();
+                formData.append("avatar", inputValue[0]);
+
+                userController
+                  .updateUserAvatar(formData)
+                  .then(() => {
+                    this.children.popup.setProps({ show: false });
+                  })
+                  .catch((err) => {
+                    alert(`${err.message}`);
+                  });
+              }
+            },
+          },
+        }),
+      }),
+      ButtonBack: ButtonBack({
+        events: {
+          click: () => {
+            router.back();
+          },
+        },
+      }),
       ButtonPopup: Button({
         text: "Изменить",
         type: "button",
         nameButton: "change_profile",
       }),
+      buttonAvatar: ButtonLink({
+        class: styles.avatarButton,
+        text: "",
+        events: {
+          click: () => {
+            this.children.popup.setProps({ show: true });
+          },
+        },
+      }),
       buttonsForm: ButtonsProfile({
-        clickChangeButton: (evt: Event) => this.handleChangeDataClick(evt),
+        clickButtonChangeData: (evt: Event) => this.handleChangeDataClick(evt),
         clickSavebutton: (evt: Event) => this.handleSaveDataClick(evt),
+        clickButtonChangePassword: (evt: Event) =>
+          this.handleChangePasswordClick(evt),
+        clickButtonLogout: (evt: Event) => this.handleLogoutClick(evt),
       }),
       emailInputBlock: InputBlock({
         classInput: styles.input,
@@ -37,15 +100,16 @@ class Profile extends Block {
         errorText: "",
         type: "email",
         name: "email",
-        value: "pochta@yandex.ru",
+        value: props.currentUser?.email,
         disabled: true,
         id: "email",
         events: {
-          blur: () => handleValidateInput(
-            this.children.emailInputBlock.children.errorBlock,
-            this.children.emailInputBlock.children.input,
-            "Некорректный email",
-          ),
+          blur: () =>
+            handleValidateInput(
+              this.children.emailInputBlock.children.errorBlock,
+              this.children.emailInputBlock.children.input,
+              "Некорректный email"
+            ),
         },
       }),
       loginInputBlock: InputBlock({
@@ -54,15 +118,16 @@ class Profile extends Block {
         errorText: "",
         type: "text",
         name: "login",
-        value: "ivanivanov",
+        value: props.currentUser?.login,
         disabled: true,
         id: "login",
         events: {
-          blur: () => handleValidateInput(
-            this.children.loginInputBlock.children.errorBlock,
-            this.children.loginInputBlock.children.input,
-            "Некорректный логин",
-          ),
+          blur: () =>
+            handleValidateInput(
+              this.children.loginInputBlock.children.errorBlock,
+              this.children.loginInputBlock.children.input,
+              "Некорректный логин"
+            ),
         },
       }),
       nameInputBlock: InputBlock({
@@ -71,15 +136,16 @@ class Profile extends Block {
         errorText: "",
         type: "text",
         name: "first_name",
-        value: "Иван",
+        value: props.currentUser?.first_name,
         disabled: true,
         id: "first_name",
         events: {
-          blur: () => handleValidateInput(
-            this.children.nameInputBlock.children.errorBlock,
-            this.children.nameInputBlock.children.input,
-            "Некорректное имя",
-          ),
+          blur: () =>
+            handleValidateInput(
+              this.children.nameInputBlock.children.errorBlock,
+              this.children.nameInputBlock.children.input,
+              "Некорректное имя"
+            ),
         },
       }),
       surnameInputBlock: InputBlock({
@@ -88,15 +154,16 @@ class Profile extends Block {
         errorText: "",
         type: "text",
         name: "second_name",
-        value: "Иванов",
+        value: props.currentUser?.second_name,
         disabled: true,
         id: "second_name",
         events: {
-          blur: () => handleValidateInput(
-            this.children.surnameInputBlock.children.errorBlock,
-            this.children.surnameInputBlock.children.input,
-            "Некорректная фамилия",
-          ),
+          blur: () =>
+            handleValidateInput(
+              this.children.surnameInputBlock.children.errorBlock,
+              this.children.surnameInputBlock.children.input,
+              "Некорректная фамилия"
+            ),
         },
       }),
       nameInChatInputBlock: InputBlock({
@@ -105,15 +172,16 @@ class Profile extends Block {
         errorText: "",
         type: "text",
         name: "display_name",
-        value: "Иван",
+        value: props.currentUser?.display_name,
         disabled: true,
         id: "display_name",
         events: {
-          blur: () => handleValidateInput(
-            this.children.nameInChatInputBlock.children.errorBlock,
-            this.children.nameInChatInputBlock.children.input,
-            "Некорректное имя",
-          ),
+          blur: () =>
+            handleValidateInput(
+              this.children.nameInChatInputBlock.children.errorBlock,
+              this.children.nameInChatInputBlock.children.input,
+              "Некорректное имя"
+            ),
         },
       }),
       telInputBlock: InputBlock({
@@ -122,18 +190,57 @@ class Profile extends Block {
         errorText: "",
         type: "tel",
         name: "phone",
-        value: "+79099673030",
+        value: props.currentUser?.phone,
         disabled: true,
         id: "phone",
         events: {
-          blur: () => handleValidateInput(
-            this.children.telInputBlock.children.errorBlock,
-            this.children.telInputBlock.children.input,
-            "Некорректный номер телефона",
-          ),
+          blur: () =>
+            handleValidateInput(
+              this.children.telInputBlock.children.errorBlock,
+              this.children.telInputBlock.children.input,
+              "Некорректный номер телефона"
+            ),
         },
       }),
     });
+  }
+
+  componentDidMount() {
+    authController
+      .getUser()
+      .catch((err) => {
+        console.log(err.message);
+        router.go("/");
+      })
+      .finally(() => {
+        const data = store.getState().currentUser;
+        this.changeInputValue(data);
+
+        this.setProps({ currentUser: store.getState().currentUser });
+      });
+  }
+
+  changeInputValue(data: TUserStore | undefined) {
+    if (data !== undefined) {
+      this.children.emailInputBlock.children.input.setProps({
+        value: data.email,
+      });
+      this.children.loginInputBlock.children.input.setProps({
+        value: data.login,
+      });
+      this.children.nameInputBlock.children.input.setProps({
+        value: data.first_name,
+      });
+      this.children.surnameInputBlock.children.input.setProps({
+        value: data.second_name,
+      });
+      this.children.nameInChatInputBlock.children.input.setProps({
+        value: data.display_name,
+      });
+      this.children.telInputBlock.children.input.setProps({
+        value: data.phone,
+      });
+    }
   }
 
   handleChangeDataClick(evt: Event) {
@@ -166,54 +273,86 @@ class Profile extends Block {
     this.children.buttonsForm.setProps({ type: "saveButton" });
   }
 
+  handleChangePasswordClick(evt: Event) {
+    evt.preventDefault();
+
+    router.go("/forgot-password");
+  }
+
+  handleLogoutClick(evt: Event) {
+    evt.preventDefault();
+
+    authController.logout();
+  }
+
   handleSaveDataClick(evt: Event) {
     evt.preventDefault();
 
-    const { isValid } = submitForm(
+    const { isValid, formData } = collectData(
       evt,
       this.children,
-      this.children.errorFormBlock,
+      this.children.errorFormBlock
     );
 
-    if (isValid) {
-      this.children.emailInputBlock.children.input.setProps({
-        disabled: true,
-        class: styles.input,
-      });
-      this.children.nameInputBlock.children.input.setProps({
-        disabled: true,
-        class: styles.input,
-      });
-      this.children.surnameInputBlock.children.input.setProps({
-        disabled: true,
-        class: styles.input,
-      });
-      this.children.nameInChatInputBlock.children.input.setProps({
-        disabled: true,
-        class: styles.input,
-      });
-      this.children.loginInputBlock.children.input.setProps({
-        disabled: true,
-        class: styles.input,
-      });
-      this.children.telInputBlock.children.input.setProps({
-        disabled: true,
-        class: styles.input,
-      });
+    this.children.buttonsForm.setProps({ type: "changeBlockButton" });
 
-      this.children.buttonsForm.setProps({ type: "changeBlockButton" });
-    }
+    console.log(formData);
+
+    userController
+      .updateUserProfile(formData)
+      .then(() => {
+        this.changeInputValue(store.getState().currentUser);
+      })
+      .finally(() => {
+        if (isValid) {
+          this.children.emailInputBlock.children.input.setProps({
+            disabled: true,
+            class: styles.input,
+          });
+          this.children.nameInputBlock.children.input.setProps({
+            disabled: true,
+            class: styles.input,
+          });
+          this.children.surnameInputBlock.children.input.setProps({
+            disabled: true,
+            class: styles.input,
+          });
+          this.children.nameInChatInputBlock.children.input.setProps({
+            disabled: true,
+            class: styles.input,
+          });
+          this.children.loginInputBlock.children.input.setProps({
+            disabled: true,
+            class: styles.input,
+          });
+          this.children.telInputBlock.children.input.setProps({
+            disabled: true,
+            class: styles.input,
+          });
+        }
+      });
   }
 
   render() {
+    let avatarLink: string;
+
+    if (store.getState().currentUser?.avatar) {
+      avatarLink = `https://ya-praktikum.tech/api/v2/resources${
+        store.getState().currentUser?.avatar
+      }`;
+    } else {
+      avatarLink = avatar;
+    }
+    const currentUserName = store.getState().currentUser?.first_name;
     return `
 <main class="{{styles.profile}}">
 {{{ButtonBack}}}
   <form class="{{styles.container}}">
-  <a href="">
-    <img class="{{styles.avatar}}" src={{avatar}} alt="avatar" />
-    </a>
-    <h2 class="{{styles.name}}">Ваня</h2>
+  <div class="{{styles.avatarBlock}}">
+    <img class="{{styles.avatarImage}}" src="${avatarLink}" alt="avatar" />
+    {{{buttonAvatar}}}
+    </div>
+    <h2 class="{{styles.name}}">${currentUserName || ""}</h2>
   </div>
   <div class="{{styles.inputsBlock}}">
     <div class="{{styles.inputBlock}}">
@@ -250,14 +389,20 @@ class Profile extends Block {
     <a class="{{styles.popupLink}}" href="#">Выбрать файл на компьютере</a>
    {{{ButtonPopup}}}
   </div>
-</form>
+  </div>
+  </form>
+  {{{popup}}}
 </main>
     `;
   }
 }
 
 function profile() {
-  return new Profile();
+  const withChats = connect((state) => ({
+    currentUser: { ...state.currentUser },
+  }));
+
+  return withChats(Profile);
 }
 
 export default profile;

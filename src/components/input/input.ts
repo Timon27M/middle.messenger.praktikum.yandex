@@ -5,29 +5,49 @@ type TProps = {
   type: string;
   name: string;
   value?: string;
-  placeholder?: string,
+  placeholder?: string;
   id: string;
   disabled?: boolean | undefined;
   events?: {
     blur?: () => void;
     click?: () => void;
+    keyup?: (evt: KeyboardEvent) => void;
   };
 };
 
 export class Input extends Block {
   public name: string;
 
+  class: string | undefined;
+
   constructor(props: TProps) {
     super(props);
     this.name = props.name;
+    this.class = props.class;
   }
 
   getValue() {
     const element = document.getElementById(
-      `${this.props.id}`,
+      `${this.props.id}`
     ) as HTMLInputElement;
     const { value } = element;
     return value;
+  }
+
+  getFiles() {
+    const element = document.getElementById(
+      `${this.props.id}`
+    ) as HTMLInputElement;
+    const { files } = element;
+    return files;
+  }
+
+  clearValue() {
+    const element = document.getElementById(
+      `${this.props.id}`
+    ) as HTMLInputElement;
+
+    element.value = "";
   }
 
   render() {
@@ -35,8 +55,8 @@ export class Input extends Block {
 
     return `
         <input type="{{type}}" id="{{id}}" ${
-  disabled === true ? "disabled" : "!disabled"
-} class="{{class}}" placeholder="{{placeholder}}" name="{{name}}" value="{{value}}" />
+          disabled === true ? "disabled" : "!disabled"
+        } class="{{class}}" placeholder="{{placeholder}}" name="{{name}}" value="{{value}}" />
         `;
   }
 }

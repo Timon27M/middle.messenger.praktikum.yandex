@@ -1,0 +1,77 @@
+@import "../../styles/constants.scss";
+
+.popupBlock {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+}
+
+.overlay {
+  background-color: $color-black;
+  opacity: 0.4;
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  z-index: 1;
+}
+
+.popup {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: center;
+  gap: 45px;
+  border-radius: 12px;
+  background-color: $color-white;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.14);
+  z-index: 2;
+  padding: 40px 30px;
+}
+
+.popupTitle {
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.errorForm {
+  width: 100%;
+  margin-top: 10px;
+  min-height: 19px;
+}
+
+.popupLink {
+  text-align: center;
+  width: 122px;
+  color: $color-blue;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.buttonHide {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+
+  &:hover {
+    opacity: 0.6;
+    cursor: pointer;
+  }
+}
+
+.inputPopup {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid $color-blue;
+  height: 24px;
+
+  &:focus {
+    border: none;
+  }
+}
