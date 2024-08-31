@@ -5,3 +5,6 @@
 /postcss.config.js
 /src/vite-env.d.ts
 *.config.js
+/mochaSetup.js
+*.test.ts
+/mochaloader.js
